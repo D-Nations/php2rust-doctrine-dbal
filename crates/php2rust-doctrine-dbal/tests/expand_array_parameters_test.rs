@@ -17,8 +17,8 @@ mod common;
 use std::collections::BTreeMap;
 
 use common::{array, bytes, provider, types};
-use doctrine_dbal::sql::Parser;
-use doctrine_dbal::{ArrayParametersException, ExpandArrayParameters, WrapperParameterType};
+use php2rust_doctrine_dbal::sql::Parser;
+use php2rust_doctrine_dbal::{ArrayParametersException, ExpandArrayParameters, WrapperParameterType};
 use php_value::vectors::phpunit_equals;
 use php_value::{Key, PhpArray, Value};
 

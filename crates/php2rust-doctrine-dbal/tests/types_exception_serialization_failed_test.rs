@@ -12,7 +12,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::types::ConversionException;
+use php2rust_doctrine_dbal::types::ConversionException;
 use php_value::{
     PhpString, Value,
     json::{EncodeFailure, JSON_THROW_ON_ERROR, encode},

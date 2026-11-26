@@ -15,10 +15,10 @@
 mod common;
 
 use common::{DefaultPlatform, StubPlatform, TestConnection, data, ordered_types, wrapper_type};
-use doctrine_dbal::platforms::AbstractPlatform;
-use doctrine_dbal::query::expression::ExpressionPart;
-use doctrine_dbal::query::{ConflictResolutionMode, QueryBuilder, UnionType};
-use doctrine_dbal::{
+use php2rust_doctrine_dbal::platforms::AbstractPlatform;
+use php2rust_doctrine_dbal::query::expression::ExpressionPart;
+use php2rust_doctrine_dbal::query::{ConflictResolutionMode, QueryBuilder, UnionType};
+use php2rust_doctrine_dbal::{
     ArrayParameterType, ConnectionStandIn, Exception, ParameterType, WrapperParameterType,
 };
 use php_value::vectors::{base64, decode};

@@ -12,7 +12,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::schema::name::{OptionallyQualifiedName, UnquotedIdentifierFolding};
+use php2rust_doctrine_dbal::schema::name::{OptionallyQualifiedName, UnquotedIdentifierFolding};
 
 const NONE: UnquotedIdentifierFolding = UnquotedIdentifierFolding::None;
 

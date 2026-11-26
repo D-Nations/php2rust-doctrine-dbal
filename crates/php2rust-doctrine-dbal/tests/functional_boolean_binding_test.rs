@@ -13,7 +13,7 @@
 mod connection_support;
 
 use connection_support::{drop_and_create_table, no_types, none, sqlite};
-use doctrine_dbal::{Connection, ConnectionStandIn, ParameterType, WrapperParameterType};
+use php2rust_doctrine_dbal::{Connection, ConnectionStandIn, ParameterType, WrapperParameterType};
 use php_value::Value;
 
 async fn set_up() -> Connection {

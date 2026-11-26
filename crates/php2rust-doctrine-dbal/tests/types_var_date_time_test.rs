@@ -14,7 +14,7 @@
 
 mod types_support;
 
-use doctrine_dbal::types::{ConversionError, Type, VarDateTimeType};
+use php2rust_doctrine_dbal::types::{ConversionError, Type, VarDateTimeType};
 use php_value::{Value, datetime::DateTime};
 use types_support::StubPlatform;
 
@@ -34,7 +34,7 @@ fn testDateTimeConvertsToDatabaseValue() {
     let date = types_support::date("1985-09-01 10:10:10");
 
     let expected = date.format(
-        &doctrine_dbal::platforms::AbstractPlatform::get_date_time_format_string(&platform),
+        &php2rust_doctrine_dbal::platforms::AbstractPlatform::get_date_time_format_string(&platform),
     );
     let actual = type_
         .convert_to_database_value(&DateTime::object(date), &platform)

@@ -13,8 +13,8 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
-use doctrine_dbal::schema::{
+use php2rust_doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
+use php2rust_doctrine_dbal::schema::{
     Deferrability, ForeignKeyConstraint, Index, MatchType, ReferentialAction,
 };
 use php_value::{PhpArray, php_array};

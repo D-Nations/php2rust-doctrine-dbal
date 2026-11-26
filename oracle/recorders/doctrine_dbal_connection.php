@@ -1,7 +1,7 @@
 <?php
 // doctrine/dbal Connection slice vectors (scripts/record.sh
-// doctrine-dbal-connection), as typed JSON (lib/typed.php). Output:
-// crates/doctrine-dbal/tests/data/connection.json.
+// dbal-connection), as typed JSON (lib/typed.php). Output:
+// crates/php2rust-doctrine-dbal/tests/data/connection.json.
 //
 //   providers  the #[DataProvider] rows of the upstream test classes that
 //              the slice ports (by class path, e.g. "Tools/DsnParserTest").

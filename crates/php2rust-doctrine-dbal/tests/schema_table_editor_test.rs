@@ -17,11 +17,11 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::name::OptionallyQualifiedName;
-use doctrine_dbal::schema::{
+use php2rust_doctrine_dbal::schema::name::OptionallyQualifiedName;
+use php2rust_doctrine_dbal::schema::{
     Column, ForeignKeyConstraint, Index, PrimaryKeyConstraint, Table, TableEditor, UniqueConstraint,
 };
-use doctrine_dbal::types::Types;
+use php2rust_doctrine_dbal::types::Types;
 use schema_support::expect_exception;
 
 fn create_column(name: &str, type_name: &str) -> Column {

@@ -14,7 +14,7 @@
 
 mod types_support;
 
-use doctrine_dbal::types::{StringType, Type};
+use php2rust_doctrine_dbal::types::{StringType, Type};
 use php_value::{PhpArray, PhpString, Value};
 use types_support::StubPlatform;
 

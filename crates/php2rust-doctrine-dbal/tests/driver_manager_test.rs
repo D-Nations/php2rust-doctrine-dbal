@@ -12,8 +12,8 @@
 mod connection_support;
 
 use connection_support::{array, data, s};
-use doctrine_dbal::tools::DsnParser;
-use doctrine_dbal::{Connection, DriverManager};
+use php2rust_doctrine_dbal::tools::DsnParser;
+use php2rust_doctrine_dbal::{Connection, DriverManager};
 use php_value::vectors::{decode, phpunit_equals};
 use php_value::{Key, Value};
 

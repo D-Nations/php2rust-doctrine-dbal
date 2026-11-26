@@ -14,8 +14,8 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::name::{Identifier, UnqualifiedName};
-use doctrine_dbal::schema::{Index, IndexType, IndexedColumn};
+use php2rust_doctrine_dbal::schema::name::{Identifier, UnqualifiedName};
+use php2rust_doctrine_dbal::schema::{Index, IndexType, IndexedColumn};
 use php_value::{PhpArray, Value, php_array};
 use schema_support::{expect_deprecation, expect_exception, expect_no_deprecation};
 

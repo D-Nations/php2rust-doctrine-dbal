@@ -20,16 +20,16 @@ mod common;
 use std::sync::Arc;
 
 use common::{array, data, provider, text};
-use doctrine_dbal::deprecations;
-use doctrine_dbal::platforms::{AbstractPlatform, SQLitePlatform, TrimMode};
-use doctrine_dbal::schema::name::UnqualifiedName;
-use doctrine_dbal::schema::{
+use php2rust_doctrine_dbal::deprecations;
+use php2rust_doctrine_dbal::platforms::{AbstractPlatform, SQLitePlatform, TrimMode};
+use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
+use php2rust_doctrine_dbal::schema::{
     Column, ColumnDiff, ColumnEditor, CurrentDate, CurrentTimestamp, Deferrability,
     ForeignKeyConstraint, Index, IndexType, PrimaryKeyConstraint, Table, TableDiff, TableDiffParts,
     TypeObject, UniqueConstraint,
 };
-use doctrine_dbal::types::{self, Type, TypeArgument, Types};
-use doctrine_dbal::{Exception, TransactionIsolationLevel};
+use php2rust_doctrine_dbal::types::{self, Type, TypeArgument, Types};
+use php2rust_doctrine_dbal::{Exception, TransactionIsolationLevel};
 use php_value::{PhpArray, PhpString, Value, php_array};
 
 fn platform() -> SQLitePlatform {

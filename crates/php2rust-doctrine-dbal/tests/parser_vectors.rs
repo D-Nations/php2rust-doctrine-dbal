@@ -1,5 +1,5 @@
 //! The parser and the list-parameter expansion against real PHP
-//! (tests/data/php.json, `scripts/record.sh doctrine-dbal`): generated
+//! (tests/data/php.json, `scripts/record.sh dbal`): generated
 //! statements parsed in ANSI and `MySQL` mode, compared call by call, and
 //! expansion cases the upstream tests leave open.
 //!
@@ -20,8 +20,8 @@ mod common;
 use std::convert::Infallible;
 
 use common::{array, bytes, data, types};
-use doctrine_dbal::sql::{Parser, Visitor};
-use doctrine_dbal::{ExpandArrayParameters, WrapperParameterType};
+use php2rust_doctrine_dbal::sql::{Parser, Visitor};
+use php2rust_doctrine_dbal::{ExpandArrayParameters, WrapperParameterType};
 use php_value::vectors::{base64, decode, phpunit_equals};
 use php_value::{PhpArray, Value};
 

@@ -1,4 +1,4 @@
-//! Reads tests/data/php.json (`scripts/record.sh doctrine-dbal`): the
+//! Reads tests/data/php.json (`scripts/record.sh dbal`): the
 //! upstream data providers, and the parser, expansion and query vectors;
 //! and the test doubles of the query tests.
 //!
@@ -8,13 +8,13 @@
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
-use doctrine_dbal::platforms::AbstractPlatform;
-use doctrine_dbal::query::expression::{CompositeExpression, CompositeType, ExpressionPart};
-use doctrine_dbal::sql::builder::{
+use php2rust_doctrine_dbal::platforms::AbstractPlatform;
+use php2rust_doctrine_dbal::query::expression::{CompositeExpression, CompositeType, ExpressionPart};
+use php2rust_doctrine_dbal::sql::builder::{
     DefaultSelectSQLBuilder, DefaultUnionSQLBuilder, SelectSQLBuilder, UnionSQLBuilder,
     WithSQLBuilder,
 };
-use doctrine_dbal::{
+use php2rust_doctrine_dbal::{
     ArrayParameterType, ConnectionStandIn, Exception, ParameterType, WrapperParameterType,
 };
 use php_value::vectors::{base64, decode};
@@ -26,7 +26,7 @@ pub fn data() -> &'static Json {
     DATA.get_or_init(|| {
         let text =
             std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/data/php.json"))
-                .expect("tests/data/php.json (scripts/record.sh doctrine-dbal)");
+                .expect("tests/data/php.json (scripts/record.sh dbal)");
         serde_json::from_str(&text).expect("valid JSON")
     })
 }
@@ -186,13 +186,13 @@ macro_rules! abstract_platform_stub_methods {
             get_date_type_declaration_sql,
             get_time_type_declaration_sql
         );
-        fn get_current_database_expression(&self) -> Result<String, doctrine_dbal::Exception> {
+        fn get_current_database_expression(&self) -> Result<String, php2rust_doctrine_dbal::Exception> {
             Ok(String::new())
         }
         fn get_set_transaction_isolation_sql(
             &self,
-            _level: doctrine_dbal::TransactionIsolationLevel,
-        ) -> Result<String, doctrine_dbal::Exception> {
+            _level: php2rust_doctrine_dbal::TransactionIsolationLevel,
+        ) -> Result<String, php2rust_doctrine_dbal::Exception> {
             Ok(String::new())
         }
     };

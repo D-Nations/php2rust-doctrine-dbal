@@ -14,8 +14,8 @@
 
 mod types_support;
 
-use doctrine_dbal::ParameterType;
-use doctrine_dbal::types::{ConversionError, DateTimeImmutableType, Type};
+use php2rust_doctrine_dbal::ParameterType;
+use php2rust_doctrine_dbal::types::{ConversionError, DateTimeImmutableType, Type};
 use php_value::{Value, datetime::TimeZone};
 use types_support::StubPlatform;
 

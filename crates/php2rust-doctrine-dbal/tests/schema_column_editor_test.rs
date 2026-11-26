@@ -13,9 +13,9 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::Column;
-use doctrine_dbal::schema::name::UnqualifiedName;
-use doctrine_dbal::types::{self, Types};
+use php2rust_doctrine_dbal::schema::Column;
+use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
+use php2rust_doctrine_dbal::types::{self, Types};
 use php_value::Value;
 use schema_support::{expect_deprecation, expect_exception, expect_no_deprecation};
 

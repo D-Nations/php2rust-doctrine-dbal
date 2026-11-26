@@ -13,7 +13,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::schema::{AbstractAsset, AssetKind, NameParser};
+use php2rust_doctrine_dbal::schema::{AbstractAsset, AssetKind, NameParser};
 
 const CLASS: &str = "Doctrine\\DBAL\\Schema\\AbstractOptionallyNamedObject@anonymous";
 

@@ -16,7 +16,7 @@ mod types_support;
 
 use std::sync::Arc;
 
-use doctrine_dbal::types::{
+use php2rust_doctrine_dbal::types::{
     ConversionError, ConversionException, ConversionExceptionKind, NumberType, Type,
 };
 use php_value::{PhpArray, Value, bcmath::BcNumber, object::StdClass};

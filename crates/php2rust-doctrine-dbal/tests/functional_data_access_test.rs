@@ -19,7 +19,7 @@ use connection_support::{
     array, data, date_time, drop_and_create_table, i, list, no_types, none, positional_types, s,
     sql, sqlite,
 };
-use doctrine_dbal::{ArrayParameterType, Connection, ParameterType, WrapperParameterType};
+use php2rust_doctrine_dbal::{ArrayParameterType, Connection, ParameterType, WrapperParameterType};
 use php_value::vectors::{decode, phpunit_equals};
 use php_value::{Key, PhpArray, Value};
 
@@ -76,7 +76,7 @@ const SELECT: &str =
 const SELECT_DATETIME: &str =
     "SELECT test_int, test_datetime FROM fetch_table WHERE test_int = ? AND test_datetime = ?";
 
-fn datetime_types() -> doctrine_dbal::ParameterTypes {
+fn datetime_types() -> php2rust_doctrine_dbal::ParameterTypes {
     positional_types([
         ParameterType::String.into(),
         WrapperParameterType::from("datetime"),

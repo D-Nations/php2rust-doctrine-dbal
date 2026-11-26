@@ -17,10 +17,10 @@
 mod common;
 
 use common::{StubPlatform, TestConnection, provider};
-use doctrine_dbal::query::{
+use php2rust_doctrine_dbal::query::{
     DEFAULT_PARAMETER_TYPE, QueryBuilder, QueryException, QueryExceptionKind, UnionType,
 };
-use doctrine_dbal::{ArrayParameterType, Exception, ParameterType, WrapperParameterType};
+use php2rust_doctrine_dbal::{ArrayParameterType, Exception, ParameterType, WrapperParameterType};
 use php_value::object::StdClass;
 use php_value::{Key, PhpArray, PhpString, Value};
 

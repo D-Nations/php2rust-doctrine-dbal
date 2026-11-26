@@ -13,8 +13,8 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::Identifier;
-use doctrine_dbal::schema::name::Identifier as NameIdentifier;
+use php2rust_doctrine_dbal::schema::Identifier;
+use php2rust_doctrine_dbal::schema::name::Identifier as NameIdentifier;
 use schema_support::expect_deprecation;
 
 #[test]

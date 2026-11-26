@@ -12,7 +12,7 @@
 mod connection_support;
 
 use connection_support::{array, data, s};
-use doctrine_dbal::tools::DsnParser;
+use php2rust_doctrine_dbal::tools::DsnParser;
 use php_value::Value;
 use php_value::vectors::decode;
 

@@ -14,7 +14,7 @@
 
 mod types_support;
 
-use doctrine_dbal::types::{IntegerType, Type};
+use php2rust_doctrine_dbal::types::{IntegerType, Type};
 use php_value::Value;
 use types_support::StubPlatform;
 

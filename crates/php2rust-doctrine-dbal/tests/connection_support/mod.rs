@@ -14,13 +14,13 @@ use std::collections::VecDeque;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
-use doctrine_dbal::driver::api::ExceptionConverter;
-use doctrine_dbal::driver::{
+use php2rust_doctrine_dbal::driver::api::ExceptionConverter;
+use php2rust_doctrine_dbal::driver::{
     BoxFuture, Connection as DriverConnection, Driver, PlatformBox, Result as DriverResult,
     Statement as DriverStatement,
 };
-use doctrine_dbal::platforms::AbstractPlatform;
-use doctrine_dbal::{
+use php2rust_doctrine_dbal::platforms::AbstractPlatform;
+use php2rust_doctrine_dbal::{
     Connection, DriverManager, Exception, ParameterType, ParameterTypes, Query,
     ServerVersionProvider, TransactionIsolationLevel, WrapperParameterType,
 };
@@ -120,14 +120,14 @@ impl AbstractPlatform for TestPlatform {
         get_time_type_declaration_sql
     );
 
-    fn get_current_database_expression(&self) -> Result<String, doctrine_dbal::Exception> {
+    fn get_current_database_expression(&self) -> Result<String, php2rust_doctrine_dbal::Exception> {
         Ok(String::new())
     }
 
     fn get_set_transaction_isolation_sql(
         &self,
         _level: TransactionIsolationLevel,
-    ) -> Result<String, doctrine_dbal::Exception> {
+    ) -> Result<String, php2rust_doctrine_dbal::Exception> {
         Ok(String::new())
     }
 
@@ -444,7 +444,7 @@ pub fn run<F: std::future::Future>(future: F) -> F::Output {
         .block_on(future)
 }
 
-/// tests/data/connection.json (`scripts/record.sh doctrine-dbal-connection`).
+/// tests/data/connection.json (`scripts/record.sh dbal-connection`).
 pub fn data() -> &'static serde_json::Value {
     static DATA: std::sync::OnceLock<serde_json::Value> = std::sync::OnceLock::new();
     DATA.get_or_init(|| {
@@ -452,7 +452,7 @@ pub fn data() -> &'static serde_json::Value {
             env!("CARGO_MANIFEST_DIR"),
             "/tests/data/connection.json"
         ))
-        .expect("tests/data/connection.json (scripts/record.sh doctrine-dbal-connection)");
+        .expect("tests/data/connection.json (scripts/record.sh dbal-connection)");
         serde_json::from_str(&text).expect("valid JSON")
     })
 }

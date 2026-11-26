@@ -17,9 +17,9 @@ mod common;
 use std::sync::Arc;
 
 use common::{bytes, provider};
-use doctrine_dbal::exception::Exception;
-use doctrine_dbal::platforms::AbstractPlatform;
-use doctrine_dbal::types::{
+use php2rust_doctrine_dbal::exception::Exception;
+use php2rust_doctrine_dbal::platforms::AbstractPlatform;
+use php2rust_doctrine_dbal::types::{
     Type, TypeArgument, TypeClass, TypesException, add_type, get_type, has_type, lookup_name,
 };
 use php_value::{PhpArray, PhpString, Thrown};
@@ -70,7 +70,7 @@ fn default_types() -> Vec<String> {
 fn testDefaultTypesAreRegistered() {
     let names = default_types();
     assert_eq!(names.len(), 31);
-    assert_eq!(names, doctrine_dbal::types::Types::ALL);
+    assert_eq!(names, php2rust_doctrine_dbal::types::Types::ALL);
     for name in names {
         assert!(has_type(&name), "{name}");
     }

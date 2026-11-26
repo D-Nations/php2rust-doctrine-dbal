@@ -13,7 +13,7 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::PrimaryKeyConstraint;
+use php2rust_doctrine_dbal::schema::PrimaryKeyConstraint;
 use schema_support::expect_exception;
 
 #[test]

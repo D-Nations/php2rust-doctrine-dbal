@@ -20,7 +20,7 @@ mod connection_support;
 use connection_support::{
     Script, TestDriver, array, i, list, named_types, no_types, none, positional_types, s,
 };
-use doctrine_dbal::{Connection, DriverManager, Exception, ParameterType, WrapperParameterType};
+use php2rust_doctrine_dbal::{Connection, DriverManager, Exception, ParameterType, WrapperParameterType};
 use php_value::{PhpArray, Value};
 
 fn connection_params() -> PhpArray {
@@ -179,7 +179,7 @@ async fn testBeginTransactionFailureAfterCommitInNoAutoCommitMode() {
     });
     let conn = driver.connection(none());
     conn.set_auto_commit(false).await.unwrap();
-    doctrine_dbal::ServerVersionProvider::get_server_version(&conn)
+    php2rust_doctrine_dbal::ServerVersionProvider::get_server_version(&conn)
         .await
         .unwrap();
     // The RuntimeException is not a driver exception: it goes through.
@@ -229,7 +229,7 @@ async fn testEmptyInsert() {
     );
 }
 
-fn named(types: &[(&'static str, &'static str)]) -> doctrine_dbal::ParameterTypes {
+fn named(types: &[(&'static str, &'static str)]) -> php2rust_doctrine_dbal::ParameterTypes {
     named_types(
         types
             .iter()

@@ -1,6 +1,6 @@
 <?php
-// doctrine/dbal vectors (scripts/record.sh doctrine-dbal), as typed JSON
-// (lib/typed.php). Output: crates/doctrine-dbal/tests/data/php.json.
+// doctrine/dbal vectors (scripts/record.sh dbal), as typed JSON
+// (lib/typed.php). Output: crates/php2rust-doctrine-dbal/tests/data/php.json.
 //
 //   providers  the #[DataProvider] rows of the upstream test classes that
 //              the crate ports (by class path, e.g. "SQL/ParserTest"),

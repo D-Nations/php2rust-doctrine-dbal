@@ -13,7 +13,7 @@
 mod connection_support;
 
 use connection_support::{array, drop_and_create_table, i, no_types, none, s, sql, sqlite};
-use doctrine_dbal::{Connection, DriverManager, Exception};
+use php2rust_doctrine_dbal::{Connection, DriverManager, Exception};
 use php_value::{Key, Value};
 
 const TABLE: &str = "connection_test";

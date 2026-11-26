@@ -13,7 +13,7 @@
 mod connection_support;
 
 use connection_support::{array, drop_and_create_table, i, no_types, none, sqlite};
-use doctrine_dbal::Connection;
+use php2rust_doctrine_dbal::Connection;
 use php_value::Value;
 use php_value::vectors::phpunit_equals;
 

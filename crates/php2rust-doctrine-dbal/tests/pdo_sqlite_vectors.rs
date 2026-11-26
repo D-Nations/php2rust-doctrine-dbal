@@ -1,6 +1,6 @@
 //! The sqlx `SQLite` driver against what `pdo_sqlite` gives through DBAL in
 //! PHP 8.4 (tests/data/connection.json, `scripts/record.sh
-//! doctrine-dbal-connection`): value types, the binding of each value with
+//! dbal-connection`): value types, the binding of each value with
 //! each parameter type, errors and their conversion, `rowCount()`,
 //! `executeStatement()`, `lastInsertId()`, `quote()`, column names and
 //! connection errors.
@@ -16,7 +16,7 @@
 mod connection_support;
 
 use connection_support::{assert_outcome, data, no_types, none, sqlite, text};
-use doctrine_dbal::{Exception, ParameterType};
+use php2rust_doctrine_dbal::{Exception, ParameterType};
 use php_value::vectors::decode;
 use php_value::{Key, PhpArray, Value};
 
@@ -203,7 +203,7 @@ async fn connectErrors() {
         ]),
     ];
     for (params, expected) in params.into_iter().zip(cases) {
-        let connection = doctrine_dbal::DriverManager::get_connection(params, None).unwrap();
+        let connection = php2rust_doctrine_dbal::DriverManager::get_connection(params, None).unwrap();
         let outcome = connection
             .execute_query("SELECT 1", &none(), &no_types())
             .await

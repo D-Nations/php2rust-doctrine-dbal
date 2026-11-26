@@ -16,8 +16,8 @@ mod common;
 mod types_support;
 
 use common::provider;
-use doctrine_dbal::ParameterType;
-use doctrine_dbal::types::{BinaryType, ConversionError, Type};
+use php2rust_doctrine_dbal::ParameterType;
+use php2rust_doctrine_dbal::types::{BinaryType, ConversionError, Type};
 use php_value::{PhpString, Value};
 use types_support::{StubPlatform, provider_value};
 

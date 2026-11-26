@@ -19,7 +19,7 @@ mod common;
 mod types_support;
 
 use common::provider;
-use doctrine_dbal::types::{ConversionError, DateType, Type};
+use php2rust_doctrine_dbal::types::{ConversionError, DateType, Type};
 use php_value::Value;
 use types_support::{StubPlatform, provider_value};
 

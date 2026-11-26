@@ -21,8 +21,8 @@
 mod connection_support;
 
 use connection_support::{Script, TestDriver, array, i, list, none, s};
-use doctrine_dbal::query::QueryBuilder;
-use doctrine_dbal::{Connection, WrapperParameterType};
+use php2rust_doctrine_dbal::query::QueryBuilder;
+use php2rust_doctrine_dbal::{Connection, WrapperParameterType};
 use php_value::vectors::phpunit_equals;
 use php_value::{Key, PhpArray, Value};
 

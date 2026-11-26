@@ -15,7 +15,7 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::{AbstractAsset, AssetKind, NameParser};
+use php2rust_doctrine_dbal::schema::{AbstractAsset, AssetKind, NameParser};
 use schema_support::{expect_deprecation, expect_exception};
 
 const CLASS: &str = "Doctrine\\DBAL\\Schema\\AbstractNamedObject@anonymous";

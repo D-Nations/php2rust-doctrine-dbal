@@ -11,7 +11,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::schema::name::{UnqualifiedName, UnquotedIdentifierFolding};
+use php2rust_doctrine_dbal::schema::name::{UnqualifiedName, UnquotedIdentifierFolding};
 
 #[test]
 fn testQuoted() {
