@@ -1,8 +1,8 @@
 //! Port of Doctrine\DBAL\Schema\SQLiteSchemaManager.php: the `SQLite`
 //! schema manager.
 //!
-//! `createComparator()` is an inherent method (with and without a
-//! config), as the trait does not carry it. The regular expressions are
+//! `createComparator()` (with and without a config) and `migrateSchema()`
+//! are inherent methods, as the trait does not carry the comparator. The regular expressions are
 //! PHP's, run through php2rust-regex; a failing match is an exception
 //! (PHP's warning and `false`).
 //!
@@ -30,6 +30,7 @@ use super::array_map::ArrayMap;
 use super::column::Column;
 use super::comparator_config::ComparatorConfig;
 use super::foreign_key_constraint::ForeignKeyConstraint;
+use super::schema::Schema;
 use super::table_diff::{TableDiff, TableDiffParts};
 use super::view::View;
 
@@ -111,6 +112,15 @@ impl<'c> SQLiteSchemaManager<'c> {
     /// `createComparator($config)`.
     pub fn create_comparator_with(&self, config: ComparatorConfig) -> SQLiteComparator<'c> {
         SQLiteComparator::new(self.platform, config)
+    }
+
+    /// `migrateSchema($newSchema)`.
+    pub async fn migrate_schema(&self, new_schema: &Schema) -> R<()> {
+        let schema_diff = self
+            .create_comparator()
+            .compare_schemas(&self.introspect_schema().await?, new_schema)?;
+
+        self.alter_schema(&schema_diff).await
     }
 
     fn parse_column_collation_from_sql(&self, column: &str, sql: &str) -> R<Option<String>> {

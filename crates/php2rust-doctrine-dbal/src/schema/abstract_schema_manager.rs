@@ -11,9 +11,8 @@
 //!
 //! Differences: the current schema name is not cached (`SQLite` has no
 //! schemas, so it is always `None`); `createComparator()` is the
-//! platform manager's own method (`SQLite`'s returns its comparator);
-//! `migrateSchema()` is not ported yet (it needs
-//! `Comparator::compareSchemas()`). Rows are associative `PhpArray`s as
+//! platform manager's own method (`SQLite`'s returns its comparator), and
+//! so is `migrateSchema()`, which uses it. Rows are associative `PhpArray`s as
 //! `fetchAllAssociative()` gives them.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
