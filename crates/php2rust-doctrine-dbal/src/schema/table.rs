@@ -160,8 +160,18 @@ impl Table {
                 "Doctrine\\DBAL\\Schema\\Table::setSchemaConfig is deprecated. Pass TableConfiguration to the constructor instead.".to_owned()
             },
         );
+        self.set_schema_config_inner(schema_config);
+    }
+
+    pub(crate) fn set_schema_config_inner(&mut self, schema_config: SchemaConfig) {
         self.max_identifier_length = schema_config.get_max_identifier_length();
         self.schema_config = Some(schema_config);
+    }
+
+    /// The asset state, for `Schema::renameTable()`, which sets the
+    /// table's `_name`, `_namespace` and `_quoted` directly.
+    pub(crate) fn asset_mut(&mut self) -> &mut AbstractAsset {
+        &mut self.asset
     }
 
     /// `setPrimaryKey($columnNames, $indexName)` (deprecated).
@@ -610,6 +620,11 @@ impl Table {
     }
 
     pub(crate) fn add_option_inner(&mut self, name: &str, value: Value) {
+        self.options.insert(name, value);
+    }
+
+    /// `$this->_options[$name] = $value` for a key of an options array.
+    pub(crate) fn add_option_key(&mut self, name: Key, value: Value) {
         self.options.insert(name, value);
     }
 
