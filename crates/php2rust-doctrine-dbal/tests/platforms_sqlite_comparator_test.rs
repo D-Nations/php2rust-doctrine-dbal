@@ -2,9 +2,10 @@
 //! inherits from tests/Schema/AbstractComparatorTestCase.php, at
 //! doctrine/dbal c435cd7ea33e17d2a89288caf994cf3d4549b879. Names and
 //! assertions are PHPUnit's. `assertEquals()` of two diffs compares
-//! their `Debug` output. The tests that need `Schema`, `Sequence` and
-//! `SchemaDiff` (`compareSchemas()`, `diffSequence()`) are not ported
-//! yet. `get_renamed_columns()` is the helper of
+//! their `Debug` output; `assertSame()` of sequences compares values.
+//! PHP's schema keeps the caller's table handle (and gives it the
+//! schema's configuration), so an expected table is the schema's own.
+//! `get_renamed_columns()` is the helper of
 //! tests/Functional/Platform/RenameColumnTest.php.
 //!
 //! Upstream: doctrine/dbal tests/Platforms/SQLite/ComparatorTest.php
@@ -25,7 +26,8 @@ use php2rust_doctrine_dbal::platforms::sqlite::Comparator;
 use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
 use php2rust_doctrine_dbal::schema::{
     Column, ColumnDiff, ComparatorConfig, ForeignKeyConstraint, Index, IndexRename, IndexType,
-    PrimaryKeyConstraint, ReferentialAction, Table, TableDiff, TableDiffParts,
+    PrimaryKeyConstraint, ReferentialAction, Schema, SchemaConfig, SchemaDiff, SchemaDiffParts,
+    Sequence, Table, TableDiff, TableDiffParts,
 };
 use php2rust_doctrine_dbal::types::Types;
 use schema_support::{expect_deprecation, expect_no_deprecation};
@@ -726,4 +728,500 @@ fn testCompareColumnComments() {
             "{comment1:?} {comment2:?}"
         );
     }
+}
+
+/// `createTable($name, $qualifier)`.
+fn create_table(name: &str, qualifier: Option<&str>) -> Table {
+    Table::editor()
+        .set_unquoted_name(name, qualifier)
+        .set_columns(vec![column("id", Types::INTEGER)])
+        .create()
+        .unwrap()
+}
+
+/// `createSequence($name)`.
+fn create_sequence(name: &str) -> Sequence {
+    Sequence::editor()
+        .set_unquoted_name(name, None)
+        .create()
+        .unwrap()
+}
+
+fn empty_schema_diff() -> SchemaDiff {
+    SchemaDiff::new(SchemaDiffParts::default())
+}
+
+fn assert_schema_diff_equals(expected: &SchemaDiff, actual: &SchemaDiff) {
+    assert_eq!(format!("{expected:?}"), format!("{actual:?}"));
+}
+
+fn schema(tables: Vec<Table>) -> Schema {
+    Schema::editor().set_tables(tables).create().unwrap()
+}
+
+#[test]
+fn testCompareSame1() {
+    let schema1 = schema(vec![table(
+        "bugdb",
+        vec![column("integercolumn1", Types::INTEGER)],
+    )]);
+    let schema2 = schema(vec![table(
+        "bugdb",
+        vec![column("integercolumn1", Types::INTEGER)],
+    )]);
+
+    assert_schema_diff_equals(
+        &empty_schema_diff(),
+        &comparator().compare_schemas(&schema1, &schema2).unwrap(),
+    );
+}
+
+#[test]
+fn testCompareSame2() {
+    let schema1 = schema(vec![table(
+        "bugdb",
+        vec![
+            column("integercolumn1", Types::INTEGER),
+            column("integercolumn2", Types::INTEGER),
+        ],
+    )]);
+    let schema2 = schema(vec![table(
+        "bugdb",
+        vec![
+            column("integercolumn2", Types::INTEGER),
+            column("integercolumn1", Types::INTEGER),
+        ],
+    )]);
+
+    assert_schema_diff_equals(
+        &empty_schema_diff(),
+        &comparator().compare_schemas(&schema1, &schema2).unwrap(),
+    );
+}
+
+fn bugdb_with_configuration() -> Table {
+    let schema_config = SchemaConfig::new();
+
+    Table::editor()
+        .set_unquoted_name("bugdb", None)
+        .set_columns(vec![column("integercolumn1", Types::INTEGER)])
+        .set_configuration(schema_config.to_table_configuration())
+        .create()
+        .unwrap()
+}
+
+#[test]
+fn testCompareMissingTable() {
+    let table = bugdb_with_configuration();
+
+    let schema1 = Schema::editor().add_table(table).create().unwrap();
+    let schema2 = Schema::editor().create().unwrap();
+
+    let table = schema1.get_table("bugdb").unwrap().clone();
+    assert_schema_diff_equals(
+        &SchemaDiff::new(SchemaDiffParts {
+            dropped_tables: vec![table],
+            ..SchemaDiffParts::default()
+        }),
+        &comparator().compare_schemas(&schema1, &schema2).unwrap(),
+    );
+}
+
+#[test]
+fn testCompareNewTable() {
+    let table = bugdb_with_configuration();
+
+    let schema1 = Schema::editor().create().unwrap();
+    let schema2 = Schema::editor().add_table(table).create().unwrap();
+
+    let table = schema2.get_table("bugdb").unwrap().clone();
+    let expected = SchemaDiff::new(SchemaDiffParts {
+        created_tables: vec![table],
+        ..SchemaDiffParts::default()
+    });
+
+    assert_schema_diff_equals(
+        &expected,
+        &comparator().compare_schemas(&schema1, &schema2).unwrap(),
+    );
+}
+
+#[test]
+fn testCompareSequences() {
+    let sequence1 = create_sequence("foo");
+
+    let sequence2 = Sequence::editor()
+        .set_unquoted_name("foo", None)
+        .set_initial_value(2)
+        .create()
+        .unwrap();
+
+    let sequence3 = Sequence::editor()
+        .set_unquoted_name("foo", None)
+        .set_allocation_size(2)
+        .create()
+        .unwrap();
+
+    assert!(comparator().diff_sequence(&sequence1, &sequence2));
+    assert!(comparator().diff_sequence(&sequence1, &sequence3));
+}
+
+#[test]
+fn testRemovedSequence() {
+    let seq = create_sequence("foo");
+
+    let schema1 = Schema::editor().add_sequence(seq.clone()).create().unwrap();
+    let schema2 = Schema::editor().create().unwrap();
+
+    let diff_schema = comparator().compare_schemas(&schema1, &schema2).unwrap();
+
+    assert_eq!(&[seq][..], diff_schema.get_dropped_sequences());
+}
+
+#[test]
+fn testAddedSequence() {
+    let seq = create_sequence("foo");
+
+    let schema1 = Schema::editor().create().unwrap();
+    let schema2 = Schema::editor().add_sequence(seq.clone()).create().unwrap();
+
+    let diff_schema = comparator().compare_schemas(&schema1, &schema2).unwrap();
+
+    assert_eq!(&[seq][..], diff_schema.get_created_sequences());
+}
+
+#[test]
+fn testTablesCaseInsensitive() {
+    let schema_a = schema(vec![
+        create_table("foo", None),
+        create_table("bAr", None),
+        create_table("BAZ", None),
+        create_table("new", None),
+    ]);
+
+    let schema_b = schema(vec![
+        create_table("FOO", None),
+        create_table("bar", None),
+        create_table("Baz", None),
+        create_table("old", None),
+    ]);
+
+    let diff = comparator().compare_schemas(&schema_a, &schema_b).unwrap();
+
+    assert_eq!(diff.get_created_tables().len(), 1);
+    assert_eq!(diff.get_altered_tables().len(), 0);
+    assert_eq!(diff.get_dropped_tables().len(), 1);
+}
+
+#[test]
+fn testSequencesCaseInsensitive() {
+    let schema_a = Schema::editor()
+        .set_sequences(vec![
+            create_sequence("foo"),
+            create_sequence("BAR"),
+            create_sequence("Baz"),
+            create_sequence("new"),
+        ])
+        .create()
+        .unwrap();
+
+    let schema_b = Schema::editor()
+        .set_sequences(vec![
+            create_sequence("FOO"),
+            create_sequence("Bar"),
+            create_sequence("baz"),
+            create_sequence("old"),
+        ])
+        .create()
+        .unwrap();
+
+    let diff = comparator().compare_schemas(&schema_a, &schema_b).unwrap();
+
+    assert_eq!(diff.get_created_sequences().len(), 1);
+    assert_eq!(diff.get_altered_sequences().len(), 0);
+    assert_eq!(diff.get_dropped_sequences().len(), 1);
+}
+
+#[test]
+fn testAlteredSequence() {
+    let old_schema = Schema::editor()
+        .add_sequence(create_sequence("baz"))
+        .create()
+        .unwrap();
+
+    let new_sequence = Sequence::editor()
+        .set_unquoted_name("baz", None)
+        .set_allocation_size(20)
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor()
+        .add_sequence(new_sequence)
+        .create()
+        .unwrap();
+
+    let diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    assert_eq!(
+        &[new_schema.get_sequence("baz").unwrap().clone()][..],
+        diff.get_altered_sequences()
+    );
+}
+
+#[test]
+fn testFqnSchemaComparison() {
+    let old_schema = Schema::editor()
+        .set_default_namespace(Some("foo"))
+        .add_table(create_table("bar", None))
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor()
+        .set_default_namespace(Some("foo"))
+        .add_table(create_table("bar", Some("foo")))
+        .create()
+        .unwrap();
+
+    assert_schema_diff_equals(
+        &empty_schema_diff(),
+        &comparator()
+            .compare_schemas(&old_schema, &new_schema)
+            .unwrap(),
+    );
+}
+
+#[test]
+fn testNamespacesComparison() {
+    let old_schema = Schema::editor()
+        .set_default_namespace(Some("schemaName"))
+        .set_tables(vec![
+            create_table("taz", None),
+            create_table("tab", Some("war")),
+        ])
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor()
+        .set_default_namespace(Some("schemaName"))
+        .set_tables(vec![
+            create_table("tab", Some("bar")),
+            create_table("tab", Some("baz")),
+            create_table("tab", Some("war")),
+        ])
+        .create()
+        .unwrap();
+
+    let diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    assert_eq!(vec!["bar", "baz"], diff.get_created_schemas());
+    assert_eq!(diff.get_created_tables().len(), 2);
+}
+
+#[test]
+fn testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff() {
+    let old_schema = Schema::editor()
+        .set_default_namespace(Some("foo"))
+        .add_table(
+            Table::editor()
+                .set_unquoted_name("bar", Some("foo"))
+                .set_columns(vec![column("id", Types::INTEGER)])
+                .create()
+                .unwrap(),
+        )
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor()
+        .add_table(create_table("bar", None))
+        .create()
+        .unwrap();
+
+    assert_schema_diff_equals(
+        &empty_schema_diff(),
+        &comparator()
+            .compare_schemas(&old_schema, &new_schema)
+            .unwrap(),
+    );
+}
+
+#[test]
+fn testFqnSchemaComparisonNoSchemaSame() {
+    let old_schema = Schema::editor()
+        .set_default_namespace(Some("foo"))
+        .add_table(create_table("bar", None))
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor()
+        .add_table(create_table("bar", None))
+        .create()
+        .unwrap();
+
+    assert_schema_diff_equals(
+        &empty_schema_diff(),
+        &comparator()
+            .compare_schemas(&old_schema, &new_schema)
+            .unwrap(),
+    );
+}
+
+fn foo_with_autoincrement_id() -> Table {
+    Table::editor()
+        .set_unquoted_name("foo", None)
+        .set_columns(vec![
+            Column::editor()
+                .set_unquoted_name("id")
+                .set_type_name(Types::INTEGER)
+                .set_autoincrement(true)
+                .create()
+                .unwrap(),
+        ])
+        .set_primary_key_constraint(Some(
+            PrimaryKeyConstraint::editor()
+                .set_unquoted_column_names(&["id"])
+                .create()
+                .unwrap(),
+        ))
+        .create()
+        .unwrap()
+}
+
+#[test]
+fn testAutoIncrementSequences() {
+    let table = foo_with_autoincrement_id();
+
+    let old_schema = Schema::editor()
+        .add_table(table.clone())
+        .add_sequence(create_sequence("foo_id_seq"))
+        .create()
+        .unwrap();
+
+    let new_schema = Schema::editor().add_table(table).create().unwrap();
+
+    let diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    assert_eq!(diff.get_dropped_sequences().len(), 0);
+}
+
+/// Check that added autoincrement sequence is not populated in
+/// newSequences
+#[test]
+fn testAutoIncrementNoSequences() {
+    let table = foo_with_autoincrement_id();
+
+    let old_schema = Schema::editor().add_table(table.clone()).create().unwrap();
+
+    let new_schema = Schema::editor()
+        .add_table(table)
+        .add_sequence(create_sequence("foo_id_seq"))
+        .create()
+        .unwrap();
+
+    let diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    assert_eq!(diff.get_created_sequences().len(), 0);
+}
+
+#[test]
+fn testComparesNamespaces() {
+    let old_schema = Schema::new(vec![], vec![], None, &["foo", "bar"]).unwrap();
+    let new_schema = Schema::new(vec![], vec![], None, &["bar", "baz"]).unwrap();
+
+    let diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    assert_eq!(vec!["baz"], diff.get_created_schemas());
+    assert_eq!(vec!["foo"], diff.get_dropped_schemas());
+}
+
+#[test]
+fn testForeignKeyRemovalWithRenamedLocalColumn() {
+    let old_schema = schema(vec![
+        table("table1", vec![column("id", Types::INTEGER)]),
+        Table::editor()
+            .set_unquoted_name("table2", None)
+            .set_columns(vec![
+                column("id", Types::INTEGER),
+                column("id_table1", Types::INTEGER),
+            ])
+            .set_foreign_key_constraints(vec![
+                ForeignKeyConstraint::editor()
+                    .set_unquoted_referencing_column_names(&["id_table1"])
+                    .set_unquoted_referenced_table_name("table1", None)
+                    .set_unquoted_referenced_column_names(&["fk_table2_table1"])
+                    .create()
+                    .unwrap(),
+            ])
+            .create()
+            .unwrap(),
+    ]);
+
+    let new_schema = schema(vec![
+        Table::editor()
+            .set_unquoted_name("table2", None)
+            .set_columns(vec![
+                column("id", Types::INTEGER),
+                column("id_table3", Types::INTEGER),
+            ])
+            .set_foreign_key_constraints(vec![
+                ForeignKeyConstraint::editor()
+                    .set_unquoted_name("fk_table2_table3")
+                    .set_unquoted_referencing_column_names(&["id_table3"])
+                    .set_unquoted_referenced_table_name("table3", None)
+                    .set_unquoted_referenced_column_names(&["id"])
+                    .create()
+                    .unwrap(),
+            ])
+            .create()
+            .unwrap(),
+        table("table3", vec![column("id", Types::INTEGER)]),
+    ]);
+
+    let schema_diff = comparator()
+        .compare_schemas(&old_schema, &new_schema)
+        .unwrap();
+
+    let altered_tables = schema_diff.get_altered_tables();
+    assert_eq!(altered_tables.len(), 1);
+
+    let added_foreign_keys = altered_tables[0].get_added_foreign_keys();
+    assert_eq!(added_foreign_keys.len(), 1, "FK to table3 should be added.");
+    assert_eq!("table3", added_foreign_keys[0].get_foreign_table_name());
+}
+
+#[test]
+fn testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition() {
+    let string32 = |definition: Option<&str>| {
+        Column::editor()
+            .set_unquoted_name("is_default")
+            .set_type_name(Types::STRING)
+            .set_length(Some(32))
+            .set_column_definition(definition)
+            .create()
+            .unwrap()
+    };
+
+    let old_schema = schema(vec![table("a_table", vec![string32(None)])]);
+    let new_schema = schema(vec![table(
+        "a_table",
+        vec![string32(Some("ENUM('default')"))],
+    )]);
+
+    assert!(
+        comparator()
+            .compare_schemas(&old_schema, &new_schema)
+            .unwrap()
+            .get_altered_tables()
+            .is_empty(),
+        "Schema diff is empty, since only `columnDefinition` changed from `null` (not detected) to a defined one",
+    );
 }
