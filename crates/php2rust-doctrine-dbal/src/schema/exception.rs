@@ -31,6 +31,15 @@
 //! Upstream: doctrine/dbal src/Schema/Name/Parser/Exception/ExpectedNextIdentifier.php
 //! Upstream: doctrine/dbal src/Schema/Name/Parser/Exception/InvalidName.php
 //! Upstream: doctrine/dbal src/Schema/Name/Parser/Exception/UnableToParseIdentifier.php
+//! Upstream: doctrine/dbal src/Schema/Exception/ImproperlyQualifiedName.php
+//! Upstream: doctrine/dbal src/Schema/Exception/InvalidSchemaModification.php
+//! Upstream: doctrine/dbal src/Schema/Exception/InvalidSequenceDefinition.php
+//! Upstream: doctrine/dbal src/Schema/Exception/InvalidViewDefinition.php
+//! Upstream: doctrine/dbal src/Schema/Exception/NamespaceAlreadyExists.php
+//! Upstream: doctrine/dbal src/Schema/Exception/SequenceAlreadyExists.php
+//! Upstream: doctrine/dbal src/Schema/Exception/SequenceDoesNotExist.php
+//! Upstream: doctrine/dbal src/Schema/Exception/TableAlreadyExists.php
+//! Upstream: doctrine/dbal src/Schema/Exception/TableDoesNotExist.php
 
 use crate::exception::Exception;
 
@@ -107,6 +116,9 @@ pub fn ancestors(class: &str) -> &'static [&'static str] {
     ];
     const LOGIC_PARSER: &[&str] = &[LOGIC, PARSER_EXCEPTION, "Exception"];
     const ARGUMENT_PARSER: &[&str] = &[INVALID_ARGUMENT, LOGIC, PARSER_EXCEPTION, "Exception"];
+    if let Some(ancestors) = schema_slice_ancestors(class, LOGIC_SCHEMA, ARGUMENT_SCHEMA) {
+        return ancestors;
+    }
     if let Some(short) = class.strip_prefix(NS) {
         return match short {
             "IncomparableNames"
@@ -658,5 +670,179 @@ pub fn unable_to_parse_identifier(offset: usize) -> Exception {
     new(
         UNABLE_TO_PARSE_IDENTIFIER,
         format!("Unable to parse identifier at offset {offset}."),
+    )
+}
+
+// Slice Schema: the exceptions of Schema, SchemaEditor, Sequence(Editor)
+// and View(Editor).
+
+classes! {
+    IMPROPERLY_QUALIFIED_NAME = "ImproperlyQualifiedName";
+    INVALID_SCHEMA_MODIFICATION = "InvalidSchemaModification";
+    INVALID_SEQUENCE_DEFINITION = "InvalidSequenceDefinition";
+    INVALID_VIEW_DEFINITION = "InvalidViewDefinition";
+    NAMESPACE_ALREADY_EXISTS = "NamespaceAlreadyExists";
+    SEQUENCE_ALREADY_EXISTS = "SequenceAlreadyExists";
+    SEQUENCE_DOES_NOT_EXIST = "SequenceDoesNotExist";
+    TABLE_ALREADY_EXISTS = "TableAlreadyExists";
+    TABLE_DOES_NOT_EXIST = "TableDoesNotExist";
+}
+
+fn schema_slice_ancestors(
+    class: &str,
+    logic_schema: &'static [&'static str],
+    argument_schema: &'static [&'static str],
+) -> Option<&'static [&'static str]> {
+    match class {
+        IMPROPERLY_QUALIFIED_NAME => Some(argument_schema),
+        INVALID_SCHEMA_MODIFICATION
+        | INVALID_SEQUENCE_DEFINITION
+        | INVALID_VIEW_DEFINITION
+        | NAMESPACE_ALREADY_EXISTS
+        | SEQUENCE_ALREADY_EXISTS
+        | SEQUENCE_DOES_NOT_EXIST
+        | TABLE_ALREADY_EXISTS
+        | TABLE_DOES_NOT_EXIST => Some(logic_schema),
+        _ => None,
+    }
+}
+
+/// `ImproperlyQualifiedName::fromUnqualifiedName($name)`.
+pub fn improperly_qualified_from_unqualified_name(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        IMPROPERLY_QUALIFIED_NAME,
+        format!("Schema uses qualified names, but {name} is unqualified."),
+    )
+}
+
+/// `ImproperlyQualifiedName::fromQualifiedName($name)`.
+pub fn improperly_qualified_from_qualified_name(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        IMPROPERLY_QUALIFIED_NAME,
+        format!("Schema uses unqualified names, but {name} is qualified."),
+    )
+}
+
+/// `InvalidSchemaModification::defaultNamespaceCanOnlyBeSetOnEmptyEditor()`.
+pub fn default_namespace_can_only_be_set_on_empty_editor() -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        "The default namespace can only be set on an empty editor.".to_owned(),
+    )
+}
+
+/// `InvalidSchemaModification::tableAlreadyExists($name)`.
+pub fn schema_table_already_exists(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        format!("Table {name} already exists in the schema."),
+    )
+}
+
+/// `InvalidSchemaModification::tableDoesNotExist($name)`.
+pub fn schema_table_does_not_exist(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        format!("Table {name} does not exist in the schema."),
+    )
+}
+
+/// `InvalidSchemaModification::sequenceAlreadyExists($name)`.
+pub fn schema_sequence_already_exists(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        format!("Sequence {name} already exists in the schema."),
+    )
+}
+
+/// `InvalidSchemaModification::sequenceDoesNotExist($name)`.
+pub fn schema_sequence_does_not_exist(name: &OptionallyQualifiedName) -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        format!("Sequence {name} does not exist in the schema."),
+    )
+}
+
+/// `InvalidSchemaModification::cannotChangeTableQualifier($oldName,
+/// $newName)`.
+pub fn cannot_change_table_qualifier(
+    old_name: &OptionallyQualifiedName,
+    new_name: &OptionallyQualifiedName,
+) -> Exception {
+    new(
+        INVALID_SCHEMA_MODIFICATION,
+        format!(
+            "A table's namespace cannot be changed through modifyTable (attempted to move {old_name} to {new_name}). \
+             Drop and re-add the table to move it across namespaces."
+        ),
+    )
+}
+
+/// `InvalidSequenceDefinition::nameNotSet()`.
+pub fn sequence_name_not_set() -> Exception {
+    new(
+        INVALID_SEQUENCE_DEFINITION,
+        "Sequence name is not set.".to_owned(),
+    )
+}
+
+/// `InvalidSequenceDefinition::fromNegativeCacheSize($cacheSize)`.
+pub fn sequence_from_negative_cache_size(cache_size: i64) -> Exception {
+    new(
+        INVALID_SEQUENCE_DEFINITION,
+        format!("Sequence cache size must be a non-negative integer, {cache_size} given."),
+    )
+}
+
+/// `InvalidViewDefinition::nameNotSet()`.
+pub fn view_name_not_set() -> Exception {
+    new(INVALID_VIEW_DEFINITION, "View name is not set.".to_owned())
+}
+
+/// `InvalidViewDefinition::sqlNotSet($viewName)`.
+pub fn view_sql_not_set(view_name: &OptionallyQualifiedName) -> Exception {
+    new(
+        INVALID_VIEW_DEFINITION,
+        format!("SQL is not set for view {view_name}."),
+    )
+}
+
+/// `NamespaceAlreadyExists::new($namespaceName)`.
+pub fn namespace_already_exists(namespace_name: &str) -> Exception {
+    new(
+        NAMESPACE_ALREADY_EXISTS,
+        format!("The namespace with name \"{namespace_name}\" already exists."),
+    )
+}
+
+/// `SequenceAlreadyExists::new($sequenceName)`.
+pub fn sequence_already_exists(sequence_name: &str) -> Exception {
+    new(
+        SEQUENCE_ALREADY_EXISTS,
+        format!("The sequence \"{sequence_name}\" already exists."),
+    )
+}
+
+/// `SequenceDoesNotExist::new($sequenceName)`.
+pub fn sequence_does_not_exist(sequence_name: &str) -> Exception {
+    new(
+        SEQUENCE_DOES_NOT_EXIST,
+        format!("There exists no sequence with the name \"{sequence_name}\"."),
+    )
+}
+
+/// `TableAlreadyExists::new($tableName)`.
+pub fn table_already_exists(table_name: &str) -> Exception {
+    new(
+        TABLE_ALREADY_EXISTS,
+        format!("The table with name \"{table_name}\" already exists."),
+    )
+}
+
+/// `TableDoesNotExist::new($tableName)`.
+pub fn table_does_not_exist(table_name: &str) -> Exception {
+    new(
+        TABLE_DOES_NOT_EXIST,
+        format!("There is no table with name \"{table_name}\" in the schema."),
     )
 }
