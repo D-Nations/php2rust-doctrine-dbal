@@ -2028,10 +2028,10 @@ tests/Platforms/SQLServerPlatformTest.php	SQLServerPlatformTest::testSupportsSch
 tests/Platforms/SQLServerPlatformTest.php	SQLServerPlatformTest::testSupportsSequences	pending	
 tests/Platforms/SQLServerPlatformTest.php	SQLServerPlatformTest::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported	pending	
 tests/Platforms/SQLServerPlatformTest.php	SQLServerPlatformTest::testZeroOffsetWithoutLimitIsIgnored	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAddedSequence	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAlteredSequence	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAutoIncrementSequences	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAddedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testAddedSequence
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAlteredSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testAlteredSequence
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testAutoIncrementNoSequences
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testAutoIncrementSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testAutoIncrementSequences
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareAutoIncrementChanged	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareAutoIncrementChanged
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareChangeColumnsMultipleNewColumnsRename	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareChangeColumnsMultipleNewColumnsRename
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareChangedBinaryColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite maps binary columns to BLOB regardless of the length and it is fixed)	
@@ -2040,12 +2040,12 @@ tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareColumnComme
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareColumnCompareCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareColumnCompareCaseInsensitive
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareForeignKeyBasedOnPropertiesNotName	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareForeignKeyBasedOnPropertiesNotName
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareIndexBasedOnPropertiesNotName	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareIndexBasedOnPropertiesNotName
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareMissingTable	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareNewTable	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSame1	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSame2	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSequences	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testComparesNamespaces	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareMissingTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareMissingTable
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareNewTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareNewTable
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSame1	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareSame1
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSame2	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareSame2
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testCompareSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testCompareSequences
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testComparesNamespaces	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testComparesNamespaces
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectChangeIdentifierType	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDetectChangeIdentifierType
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectRenameColumn	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDetectRenameColumn
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectRenameColumnAmbiguous	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDetectRenameColumnAmbiguous
@@ -2055,22 +2055,22 @@ tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectRenameIndexA
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectRenameIndexAmbiguousWithMultipleAddedIndexes	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDetectRenameIndexAmbiguousWithMultipleAddedIndexes
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDetectRenameIndexDisabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDetectRenameIndexDisabled
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testDiff	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testDiff
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testForeignKeyRemovalWithRenamedLocalColumn	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparison	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonNoSchemaSame	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testForeignKeyRemovalWithRenamedLocalColumn	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testForeignKeyRemovalWithRenamedLocalColumn
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparison	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testFqnSchemaComparison
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonNoSchemaSame	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testFqnSchemaComparisonNoSchemaSame
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testMovedForeignKeyForeignTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testMovedForeignKeyForeignTable
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testNamespacesComparison	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testRemovedSequence	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testNamespacesComparison	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testNamespacesComparison
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testRemovedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testRemovedSequence
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesDisabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testReportModifiedIndexesDisabled
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesEnabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testReportModifiedIndexesEnabled
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testSameTypeNameIsNotAChange	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testSameTypeNameIsNotAChange
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testSequencesCaseInsensitive	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testSequencesCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testSequencesCaseInsensitive
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testTableAddForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testTableAddForeignKey
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testTableRemoveForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testTableRemoveForeignKey
 tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testTableUpdateForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testTableUpdateForeignKey
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testTablesCaseInsensitive	pending	
-tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition	pending	
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testTablesCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testTablesCaseInsensitive
+tests/Platforms/SQLite/ComparatorTest.php	ComparatorTest::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testAddedDateTimeColumnWithCurrentDefaultTriggersTableRebuild	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs::testAddedDateTimeColumnWithCurrentDefaultTriggersTableRebuild
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testAlterStringToFixedString	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs::testAlterStringToFixedString
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testAlterTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs::testAlterTable

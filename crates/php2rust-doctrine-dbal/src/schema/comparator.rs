@@ -1,5 +1,5 @@
-//! Port of Doctrine\DBAL\Schema\Comparator.php: compares two tables and
-//! returns a `TableDiff`.
+//! Port of Doctrine\DBAL\Schema\Comparator.php: compares two schemas
+//! (or two tables) and returns a `SchemaDiff` (or a `TableDiff`).
 //!
 //! The platform comparators (`platforms::sqlite::Comparator`, ...) only
 //! override `compareTables()` to normalize both tables first; here they
@@ -19,12 +19,16 @@ use crate::deprecations;
 use crate::exception::Exception;
 use crate::platforms::AbstractPlatform;
 
+use super::abstract_asset::AbstractAsset;
 use super::array_map::ArrayMap;
 use super::column::Column;
 use super::column_diff::ColumnDiff;
 use super::comparator_config::ComparatorConfig;
 use super::foreign_key_constraint::ForeignKeyConstraint;
 use super::index::Index;
+use super::schema::Schema;
+use super::schema_diff::{SchemaDiff, SchemaDiffParts};
+use super::sequence::Sequence;
 use super::table::Table;
 use super::table_diff::{TableDiff, TableDiffParts};
 
@@ -78,8 +82,114 @@ impl<'a> Comparator<'a> {
         }
     }
 
-    // TODO(Schema slice): compareSchemas(), isAutoIncrementSequenceInSchema()
-    // and diffSequence() need Schema, Sequence and SchemaDiff.
+    /// Returns the differences between the schemas.
+    pub fn compare_schemas(
+        &self,
+        old_schema: &Schema,
+        new_schema: &Schema,
+    ) -> Result<SchemaDiff, Exception> {
+        let mut parts = SchemaDiffParts::default();
+
+        // `$schema->getName()` without its deprecation (an internal call).
+        let old_schema_name = AbstractAsset::get_name(old_schema);
+        let new_schema_name = AbstractAsset::get_name(new_schema);
+
+        for new_namespace in new_schema.get_namespaces() {
+            if !old_schema.has_namespace(&new_namespace) {
+                parts.created_schemas.push(new_namespace);
+            }
+        }
+
+        for old_namespace in old_schema.get_namespaces() {
+            if !new_schema.has_namespace(&old_namespace) {
+                parts.dropped_schemas.push(old_namespace);
+            }
+        }
+
+        for new_table in new_schema.get_tables() {
+            let new_table_name = new_table.get_shortest_name(Some(&new_schema_name));
+            if old_schema.has_table(&new_table_name) {
+                let table_diff = self.compare_tables(
+                    old_schema.get_table(&new_table_name)?,
+                    new_schema.get_table(&new_table_name)?,
+                )?;
+
+                if !table_diff.is_empty() {
+                    parts.altered_tables.push(table_diff);
+                }
+            } else {
+                parts
+                    .created_tables
+                    .push(new_schema.get_table(&new_table_name)?.clone());
+            }
+        }
+
+        // Check if there are tables removed
+        for old_table in old_schema.get_tables() {
+            let old_table_name = old_table.get_shortest_name(Some(&old_schema_name));
+
+            let old_table = old_schema.get_table(&old_table_name)?;
+            if !new_schema.has_table(&old_table_name) {
+                parts.dropped_tables.push(old_table.clone());
+            }
+        }
+
+        for new_sequence in new_schema.get_sequences() {
+            let new_sequence_name = new_sequence.get_shortest_name(Some(&new_schema_name));
+            if !old_schema.has_sequence(&new_sequence_name) {
+                if !Self::is_auto_increment_sequence_in_schema(old_schema, new_sequence)? {
+                    parts.created_sequences.push(new_sequence.clone());
+                }
+            } else if Self::diff_sequence_inner(
+                new_sequence,
+                old_schema.get_sequence(&new_sequence_name)?,
+            ) {
+                parts
+                    .altered_sequences
+                    .push(new_schema.get_sequence(&new_sequence_name)?.clone());
+            }
+        }
+
+        for old_sequence in old_schema.get_sequences() {
+            if Self::is_auto_increment_sequence_in_schema(new_schema, old_sequence)? {
+                continue;
+            }
+
+            let old_sequence_name = old_sequence.get_shortest_name(Some(&old_schema_name));
+
+            if !new_schema.has_sequence(&old_sequence_name) {
+                parts.dropped_sequences.push(old_sequence.clone());
+            }
+        }
+
+        Ok(SchemaDiff::new(parts))
+    }
+
+    fn is_auto_increment_sequence_in_schema(
+        schema: &Schema,
+        sequence: &Sequence,
+    ) -> Result<bool, Exception> {
+        for table in schema.get_tables() {
+            if sequence.is_auto_increments_for_inner(table)? {
+                return Ok(true);
+            }
+        }
+
+        Ok(false)
+    }
+
+    /// `diffSequence($sequence1, $sequence2)`.
+    pub fn diff_sequence(&self, sequence1: &Sequence, sequence2: &Sequence) -> bool {
+        Self::diff_sequence_inner(sequence1, sequence2)
+    }
+
+    fn diff_sequence_inner(sequence1: &Sequence, sequence2: &Sequence) -> bool {
+        if sequence1.get_allocation_size() != sequence2.get_allocation_size() {
+            return true;
+        }
+
+        sequence1.get_initial_value() != sequence2.get_initial_value()
+    }
 
     /// Compares the tables and returns the difference between them.
     pub fn compare_tables(
