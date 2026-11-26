@@ -13,12 +13,12 @@
 
 use std::{cell::RefCell, collections::HashMap};
 
-use doctrine_dbal::{exception::Exception, platforms::AbstractPlatform};
 use php_value::{
     PhpArray, PhpString, Value,
     datetime::{DateTime, DateTimeImmutable},
     vectors::decode,
 };
+use php2rust_doctrine_dbal::{exception::Exception, platforms::AbstractPlatform};
 use serde_json::Value as Json;
 
 /// `createStub(AbstractPlatform::class)`.
@@ -88,14 +88,14 @@ impl AbstractPlatform for StubPlatform {
         "MockObject_AbstractPlatform"
     }
 
-    fn get_current_database_expression(&self) -> Result<String, doctrine_dbal::Exception> {
+    fn get_current_database_expression(&self) -> Result<String, php2rust_doctrine_dbal::Exception> {
         Ok(String::new())
     }
 
     fn get_set_transaction_isolation_sql(
         &self,
-        _level: doctrine_dbal::TransactionIsolationLevel,
-    ) -> Result<String, doctrine_dbal::Exception> {
+        _level: php2rust_doctrine_dbal::TransactionIsolationLevel,
+    ) -> Result<String, php2rust_doctrine_dbal::Exception> {
         Ok(String::new())
     }
 

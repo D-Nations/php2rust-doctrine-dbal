@@ -13,9 +13,9 @@
 mod connection_support;
 
 use connection_support::{array, drop_and_create_table, i, list, no_types, s, sql, sqlite};
-use doctrine_dbal::{Connection, Exception, ParameterType};
 use php_value::Value;
 use php_value::vectors::phpunit_equals;
+use php2rust_doctrine_dbal::{Connection, Exception, ParameterType};
 
 async fn set_up() -> Connection {
     let connection = sqlite();

@@ -14,9 +14,9 @@
 
 mod types_support;
 
-use doctrine_dbal::ParameterType;
-use doctrine_dbal::types::{AsciiStringType, Type};
 use php_value::{Value, php_array};
+use php2rust_doctrine_dbal::ParameterType;
+use php2rust_doctrine_dbal::types::{AsciiStringType, Type};
 use types_support::StubPlatform;
 
 #[test]

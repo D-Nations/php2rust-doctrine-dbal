@@ -14,8 +14,8 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::name::{OptionallyQualifiedName, UnqualifiedName};
-use doctrine_dbal::schema::{
+use php2rust_doctrine_dbal::schema::name::{OptionallyQualifiedName, UnqualifiedName};
+use php2rust_doctrine_dbal::schema::{
     Deferrability, ForeignKeyConstraint, ForeignKeyConstraintEditor, MatchType, ReferentialAction,
 };
 use schema_support::expect_exception;

@@ -13,9 +13,9 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::UniqueConstraint;
-use doctrine_dbal::schema::name::UnqualifiedName;
 use php_value::{PhpArray, php_array};
+use php2rust_doctrine_dbal::schema::UniqueConstraint;
+use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
 use schema_support::{expect_deprecation, expect_exception};
 
 const LINK_6685: &str = "https://github.com/doctrine/dbal/pull/6685";

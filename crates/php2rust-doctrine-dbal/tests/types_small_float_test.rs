@@ -14,8 +14,8 @@
 
 mod types_support;
 
-use doctrine_dbal::types::{SmallFloatType, Type};
 use php_value::Value;
+use php2rust_doctrine_dbal::types::{SmallFloatType, Type};
 use types_support::StubPlatform;
 
 #[test]

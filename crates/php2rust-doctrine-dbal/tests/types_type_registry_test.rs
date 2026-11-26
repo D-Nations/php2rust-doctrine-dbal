@@ -14,7 +14,7 @@
 
 use std::sync::Arc;
 
-use doctrine_dbal::types::{
+use php2rust_doctrine_dbal::types::{
     BinaryType, BlobType, StringType, TextType, Type, TypeRegistry, TypesException,
 };
 

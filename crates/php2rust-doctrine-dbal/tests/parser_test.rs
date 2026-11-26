@@ -16,7 +16,7 @@ mod common;
 use std::convert::Infallible;
 
 use common::{bool, bytes, provider};
-use doctrine_dbal::sql::{Parser, Visitor};
+use php2rust_doctrine_dbal::sql::{Parser, Visitor};
 
 /// The test class is the visitor: parameters are kept as `{%s}`.
 #[derive(Default)]

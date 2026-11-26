@@ -3,7 +3,7 @@
 //! Upstream: doctrine/dbal tests/ConfigurationTest.php
 #![allow(non_snake_case)]
 
-use doctrine_dbal::Configuration;
+use php2rust_doctrine_dbal::Configuration;
 
 fn set_up() -> Configuration {
     Configuration::new()

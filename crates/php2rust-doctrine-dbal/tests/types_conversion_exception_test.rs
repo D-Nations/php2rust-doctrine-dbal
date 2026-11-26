@@ -18,7 +18,7 @@ mod types_support;
 use std::sync::Arc;
 
 use common::{bytes, provider};
-use doctrine_dbal::types::{ConversionException, Previous};
+use php2rust_doctrine_dbal::types::{ConversionException, Previous};
 use types_support::provider_value;
 
 /// `self::createStub(Throwable::class)`.

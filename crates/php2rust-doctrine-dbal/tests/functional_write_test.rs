@@ -16,8 +16,10 @@ use connection_support::{
     array, date_time, ddl, drop_and_create_table, i, list, named_types, no_types, none,
     positional_types, s, sql, sqlite,
 };
-use doctrine_dbal::{Connection, Exception, ParameterType, ParameterTypes, WrapperParameterType};
 use php_value::{PhpArray, Value};
+use php2rust_doctrine_dbal::{
+    Connection, Exception, ParameterType, ParameterTypes, WrapperParameterType,
+};
 
 /// A numeric `int|string` id as an integer, as `assertGreaterThan()`
 /// compares it.

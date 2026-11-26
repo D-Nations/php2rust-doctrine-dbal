@@ -13,8 +13,10 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::{Column, ForeignKeyConstraint, Table, TableDiff, TableDiffParts};
-use doctrine_dbal::types::Types;
+use php2rust_doctrine_dbal::schema::{
+    Column, ForeignKeyConstraint, Table, TableDiff, TableDiffParts,
+};
+use php2rust_doctrine_dbal::types::Types;
 use schema_support::{expect_deprecation, expect_exception};
 
 #[test]

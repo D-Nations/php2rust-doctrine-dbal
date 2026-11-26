@@ -13,11 +13,11 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
-use doctrine_dbal::schema::{
+use php_value::{PhpArray, php_array};
+use php2rust_doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
+use php2rust_doctrine_dbal::schema::{
     Deferrability, ForeignKeyConstraint, Index, MatchType, ReferentialAction,
 };
-use php_value::{PhpArray, php_array};
 use schema_support::{expect_deprecation, expect_exception, expect_no_deprecation};
 
 const LINK_6728: &str = "https://github.com/doctrine/dbal/pull/6728";

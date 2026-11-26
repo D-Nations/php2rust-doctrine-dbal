@@ -15,8 +15,8 @@
 mod common;
 
 use common::{StubPlatform, TestConnection, expression_parts, provider, text};
-use doctrine_dbal::ConnectionStandIn;
-use doctrine_dbal::query::expression::ExpressionBuilder;
+use php2rust_doctrine_dbal::ConnectionStandIn;
+use php2rust_doctrine_dbal::query::expression::ExpressionBuilder;
 
 type Expr<'c> = ExpressionBuilder<'c, TestConnection<StubPlatform>>;
 

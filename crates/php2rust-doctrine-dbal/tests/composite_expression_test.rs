@@ -15,7 +15,7 @@
 mod common;
 
 use common::{expression_part, provider, text};
-use doctrine_dbal::query::expression::{CompositeExpression, ExpressionPart};
+use php2rust_doctrine_dbal::query::expression::{CompositeExpression, ExpressionPart};
 
 #[test]
 fn testCount() {

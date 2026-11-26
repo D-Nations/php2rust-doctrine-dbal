@@ -17,12 +17,12 @@
 
 mod types_support;
 
-use doctrine_dbal::ParameterType;
-use doctrine_dbal::types::{ConversionError, DateTimeUtcType, Type};
 use php_value::{
     Value,
     datetime::{DateTime, TimeZone},
 };
+use php2rust_doctrine_dbal::ParameterType;
+use php2rust_doctrine_dbal::types::{ConversionError, DateTimeUtcType, Type};
 use types_support::StubPlatform;
 
 fn is_conversion_exception(result: &Result<Value, ConversionError>) -> bool {

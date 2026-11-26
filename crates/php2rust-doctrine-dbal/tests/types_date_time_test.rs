@@ -19,8 +19,8 @@ mod common;
 mod types_support;
 
 use common::provider;
-use doctrine_dbal::types::{ConversionError, DateTimeType, Type};
 use php_value::Value;
+use php2rust_doctrine_dbal::types::{ConversionError, DateTimeType, Type};
 use types_support::{StubPlatform, provider_value};
 
 fn set_up() -> (StubPlatform, DateTimeType) {
@@ -84,7 +84,9 @@ fn testDateTimeConvertsToDatabaseValue() {
     let date = types_support::date("1985-09-01 10:10:10");
 
     let expected = date.format(
-        &doctrine_dbal::platforms::AbstractPlatform::get_date_time_format_string(&platform),
+        &php2rust_doctrine_dbal::platforms::AbstractPlatform::get_date_time_format_string(
+            &platform,
+        ),
     );
     let actual = type_
         .convert_to_database_value(&php_value::datetime::DateTime::object(date), &platform)

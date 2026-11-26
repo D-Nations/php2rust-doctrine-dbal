@@ -4,8 +4,8 @@
 //! Upstream: none
 #![allow(dead_code)]
 
-use doctrine_dbal::Exception;
-use doctrine_dbal::deprecations;
+use php2rust_doctrine_dbal::Exception;
+use php2rust_doctrine_dbal::deprecations;
 
 /// `$this->expectDeprecationWithIdentifier($link)` around `f`.
 pub fn expect_deprecation<T>(link: &str, f: impl FnOnce() -> T) -> T {

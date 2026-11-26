@@ -13,8 +13,8 @@
 
 mod schema_support;
 
-use doctrine_dbal::schema::IndexedColumn;
-use doctrine_dbal::schema::name::UnqualifiedName;
+use php2rust_doctrine_dbal::schema::IndexedColumn;
+use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
 use schema_support::expect_exception;
 
 #[test]

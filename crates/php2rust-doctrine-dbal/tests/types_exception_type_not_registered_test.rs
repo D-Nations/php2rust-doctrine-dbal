@@ -12,7 +12,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::types::{TypesException, get_type};
+use php2rust_doctrine_dbal::types::{TypesException, get_type};
 
 #[test]
 fn testNew() {

@@ -13,9 +13,9 @@
 mod connection_support;
 
 use connection_support::{array, i, list, no_types, none, s, sql, sqlite};
-use doctrine_dbal::Exception;
 use php_value::vectors::phpunit_equals;
 use php_value::{Key, PhpArray, Value};
+use php2rust_doctrine_dbal::Exception;
 
 fn query() -> String {
     sql("fetch_query")

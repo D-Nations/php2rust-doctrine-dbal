@@ -7,8 +7,8 @@ Doctrine Project. Unofficial, not affiliated with or endorsed by Doctrine.
 ```rust
 use std::collections::BTreeMap;
 
-use doctrine_dbal::sql::Parser;
-use doctrine_dbal::{ArrayParameterType, ExpandArrayParameters, WrapperParameterType};
+use php2rust_doctrine_dbal::sql::Parser;
+use php2rust_doctrine_dbal::{ArrayParameterType, ExpandArrayParameters, WrapperParameterType};
 use php_value::{Key, PhpArray, Value};
 
 let mut params = PhpArray::new();
@@ -48,7 +48,7 @@ assert_eq!(visitor.get_parameters(), &[Value::Int(1), Value::Int(2)]);
 | `SQLitePlatform`: expressions (trim, locate, substring, date arithmetic and difference, mod, concat, bit operations), `escapeStringForLike()`, quoting, `TRUNCATE`, limit/offset, column declarations and defaults, `CREATE TABLE` (primary keys, autoincrement, indexes, unique constraints, inline foreign keys, comments, `WITHOUT ROWID`), `ALTER TABLE` (`ADD COLUMN`, `RENAME`, and the temporary-table rebuild), indexes, foreign key SQL, transaction isolation, the reserved keywords (`SQLiteKeywords`, `KeywordList`), the `NotSupported` and `NoColumnsSpecifiedForTable` messages | `Platforms/SQLitePlatform.php`, `Platforms/AbstractPlatform.php`, `Platforms/Keywords/{KeywordList,SQLiteKeywords}.php`, `Platforms/{DateIntervalUnit,TrimMode}.php`, `Platforms/Exception/*.php`, `TransactionIsolationLevel.php`, `LockMode.php` | SQLitePlatformTest with the inherited AbstractPlatformTestCase tests (92 of 96; the other 4 upstream does not run on SQLite); 1,500 expression, 600 `CREATE TABLE` and 400 `ALTER TABLE` recorded outputs (`sqlite_platform_*_vectors` in `tests/platforms_sqlite_platform_test.rs`) |
 | Schema value objects: names and their parser, `AbstractAsset` (and its named subclasses), `Identifier`, `Column`, `ColumnDiff`, `Index`, `IndexedColumn`, `UniqueConstraint`, `ForeignKeyConstraint` (match type, referential actions, deferrability), `PrimaryKeyConstraint`, `Table`, `TableDiff`, `SchemaConfig`, their editors, the named object sets and the Schema exceptions | `Schema/*.php` (not `Schema.php`, `Sequence.php`, `View.php`, `Comparator.php` or the schema managers), `Schema/Name/**`, `Schema/Collections/**`, `Schema/Exception/*.php` | 292 tests of the Schema test classes (`tests/schema_*_test.rs`): TableTest 81 of 84, TableEditorTest 38, IndexTest 28, ForeignKeyConstraintEditorTest 18, ForeignKeyConstraintTest 16, ColumnTest 14 of 15, the Collections, Name, editor and constraint tests |
 
-Vectors: `scripts/record.sh doctrine-dbal` runs `oracle/recorders/doctrine_dbal.php`
+Vectors: `scripts/record.sh dbal` runs `oracle/recorders/doctrine_dbal.php`
 and writes `tests/data/php.json`: the upstream data providers, the
 tokens that the real parser gives for generated statements, and
 `QueryBuilder` call sequences with each call's result, the final SQL or
@@ -62,7 +62,7 @@ recording changes them.
 uses (`getDatabasePlatform()`, `quote()`, `createExpressionBuilder()`,
 `createQueryBuilder()`); `Connection` implements it, and a test can too.
 
-Connection vectors: `scripts/record.sh doctrine-dbal-connection` runs
+Connection vectors: `scripts/record.sh dbal-connection` runs
 `oracle/recorders/doctrine_dbal_connection.php` and writes
 `tests/data/connection.json`: the providers of DsnParserTest,
 DriverManagerTest, NamedParametersTest and DataAccessTest; the tables of

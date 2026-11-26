@@ -12,7 +12,7 @@
 )]
 #![allow(non_snake_case)]
 
-use doctrine_dbal::schema::name::{Identifier, UnquotedIdentifierFolding};
+use php2rust_doctrine_dbal::schema::name::{Identifier, UnquotedIdentifierFolding};
 
 fn q(value: &str) -> Identifier {
     Identifier::quoted(value).unwrap()
