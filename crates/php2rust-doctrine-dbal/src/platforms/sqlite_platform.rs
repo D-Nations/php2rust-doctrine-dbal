@@ -1,8 +1,8 @@
 //! Port of Doctrine\DBAL\Platforms\SQLitePlatform.php: the `SQLite`
 //! dialect.
 //!
-//! Not ported: `createSchemaManager()` and `createMetadataProvider()`
-//! (`SQLiteSchemaManager` and `SQLiteMetadataProvider` need a Connection).
+//! `createMetadataProvider()` is [`SQLitePlatform::create_metadata_provider`],
+//! an inherent method (`MetadataProvider` is not object-safe here).
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -958,5 +958,26 @@ impl AbstractPlatform for SQLitePlatform {
 
     fn get_union_select_part_sql(&self, sub_query: &str) -> String {
         sub_query.to_owned()
+    }
+
+    // Slice SchemaManager.
+
+    fn create_schema_manager<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> Result<crate::schema::SQLiteSchemaManager<'c>, Exception> {
+        Ok(crate::schema::SQLiteSchemaManager::new(connection, self))
+    }
+}
+
+// Slice SchemaManager.
+
+impl SQLitePlatform {
+    /// `createMetadataProvider($connection)`.
+    pub fn create_metadata_provider<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> super::sqlite::SQLiteMetadataProvider<'c> {
+        super::sqlite::SQLiteMetadataProvider::new(connection, self)
     }
 }

@@ -40,6 +40,8 @@
 //! Upstream: doctrine/dbal src/Schema/Exception/SequenceDoesNotExist.php
 //! Upstream: doctrine/dbal src/Schema/Exception/TableAlreadyExists.php
 //! Upstream: doctrine/dbal src/Schema/Exception/TableDoesNotExist.php
+//! Upstream: doctrine/dbal src/Schema/Exception/UnsupportedName.php
+//! Upstream: doctrine/dbal src/Schema/Exception/UnsupportedSchema.php
 
 use crate::exception::Exception;
 
@@ -118,6 +120,14 @@ pub fn ancestors(class: &str) -> &'static [&'static str] {
     const ARGUMENT_PARSER: &[&str] = &[INVALID_ARGUMENT, LOGIC, PARSER_EXCEPTION, "Exception"];
     if let Some(ancestors) = schema_slice_ancestors(class, LOGIC_SCHEMA, ARGUMENT_SCHEMA) {
         return ancestors;
+    }
+    // Slice SchemaManager.
+    match class {
+        UNSUPPORTED_NAME => return LOGIC_SCHEMA,
+        UNSUPPORTED_SCHEMA => {
+            return &["RuntimeException", SCHEMA_EXCEPTION, DBAL, "Exception"];
+        }
+        _ => {}
     }
     if let Some(short) = class.strip_prefix(NS) {
         return match short {
@@ -844,5 +854,50 @@ pub fn table_does_not_exist(table_name: &str) -> Exception {
     new(
         TABLE_DOES_NOT_EXIST,
         format!("There is no table with name \"{table_name}\" in the schema."),
+    )
+}
+
+// Slice SchemaManager: the exceptions of the schema introspection.
+
+classes! {
+    UNSUPPORTED_NAME = "UnsupportedName";
+    UNSUPPORTED_SCHEMA = "UnsupportedSchema";
+}
+
+/// `UnsupportedName::fromNonNullSchemaName($schemaName, $methodName)`.
+pub fn unsupported_name_from_non_null_schema_name(
+    schema_name: &str,
+    method_name: &str,
+) -> Exception {
+    new(
+        UNSUPPORTED_NAME,
+        format!("{method_name}() does not accept schema names, \"{schema_name}\" given."),
+    )
+}
+
+/// `UnsupportedName::fromNullSchemaName($methodName)`.
+pub fn unsupported_name_from_null_schema_name(method_name: &str) -> Exception {
+    new(
+        UNSUPPORTED_NAME,
+        format!("{method_name}() requires a schema name, null given."),
+    )
+}
+
+/// `UnsupportedSchema::sqliteMissingForeignKeyConstraintReferencedColumns(
+/// $constraintName, $referencingTableName, $referencedTableName)`.
+pub fn sqlite_missing_foreign_key_constraint_referenced_columns(
+    constraint_name: Option<&str>,
+    referencing_table_name: &str,
+    referenced_table_name: &str,
+) -> Exception {
+    let constraint_reference = match constraint_name {
+        Some(name) => format!("\"{name}\""),
+        None => "<unnamed>".to_owned(),
+    };
+    new(
+        UNSUPPORTED_SCHEMA,
+        format!(
+            "Unable to introspect foreign key constraint {constraint_reference} on table \"{referencing_table_name}\" because the referenced column names are omitted, and the referenced table \"{referenced_table_name}\" does not exist or does not have a primary key."
+        ),
     )
 }

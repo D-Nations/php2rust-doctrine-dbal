@@ -47,6 +47,10 @@ use crate::sql::Parser;
 use crate::types::{self, PhpMappingType, Type, TypesException};
 use crate::{LockMode, TransactionIsolationLevel};
 
+// Slice SchemaManager: imports.
+use crate::Connection;
+use crate::schema::{SQLiteSchemaManager, SchemaDiff, Sequence};
+
 /// `$this` as a `&dyn AbstractPlatform`, for the trait's default methods
 /// that pass the platform on (`Type::getSQLDeclaration($column, $this)`).
 pub trait AsDynPlatform {
@@ -1842,6 +1846,64 @@ pub trait AbstractPlatform: AsDynPlatform {
     }
 
     // End of slice SQLite platform.
+
+    // Slice SchemaManager: the schema manager factory method and the SQL
+    // of a schema diff and of sequences.
+
+    /// `createSchemaManager($connection)` (abstract). The only schema
+    /// manager ported is `SQLite`'s, so this names its type.
+    fn create_schema_manager<'c>(
+        &'c self,
+        _connection: &'c Connection,
+    ) -> Result<SQLiteSchemaManager<'c>, Exception> {
+        Err(not_supported("createSchemaManager"))
+    }
+
+    /// Generates SQL statements that can be used to apply the diff.
+    fn get_alter_schema_sql(&self, diff: &SchemaDiff) -> Result<Vec<String>, Exception> {
+        let mut sql = Vec::new();
+
+        if self.supports_schemas() {
+            for schema in diff.get_created_schemas() {
+                sql.push(self.get_create_schema_sql(schema)?);
+            }
+        }
+
+        if self.supports_sequences() {
+            for sequence in diff.get_altered_sequences() {
+                sql.push(self.get_alter_sequence_sql(sequence)?);
+            }
+
+            for sequence in diff.get_dropped_sequences() {
+                sql.push(self.get_drop_sequence_sql(&sequence.get_quoted_name(self.as_dyn()))?);
+            }
+
+            for sequence in diff.get_created_sequences() {
+                sql.push(self.get_create_sequence_sql(sequence)?);
+            }
+        }
+
+        sql.extend(self.get_create_tables_sql(diff.get_created_tables())?);
+        sql.extend(self.get_drop_tables_sql(diff.get_dropped_tables())?);
+
+        for table_diff in diff.get_altered_tables() {
+            sql.extend(self.get_alter_table_sql(table_diff)?);
+        }
+
+        Ok(sql)
+    }
+
+    /// Returns the SQL to create a sequence on this platform.
+    fn get_create_sequence_sql(&self, _sequence: &Sequence) -> Result<String, Exception> {
+        Err(not_supported("getCreateSequenceSQL"))
+    }
+
+    /// Returns the SQL to change a sequence on this platform.
+    fn get_alter_sequence_sql(&self, _sequence: &Sequence) -> Result<String, Exception> {
+        Err(not_supported("getAlterSequenceSQL"))
+    }
+
+    // End of slice SchemaManager.
 }
 
 /// `empty($column[$name])` negated.

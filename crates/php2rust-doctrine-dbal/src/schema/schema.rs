@@ -12,9 +12,6 @@
 //! (whose `setName()` never fails either) with the unqualified name
 //! parser.
 //!
-//! `toSql()` and `toDropSql()` are not ported: they need
-//! `CreateSchemaObjectsSQLBuilder` and `DropSchemaObjectsSQLBuilder`.
-//!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
 //! Upstream: doctrine/dbal src/Schema/Schema.php
@@ -446,5 +443,27 @@ impl Deref for Schema {
 
     fn deref(&self) -> &AbstractAsset {
         &self.asset
+    }
+}
+
+// Slice SchemaManager.
+
+impl Schema {
+    /// Returns an array of necessary SQL queries to create the schema on
+    /// the given platform.
+    pub fn to_sql(
+        &self,
+        platform: &dyn crate::platforms::AbstractPlatform,
+    ) -> Result<Vec<String>, Exception> {
+        crate::sql::builder::CreateSchemaObjectsSQLBuilder::new(platform).build_sql(self)
+    }
+
+    /// Returns an array of necessary SQL queries to drop the schema on the
+    /// given platform.
+    pub fn to_drop_sql(
+        &self,
+        platform: &dyn crate::platforms::AbstractPlatform,
+    ) -> Result<Vec<String>, Exception> {
+        crate::sql::builder::DropSchemaObjectsSQLBuilder::new(platform).build_sql(self)
     }
 }
