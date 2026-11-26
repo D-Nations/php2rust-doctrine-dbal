@@ -214,7 +214,7 @@ src/Platforms/SQLServer/Comparator.php	Comparator	37	pending
 src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelectSQLBuilder	57	pending	
 src/Platforms/SQLServer/SQLServerMetadataProvider.php	SQLServerMetadataProvider	564	pending	
 src/Platforms/SQLServerPlatform.php	SQLServerPlatform	883	pending	
-src/Platforms/SQLite/Comparator.php	Comparator	35	pending	
+src/Platforms/SQLite/Comparator.php	Comparator	35	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs
 src/Platforms/SQLite/SQLiteMetadataProvider.php	SQLiteMetadataProvider	582	pending	
 src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	ForeignKeyConstraintDetails	23	pending	
 src/Platforms/SQLitePlatform.php	SQLitePlatform	713	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite_platform.rs
@@ -269,8 +269,8 @@ src/Schema/Collections/UnqualifiedNamedObjectSet.php	UnqualifiedNamedObjectSet	9
 src/Schema/Column.php	Column	406	ported	crates/php2rust-doctrine-dbal/src/schema/column.rs
 src/Schema/ColumnDiff.php	ColumnDiff	108	ported	crates/php2rust-doctrine-dbal/src/schema/column_diff.rs
 src/Schema/ColumnEditor.php	ColumnEditor	195	ported	crates/php2rust-doctrine-dbal/src/schema/column_editor.rs
-src/Schema/Comparator.php	Comparator	323	pending	
-src/Schema/ComparatorConfig.php	ComparatorConfig	47	pending	
+src/Schema/Comparator.php	Comparator	323	ported	crates/php2rust-doctrine-dbal/src/schema/comparator.rs
+src/Schema/ComparatorConfig.php	ComparatorConfig	47	ported	crates/php2rust-doctrine-dbal/src/schema/comparator_config.rs
 src/Schema/DB2SchemaManager.php	DB2SchemaManager	287	pending	
 src/Schema/DefaultExpression.php	DefaultExpression	7	ported	crates/php2rust-doctrine-dbal/src/schema/default_expression.rs
 src/Schema/DefaultExpression/CurrentDate.php	CurrentDate	11	ported	crates/php2rust-doctrine-dbal/src/schema/default_expression.rs

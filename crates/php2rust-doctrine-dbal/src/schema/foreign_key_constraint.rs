@@ -368,6 +368,10 @@ impl ForeignKeyConstraint {
             "getUnquotedForeignColumns",
             " Use getReferencedColumnNames() instead.",
         );
+        self.unquoted_foreign_columns()
+    }
+
+    pub(crate) fn unquoted_foreign_columns(&self) -> Vec<String> {
         self.foreign_columns()
             .iter()
             .map(|c| trim_quotes(c))
@@ -393,6 +397,10 @@ impl ForeignKeyConstraint {
             "getUnqualifiedForeignTableName",
             " Use getReferencedTableName() instead.",
         );
+        self.unqualified_foreign_table_name()
+    }
+
+    pub(crate) fn unqualified_foreign_table_name(&self) -> String {
         let full = self.foreign_table_name.get_name();
         let mut name = match full.rfind('.') {
             Some(position) => full[position + 1..].to_owned(),

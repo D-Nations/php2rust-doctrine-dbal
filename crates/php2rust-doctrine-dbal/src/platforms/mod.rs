@@ -22,3 +22,6 @@ pub use no_columns_specified_for_table::{
 };
 pub use platform_state::{CreateTableOptions, PlatformState};
 pub use sqlite_platform::SQLitePlatform;
+
+// Slice Comparator.
+pub mod sqlite;
