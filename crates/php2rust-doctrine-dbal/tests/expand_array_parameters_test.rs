@@ -17,10 +17,12 @@ mod common;
 use std::collections::BTreeMap;
 
 use common::{array, bytes, provider, types};
-use php2rust_doctrine_dbal::sql::Parser;
-use php2rust_doctrine_dbal::{ArrayParametersException, ExpandArrayParameters, WrapperParameterType};
 use php_value::vectors::phpunit_equals;
 use php_value::{Key, PhpArray, Value};
+use php2rust_doctrine_dbal::sql::Parser;
+use php2rust_doctrine_dbal::{
+    ArrayParametersException, ExpandArrayParameters, WrapperParameterType,
+};
 
 type Expanded = (Vec<u8>, Vec<Value>, BTreeMap<usize, WrapperParameterType>);
 

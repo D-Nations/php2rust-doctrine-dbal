@@ -14,9 +14,9 @@
 
 mod types_support;
 
+use php_value::{Value, datetime::TimeZone};
 use php2rust_doctrine_dbal::ParameterType;
 use php2rust_doctrine_dbal::types::{ConversionError, TimeImmutableType, Type};
-use php_value::{Value, datetime::TimeZone};
 use types_support::StubPlatform;
 
 fn is_conversion_exception(result: &Result<Value, ConversionError>) -> bool {

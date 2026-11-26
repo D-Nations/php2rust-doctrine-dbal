@@ -18,8 +18,8 @@ mod types_support;
 use std::sync::Arc;
 
 use common::provider;
-use php2rust_doctrine_dbal::types::{ConversionError, DateIntervalType, Type};
 use php_value::{Value, date_interval::DateInterval};
+use php2rust_doctrine_dbal::types::{ConversionError, DateIntervalType, Type};
 use types_support::{StubPlatform, provider_value};
 
 fn set_up() -> (StubPlatform, DateIntervalType) {

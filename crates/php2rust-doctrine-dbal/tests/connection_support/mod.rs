@@ -14,6 +14,7 @@ use std::collections::VecDeque;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
+use php_value::{Key, PhpArray, PhpString, Value};
 use php2rust_doctrine_dbal::driver::api::ExceptionConverter;
 use php2rust_doctrine_dbal::driver::{
     BoxFuture, Connection as DriverConnection, Driver, PlatformBox, Result as DriverResult,
@@ -24,7 +25,6 @@ use php2rust_doctrine_dbal::{
     Connection, DriverManager, Exception, ParameterType, ParameterTypes, Query,
     ServerVersionProvider, TransactionIsolationLevel, WrapperParameterType,
 };
-use php_value::{Key, PhpArray, PhpString, Value};
 
 /// The calls a [`TestDriver`] got, in order.
 #[derive(Debug, Default)]

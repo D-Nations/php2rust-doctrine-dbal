@@ -16,10 +16,10 @@ mod schema_support;
 
 use std::sync::Arc;
 
+use php_value::{Key, PhpArray, Value, php_array};
 use php2rust_doctrine_dbal::schema::name::{Identifier, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{Column, TypeObject};
 use php2rust_doctrine_dbal::types::{self, Type, Types};
-use php_value::{Key, PhpArray, Value, php_array};
 use schema_support::{expect_deprecation, expect_exception, expect_no_deprecation};
 
 const SELF_CLASS: &str = "Doctrine\\DBAL\\Tests\\Schema\\ColumnTest";

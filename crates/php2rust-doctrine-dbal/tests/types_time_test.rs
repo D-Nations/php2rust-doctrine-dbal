@@ -19,8 +19,8 @@ mod common;
 mod types_support;
 
 use common::provider;
-use php2rust_doctrine_dbal::types::{ConversionError, TimeType, Type};
 use php_value::Value;
+use php2rust_doctrine_dbal::types::{ConversionError, TimeType, Type};
 use types_support::{StubPlatform, provider_value};
 
 fn set_up() -> (StubPlatform, TimeType) {

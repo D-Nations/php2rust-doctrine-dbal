@@ -19,9 +19,9 @@ use connection_support::{
     array, data, date_time, drop_and_create_table, i, list, no_types, none, positional_types, s,
     sql, sqlite,
 };
-use php2rust_doctrine_dbal::{ArrayParameterType, Connection, ParameterType, WrapperParameterType};
 use php_value::vectors::{decode, phpunit_equals};
 use php_value::{Key, PhpArray, Value};
+use php2rust_doctrine_dbal::{ArrayParameterType, Connection, ParameterType, WrapperParameterType};
 
 async fn set_up() -> Connection {
     let connection = sqlite();

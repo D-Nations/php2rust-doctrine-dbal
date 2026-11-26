@@ -13,9 +13,9 @@
 
 mod schema_support;
 
+use php_value::{PhpArray, Value, php_array};
 use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
 use php2rust_doctrine_dbal::schema::{Index, IndexedColumn};
-use php_value::{PhpArray, Value, php_array};
 use schema_support::expect_exception;
 
 fn create_name() -> UnqualifiedName {

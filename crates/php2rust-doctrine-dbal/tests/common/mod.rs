@@ -8,8 +8,12 @@
 use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
+use php_value::vectors::{base64, decode};
+use php_value::{Key, PhpArray, PhpString, Value};
 use php2rust_doctrine_dbal::platforms::AbstractPlatform;
-use php2rust_doctrine_dbal::query::expression::{CompositeExpression, CompositeType, ExpressionPart};
+use php2rust_doctrine_dbal::query::expression::{
+    CompositeExpression, CompositeType, ExpressionPart,
+};
 use php2rust_doctrine_dbal::sql::builder::{
     DefaultSelectSQLBuilder, DefaultUnionSQLBuilder, SelectSQLBuilder, UnionSQLBuilder,
     WithSQLBuilder,
@@ -17,8 +21,6 @@ use php2rust_doctrine_dbal::sql::builder::{
 use php2rust_doctrine_dbal::{
     ArrayParameterType, ConnectionStandIn, Exception, ParameterType, WrapperParameterType,
 };
-use php_value::vectors::{base64, decode};
-use php_value::{Key, PhpArray, PhpString, Value};
 use serde_json::Value as Json;
 
 pub fn data() -> &'static Json {

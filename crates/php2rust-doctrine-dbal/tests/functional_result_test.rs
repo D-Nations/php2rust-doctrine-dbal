@@ -13,8 +13,8 @@
 mod connection_support;
 
 use connection_support::{no_types, none, sql, sqlite};
-use php2rust_doctrine_dbal::{Exception, Result};
 use php_value::{PhpArray, Value};
+use php2rust_doctrine_dbal::{Exception, Result};
 
 fn false_or(row: Option<PhpArray>) -> Value {
     row.map_or(Value::Bool(false), Value::Array)

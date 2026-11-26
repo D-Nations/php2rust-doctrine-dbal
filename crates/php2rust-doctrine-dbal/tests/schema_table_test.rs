@@ -19,13 +19,13 @@ mod schema_support;
 
 use std::sync::Arc;
 
+use php_value::{PhpArray, Value, php_array};
 use php2rust_doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{
     Column, ForeignKeyConstraint, Index, IndexType, PrimaryKeyConstraint, Table, TableEditor,
     UniqueConstraint,
 };
 use php2rust_doctrine_dbal::types::{self, Type, Types};
-use php_value::{PhpArray, Value, php_array};
 use schema_support::{expect_deprecation, expect_exception, expect_no_deprecation};
 
 const SCHEMA_EXCEPTION: &str = "Doctrine\\DBAL\\Schema\\SchemaException";

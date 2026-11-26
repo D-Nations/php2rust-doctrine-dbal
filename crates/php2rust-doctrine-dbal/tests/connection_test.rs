@@ -20,8 +20,10 @@ mod connection_support;
 use connection_support::{
     Script, TestDriver, array, i, list, named_types, no_types, none, positional_types, s,
 };
-use php2rust_doctrine_dbal::{Connection, DriverManager, Exception, ParameterType, WrapperParameterType};
 use php_value::{PhpArray, Value};
+use php2rust_doctrine_dbal::{
+    Connection, DriverManager, Exception, ParameterType, WrapperParameterType,
+};
 
 fn connection_params() -> PhpArray {
     array([

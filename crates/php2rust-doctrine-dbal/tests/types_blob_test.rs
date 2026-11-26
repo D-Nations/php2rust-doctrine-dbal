@@ -14,8 +14,8 @@
 
 mod types_support;
 
-use php2rust_doctrine_dbal::types::{BlobType, Type};
 use php_value::Value;
+use php2rust_doctrine_dbal::types::{BlobType, Type};
 use types_support::StubPlatform;
 
 #[test]

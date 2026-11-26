@@ -12,9 +12,9 @@
 mod connection_support;
 
 use connection_support::{array, data, s};
-use php2rust_doctrine_dbal::tools::DsnParser;
 use php_value::Value;
 use php_value::vectors::decode;
+use php2rust_doctrine_dbal::tools::DsnParser;
 
 /// `ksort()` both, then `assertSame()`.
 fn assert_same_sorted(name: &str, expected: &php_value::PhpArray, actual: &php_value::PhpArray) {

@@ -16,9 +16,9 @@
 mod connection_support;
 
 use connection_support::{assert_outcome, data, no_types, none, sqlite, text};
-use php2rust_doctrine_dbal::{Exception, ParameterType};
 use php_value::vectors::decode;
 use php_value::{Key, PhpArray, Value};
+use php2rust_doctrine_dbal::{Exception, ParameterType};
 
 fn rows(rows: Vec<PhpArray>) -> Value {
     Value::Array(PhpArray::list(rows.into_iter().map(Value::Array)))
@@ -203,7 +203,8 @@ async fn connectErrors() {
         ]),
     ];
     for (params, expected) in params.into_iter().zip(cases) {
-        let connection = php2rust_doctrine_dbal::DriverManager::get_connection(params, None).unwrap();
+        let connection =
+            php2rust_doctrine_dbal::DriverManager::get_connection(params, None).unwrap();
         let outcome = connection
             .execute_query("SELECT 1", &none(), &no_types())
             .await

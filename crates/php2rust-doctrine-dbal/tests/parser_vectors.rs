@@ -20,10 +20,10 @@ mod common;
 use std::convert::Infallible;
 
 use common::{array, bytes, data, types};
-use php2rust_doctrine_dbal::sql::{Parser, Visitor};
-use php2rust_doctrine_dbal::{ExpandArrayParameters, WrapperParameterType};
 use php_value::vectors::{base64, decode, phpunit_equals};
 use php_value::{PhpArray, Value};
+use php2rust_doctrine_dbal::sql::{Parser, Visitor};
+use php2rust_doctrine_dbal::{ExpandArrayParameters, WrapperParameterType};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Call {

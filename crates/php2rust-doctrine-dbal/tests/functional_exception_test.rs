@@ -15,8 +15,8 @@
 mod connection_support;
 
 use connection_support::{array, ddl, drop_and_create_table, i, no_types, none, s, sqlite};
-use php2rust_doctrine_dbal::{DriverManager, Exception};
 use php_value::Value;
+use php2rust_doctrine_dbal::{DriverManager, Exception};
 
 #[tokio::test]
 async fn testPrimaryConstraintViolationException() {

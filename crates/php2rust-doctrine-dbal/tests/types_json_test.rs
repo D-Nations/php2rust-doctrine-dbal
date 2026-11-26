@@ -16,9 +16,9 @@ mod common;
 mod types_support;
 
 use common::{bytes, provider};
+use php_value::{PhpArray, PhpString, Value, php_array, vectors::phpunit_equals};
 use php2rust_doctrine_dbal::ParameterType;
 use php2rust_doctrine_dbal::types::{ConversionError, JsonType, Type};
-use php_value::{PhpArray, PhpString, Value, php_array, vectors::phpunit_equals};
 use types_support::StubPlatform;
 
 fn set_up() -> (StubPlatform, JsonType) {

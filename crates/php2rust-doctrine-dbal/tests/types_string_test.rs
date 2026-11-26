@@ -14,8 +14,8 @@
 
 mod types_support;
 
-use php2rust_doctrine_dbal::types::{StringType, Type};
 use php_value::{PhpArray, PhpString, Value};
+use php2rust_doctrine_dbal::types::{StringType, Type};
 use types_support::StubPlatform;
 
 #[test]

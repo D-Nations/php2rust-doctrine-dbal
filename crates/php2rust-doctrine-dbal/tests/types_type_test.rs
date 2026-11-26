@@ -17,12 +17,12 @@ mod common;
 use std::sync::Arc;
 
 use common::{bytes, provider};
+use php_value::{PhpArray, PhpString, Thrown};
 use php2rust_doctrine_dbal::exception::Exception;
 use php2rust_doctrine_dbal::platforms::AbstractPlatform;
 use php2rust_doctrine_dbal::types::{
     Type, TypeArgument, TypeClass, TypesException, add_type, get_type, has_type, lookup_name,
 };
-use php_value::{PhpArray, PhpString, Thrown};
 
 /// `TypeWithConstructor`: a type whose constructor requires an argument.
 #[derive(Debug)]

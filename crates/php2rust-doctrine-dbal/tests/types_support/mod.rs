@@ -13,12 +13,12 @@
 
 use std::{cell::RefCell, collections::HashMap};
 
-use php2rust_doctrine_dbal::{exception::Exception, platforms::AbstractPlatform};
 use php_value::{
     PhpArray, PhpString, Value,
     datetime::{DateTime, DateTimeImmutable},
     vectors::decode,
 };
+use php2rust_doctrine_dbal::{exception::Exception, platforms::AbstractPlatform};
 use serde_json::Value as Json;
 
 /// `createStub(AbstractPlatform::class)`.
