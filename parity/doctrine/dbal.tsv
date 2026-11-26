@@ -437,23 +437,23 @@ tests/Functional/ResultTest.php	ResultTest::testExceptionHandling	ported	crates/
 tests/Functional/SQL/Builder/CreateAndDropSchemaObjectsSQLBuilderTest.php	CreateAndDropSchemaObjectsSQLBuilderTest::testCreateAndDropTablesWithCircularForeignKeys	pending	
 tests/Functional/SQL/ParserTest.php	ParserTest::testMySQLEscaping	pending	
 tests/Functional/SQL/ParserTest.php	ParserTest::testPostgreSQLJSONBQuestionOperator	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNewColumnToPrimaryKey	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNonAutoincrementColumnToPrimaryKeyWithAutoincrementColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddPrimaryKeyOnExistingColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddPrimaryKeyOnNewAutoIncrementColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAlterPrimaryKeyFromAutoincrementToNonAutoincrementColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testDropNonAutoincrementColumnFromCompositePrimaryKeyWithAutoincrementColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testDropPrimaryKeyWithAutoincrementColumn	pending	
-tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testReplaceForeignKeyConstraint	pending	
-tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testAddColumnWithComment	pending	
-tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testAlterColumnComment	pending	
-tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testColumnComment	pending	
-tests/Functional/Schema/ColumnRenameTest.php	ColumnRenameTest::testRenameColumnInForeignKeyConstraint	pending	
-tests/Functional/Schema/ColumnRenameTest.php	ColumnRenameTest::testRenameColumnInIndex	pending	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNewColumnToPrimaryKey	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_alter_table_test.rs::testAddNewColumnToPrimaryKey
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNonAutoincrementColumnToPrimaryKeyWithAutoincrementColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite does not support auto-increment columns as part of composite primary key constraint)	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddPrimaryKeyOnExistingColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite will automatically set up auto-increment behavior on the primary key column, which this test does not expect.)	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddPrimaryKeyOnNewAutoIncrementColumn	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_alter_table_test.rs::testAddPrimaryKeyOnNewAutoIncrementColumn
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAlterPrimaryKeyFromAutoincrementToNonAutoincrementColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite does not support auto-increment columns that are not part the primary key constraint)	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testDropNonAutoincrementColumnFromCompositePrimaryKeyWithAutoincrementColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite does not support auto-increment columns as part of composite primary key constraint)	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testDropPrimaryKeyWithAutoincrementColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite does not support auto-increment columns as part of composite primary key constraint)	
+tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testReplaceForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_alter_table_test.rs::testReplaceForeignKeyConstraint
+tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testAddColumnWithComment	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_column_comment_test.rs::testAddColumnWithComment
+tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testAlterColumnComment	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_column_comment_test.rs::testAlterColumnComment
+tests/Functional/Schema/ColumnCommentTest.php	ColumnCommentTest::testColumnComment	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_column_comment_test.rs::testColumnComment
+tests/Functional/Schema/ColumnRenameTest.php	ColumnRenameTest::testRenameColumnInForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_column_rename_test.rs::testRenameColumnInForeignKeyConstraint
+tests/Functional/Schema/ColumnRenameTest.php	ColumnRenameTest::testRenameColumnInIndex	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_column_rename_test.rs::testRenameColumnInIndex
 tests/Functional/Schema/ComparatorTest.php	ComparatorTest::testDefaultValueComparison	pending	
 tests/Functional/Schema/ComparatorTest.php	ComparatorTest::testFloatDefaultValueComparisonConverges	pending	
 tests/Functional/Schema/ComparatorTest.php	ComparatorTest::testRenameColumnComparison	pending	
-tests/Functional/Schema/CustomIntrospectionTest.php	CustomIntrospectionTest::testCustomColumnIntrospection	pending	
+tests/Functional/Schema/CustomIntrospectionTest.php	CustomIntrospectionTest::testCustomColumnIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_custom_introspection_test.rs::testCustomColumnIntrospection
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testAlterTableScenario	pending	
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	
@@ -497,13 +497,13 @@ tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testSwitc
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testTableInNamespace	pending	
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testTableWithSchema	pending	
 tests/Functional/Schema/Db2SchemaManagerTest.php	Db2SchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	
-tests/Functional/Schema/DefaultValueTest.php	DefaultValueTest::testEscapedDefaultValueCanBeInserted	pending	
-tests/Functional/Schema/DefaultValueTest.php	DefaultValueTest::testEscapedDefaultValueCanBeIntrospected	pending	
-tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testColumnIntrospection	pending	
-tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testDeferrabilityIntrospection	pending	
-tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnDeleteIntrospection	pending	
-tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnUpdateIntrospection	pending	
-tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testUnnamedForeignKeyConstraint	pending	
+tests/Functional/Schema/DefaultValueTest.php	DefaultValueTest::testEscapedDefaultValueCanBeInserted	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_default_value_test.rs::testEscapedDefaultValueCanBeInserted
+tests/Functional/Schema/DefaultValueTest.php	DefaultValueTest::testEscapedDefaultValueCanBeIntrospected	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_default_value_test.rs::testEscapedDefaultValueCanBeIntrospected
+tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testColumnIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testColumnIntrospection
+tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testDeferrabilityIntrospection	n/a: upstream does not run it on SQLite (markTestIncomplete: Not all combinations of options are currently properly introspected on SQLite.)	
+tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnDeleteIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testOnDeleteIntrospection
+tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnUpdateIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testOnUpdateIntrospection
+tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testUnnamedForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testUnnamedForeignKeyConstraint
 tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCharsetAndCollation	pending	
 tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCollation	pending	
 tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testExplicitDefaultCollation	pending	
@@ -2295,12 +2295,12 @@ tests/SQL/ParserTest.php	ParserTest::testStatementsWithParameters	ported	crates/
 tests/SQL/ParserTest.php	ParserTest::testStatementsWithoutParameters	ported	crates/php2rust-doctrine-dbal/tests/parser_test.rs::testStatementsWithoutParameters
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testConstructWithoutArguments	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testConstructWithoutArguments
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testCreateParserNotImplemented	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testCreateParserNotImplemented
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	pending	
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	pending	
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	pending	needs the Oracle, PostgreSQL and MySQL platforms
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	pending	needs the MySQL, Oracle and PostgreSQL platforms
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testEmptyName
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testSetAccessToUninitializedName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testSetAccessToUninitializedName
 tests/Schema/AbstractOptionallyNamedObjectTest.php	AbstractOptionallyNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_optionally_named_object_test.rs::testEmptyName
-tests/Schema/AbstractOptionallyNamedObjectTest.php	AbstractOptionallyNamedObjectTest::testSetAccessToUninitializedName	pending	
+tests/Schema/AbstractOptionallyNamedObjectTest.php	AbstractOptionallyNamedObjectTest::testSetAccessToUninitializedName	pending	its subclass skips parent::__construct(), which AbstractAsset::new() cannot do
 tests/Schema/Collections/OptionallyUnqualifiedNamedObjectSetTest.php	OptionallyUnqualifiedNamedObjectSetTest::testAdd	ported	crates/php2rust-doctrine-dbal/tests/schema_collections_optionally_unqualified_named_object_set_test.rs::testAdd
 tests/Schema/Collections/OptionallyUnqualifiedNamedObjectSetTest.php	OptionallyUnqualifiedNamedObjectSetTest::testAddExistingObject	ported	crates/php2rust-doctrine-dbal/tests/schema_collections_optionally_unqualified_named_object_set_test.rs::testAddExistingObject
 tests/Schema/Collections/OptionallyUnqualifiedNamedObjectSetTest.php	OptionallyUnqualifiedNamedObjectSetTest::testGetExistingObject	ported	crates/php2rust-doctrine-dbal/tests/schema_collections_optionally_unqualified_named_object_set_test.rs::testGetExistingObject
@@ -2346,7 +2346,7 @@ tests/Schema/ColumnTest.php	ColumnTest::testGetTypeNameIsNotDeprecated	ported	cr
 tests/Schema/ColumnTest.php	ColumnTest::testIsQuoted	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testIsQuoted
 tests/Schema/ColumnTest.php	ColumnTest::testOptionsShouldNotBeIgnored	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testOptionsShouldNotBeIgnored
 tests/Schema/ColumnTest.php	ColumnTest::testPassingTypeInstanceToConstructorIsDeprecated	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testPassingTypeInstanceToConstructorIsDeprecated
-tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	pending	
+tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	pending	needs the MySQL and SQL Server platforms
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionsJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionsJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSettingUnknownOptionIsStillSupported	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSettingUnknownOptionIsStillSupported
@@ -2584,7 +2584,7 @@ tests/Schema/TableTest.php	TableTest::testAddIndexes	ported	crates/php2rust-doct
 tests/Schema/TableTest.php	TableTest::testAddPrimaryKeyColumnsAreExplicitlySetToNotNull	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddPrimaryKeyColumnsAreExplicitlySetToNotNull
 tests/Schema/TableTest.php	TableTest::testAddTwoIndexesWithSameNameThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddTwoIndexesWithSameNameThrowsException
 tests/Schema/TableTest.php	TableTest::testAddTwoPrimaryThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddTwoPrimaryThrowsException
-tests/Schema/TableTest.php	TableTest::testAddingFulfillingExplicitIndexOverridingImplicitForeignKeyConstraintIndexWithSameName	pending	
+tests/Schema/TableTest.php	TableTest::testAddingFulfillingExplicitIndexOverridingImplicitForeignKeyConstraintIndexWithSameName	pending	assertNotSame() on two equal Index values has no Rust counterpart
 tests/Schema/TableTest.php	TableTest::testAddingFulfillingPrimaryKeyOverridesImplicitForeignKeyConstraintIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddingFulfillingPrimaryKeyOverridesImplicitForeignKeyConstraintIndex
 tests/Schema/TableTest.php	TableTest::testAddingFulfillingRegularIndexOverridesImplicitForeignKeyConstraintIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddingFulfillingRegularIndexOverridesImplicitForeignKeyConstraintIndex
 tests/Schema/TableTest.php	TableTest::testAddingFulfillingUniqueIndexOverridesImplicitForeignKeyConstraintIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testAddingFulfillingUniqueIndexOverridesImplicitForeignKeyConstraintIndex
@@ -2632,8 +2632,8 @@ tests/Schema/TableTest.php	TableTest::testOverrulingIndexDoesNotDropOverruledInd
 tests/Schema/TableTest.php	TableTest::testOverwritingForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testOverwritingForeignKeyConstraint
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyConstraintIsDerivedFromIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyConstraintIsDerivedFromIndex
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex
-tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	pending	
-tests/Schema/TableTest.php	TableTest::testQuotedTableName	pending	
+tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	pending	needs the MySQL platform
+tests/Schema/TableTest.php	TableTest::testQuotedTableName	pending	needs the MySQL platform
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraint
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraintUnknownNameThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraintUnknownNameThrowsException
 tests/Schema/TableTest.php	TableTest::testRenameColumn	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRenameColumn
