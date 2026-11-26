@@ -112,7 +112,7 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
-    fn class(&self) -> &str {
+    fn class(&self) -> &'static str {
         "MockObject_MetadataProvider"
     }
 }

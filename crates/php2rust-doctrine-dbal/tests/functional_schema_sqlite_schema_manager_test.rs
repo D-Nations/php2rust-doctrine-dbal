@@ -14,6 +14,7 @@
     reason = "test helpers; a panic is a test failure"
 )]
 #![allow(non_snake_case)]
+#![allow(clippy::similar_names, reason = "the names are upstream's")]
 
 mod schema_manager_support;
 
@@ -224,7 +225,7 @@ async fn testListTableColumnsWithMixedCaseInTypeDeclarations() {
     assert_eq!(Types::TEXT, columns[1].get_type_name());
 }
 
-/// SQLiteSchemaManagerTest's own `testPrimaryKeyAutoIncrement()`, which
+/// `SQLiteSchemaManagerTest`'s own `testPrimaryKeyAutoIncrement()`, which
 /// overrides the parent's.
 #[tokio::test]
 async fn testPrimaryKeyAutoIncrement() {
@@ -1303,7 +1304,7 @@ async fn testRenameTable() {
     assert!(sm.tables_exist(&["new_name"]).await.unwrap());
 }
 
-/// `createListTableColumns()`, with SQLiteSchemaManagerTest's
+/// `createListTableColumns()`, with `SQLiteSchemaManagerTest`'s
 /// autoincrement `id`.
 fn create_list_table_columns() -> Table {
     let mut table = Table::editor()
@@ -2234,7 +2235,7 @@ async fn testColumnDefaultLifecycle() {
     assert!(columns[4].get_default().is_null());
 }
 
-/// SQLite stores BINARY and VARBINARY columns as BLOB (the test's
+/// `SQLite` stores BINARY and VARBINARY columns as BLOB (the test's
 /// `assertBinaryColumnIsValid()` and `assertVarBinaryColumnIsValid()`
 /// overrides).
 #[tokio::test]

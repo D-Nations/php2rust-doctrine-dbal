@@ -76,7 +76,9 @@ pub fn column(name: &str, type_name: &str) -> ColumnEditor {
         .set_type_name(type_name)
 }
 
-/// A primary key constraint on the unquoted column names.
+/// A primary key constraint on the unquoted column names, as
+/// `setPrimaryKeyConstraint()` takes it.
+#[allow(clippy::unnecessary_wraps, reason = "the editor takes an Option")]
 pub fn primary_key(columns: &[&str]) -> Option<PrimaryKeyConstraint> {
     Some(
         PrimaryKeyConstraint::editor()
@@ -269,7 +271,9 @@ pub fn to_quoted_foreign_key(constraint: &ForeignKeyConstraint) -> ForeignKeyCon
         .set_referenced_table_name(
             OptionallyQualifiedName::quoted(
                 table.get_unqualified_name().get_value(),
-                table.get_qualifier().map(|q| q.get_value()),
+                table
+                    .get_qualifier()
+                    .map(php2rust_doctrine_dbal::schema::name::Identifier::get_value),
             )
             .unwrap(),
         )
