@@ -720,6 +720,11 @@ impl Table {
             .ok_or_else(|| exception::column_does_not_exist(&name, &table_name))
     }
 
+    // Slice Comparator: the columns a platform comparator normalizes.
+    pub(crate) fn columns_mut(&mut self) -> impl Iterator<Item = &mut Column> {
+        self.columns.values_mut()
+    }
+
     /// `getPrimaryKey()` (deprecated).
     pub fn get_primary_key(&self) -> Option<&Index> {
         deprecations::trigger_if_called_from_outside(

@@ -381,7 +381,7 @@ impl Column {
         self
     }
 
-    fn set_platform_options_inner(&mut self, platform_options: PhpArray) {
+    pub(crate) fn set_platform_options_inner(&mut self, platform_options: PhpArray) {
         self.platform_options = platform_options;
     }
 

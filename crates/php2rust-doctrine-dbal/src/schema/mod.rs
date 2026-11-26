@@ -9,6 +9,9 @@ mod collections;
 mod column;
 mod column_diff;
 mod column_editor;
+// Slice Comparator.
+mod comparator;
+mod comparator_config;
 mod default_expression;
 pub mod exception;
 mod foreign_key_constraint;
@@ -35,6 +38,9 @@ pub(crate) use column::array_merge_into as column_array_merge;
 pub use column::{Column, ColumnType, TypeObject};
 pub use column_diff::ColumnDiff;
 pub use column_editor::ColumnEditor;
+// Slice Comparator.
+pub use comparator::Comparator;
+pub use comparator_config::ComparatorConfig;
 pub use default_expression::{
     CurrentDate, CurrentTime, CurrentTimestamp, DefaultExpression, DefaultExpressionObject,
 };
