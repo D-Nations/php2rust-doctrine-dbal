@@ -9,10 +9,10 @@
 
 use php_value::{Key, PhpArray, Value};
 use php2rust_doctrine_dbal::platforms::AbstractPlatform;
-use php2rust_doctrine_dbal::schema::name::UnqualifiedName;
+use php2rust_doctrine_dbal::schema::name::{OptionallyQualifiedName, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{
-    AbstractSchemaManager, Column, ColumnEditor, ForeignKeyConstraint, Index, PrimaryKeyConstraint,
-    SQLiteSchemaManager, Table,
+    AbstractSchemaManager, Column, ColumnEditor, ForeignKeyConstraint, Index, IndexedColumn,
+    PrimaryKeyConstraint, SQLiteSchemaManager, Table,
 };
 use php2rust_doctrine_dbal::types::Types;
 use php2rust_doctrine_dbal::{Configuration, Connection, DriverManager, Exception, ParameterTypes};
@@ -199,22 +199,94 @@ pub fn lower(names: Vec<String>) -> Vec<String> {
     names.into_iter().map(|n| n.to_lowercase()).collect()
 }
 
-/// `assertIndexEquals($expected, $actual)`: the name, the columns, the
-/// type and the predicate.
+/// `toQuotedUnqualifiedName($name)`: `SQLite` does not fold.
+pub fn to_quoted_unqualified_name(name: &UnqualifiedName) -> UnqualifiedName {
+    UnqualifiedName::quoted(name.get_identifier().get_value()).unwrap()
+}
+
+/// `toQuotedIndex($index)`.
+pub fn to_quoted_index(index: &Index) -> Index {
+    let columns = index
+        .get_indexed_columns()
+        .unwrap()
+        .iter()
+        .map(|column| {
+            IndexedColumn::new(
+                to_quoted_unqualified_name(column.get_column_name()),
+                column.get_length(),
+            )
+            .unwrap()
+        })
+        .collect();
+    index
+        .edit()
+        .unwrap()
+        .set_name(Some(to_quoted_unqualified_name(
+            &index.get_object_name().unwrap(),
+        )))
+        .set_columns(columns)
+        .create()
+        .unwrap()
+}
+
+/// `assertIndexEquals($expected, $actual)`.
 pub fn assert_index_equals(expected: &Index, actual: &Index) {
-    assert_eq!(
-        expected.get_object_name().unwrap().to_string(),
-        actual.get_object_name().unwrap().to_string()
-    );
-    assert_eq!(
-        format!("{:?}", expected.get_indexed_columns().unwrap()),
-        format!("{:?}", actual.get_indexed_columns().unwrap())
-    );
-    assert_eq!(expected.get_type().unwrap(), actual.get_type().unwrap());
-    assert_eq!(
-        expected.get_predicate().unwrap(),
-        actual.get_predicate().unwrap()
-    );
+    assert_eq!(to_quoted_index(expected), to_quoted_index(actual));
+}
+
+/// `assertIndexListEquals($expected, $actual)`: sorted by name.
+pub fn assert_index_list_equals(expected: &[Index], actual: &[Index]) {
+    let sorted = |indexes: &[Index]| {
+        let mut quoted: Vec<Index> = indexes.iter().map(to_quoted_index).collect();
+        quoted.sort_by_key(|index| {
+            index
+                .get_object_name()
+                .unwrap()
+                .get_identifier()
+                .get_value()
+                .to_owned()
+        });
+        quoted
+    };
+    assert_eq!(sorted(expected), sorted(actual));
+}
+
+/// `toQuotedForeignKeyConstraint($constraint)`.
+pub fn to_quoted_foreign_key(constraint: &ForeignKeyConstraint) -> ForeignKeyConstraint {
+    let names = |names: &[UnqualifiedName]| names.iter().map(to_quoted_unqualified_name).collect();
+    let table = constraint.get_referenced_table_name().unwrap();
+    constraint
+        .edit()
+        .unwrap()
+        .set_name(
+            constraint
+                .get_object_name()
+                .unwrap()
+                .as_ref()
+                .map(to_quoted_unqualified_name),
+        )
+        .set_referencing_column_names(names(constraint.get_referencing_column_names().unwrap()))
+        .set_referenced_table_name(
+            OptionallyQualifiedName::quoted(
+                table.get_unqualified_name().get_value(),
+                table.get_qualifier().map(|q| q.get_value()),
+            )
+            .unwrap(),
+        )
+        .set_referenced_column_names(names(constraint.get_referenced_column_names().unwrap()))
+        .create()
+        .unwrap()
+}
+
+/// `assertForeignKeyConstraintListEquals($expected, $actual)`.
+pub fn assert_foreign_key_constraint_list_equals(
+    expected: &[&ForeignKeyConstraint],
+    actual: &[&ForeignKeyConstraint],
+) {
+    let quoted = |list: &[&ForeignKeyConstraint]| -> Vec<ForeignKeyConstraint> {
+        list.iter().map(|fk| to_quoted_foreign_key(fk)).collect()
+    };
+    assert_eq!(quoted(expected), quoted(actual));
 }
 
 /// The `ForeignKeyConstraint` fields `assertEquals()` compares.
