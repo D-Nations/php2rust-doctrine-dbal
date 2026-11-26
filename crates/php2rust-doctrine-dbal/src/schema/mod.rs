@@ -4,11 +4,17 @@
 //! Upstream: none
 
 mod abstract_asset;
+// Slice SchemaManager.
+mod abstract_schema_manager;
 mod array_map;
 mod collections;
 mod column;
 mod column_diff;
 mod column_editor;
+pub mod introspection;
+pub mod metadata;
+mod schema_manager_factory;
+mod sqlite_schema_manager;
 // Slice Comparator.
 mod comparator;
 mod comparator_config;
@@ -37,6 +43,8 @@ mod view;
 mod view_editor;
 
 pub use abstract_asset::{AbstractAsset, AssetKind, NameParser};
+// Slice SchemaManager.
+pub use abstract_schema_manager::{AbstractSchemaManager, Row};
 pub use array_map::ArrayMap;
 pub use collections::{
     CollectionError, NamedObject, OptionallyNamedObject, OptionallyUnqualifiedNamedObjectSet,
@@ -46,6 +54,8 @@ pub(crate) use column::array_merge_into as column_array_merge;
 pub use column::{Column, ColumnType, TypeObject};
 pub use column_diff::ColumnDiff;
 pub use column_editor::ColumnEditor;
+pub use schema_manager_factory::{DefaultSchemaManagerFactory, SchemaManagerFactory};
+pub use sqlite_schema_manager::SQLiteSchemaManager;
 // Slice Comparator.
 pub use comparator::Comparator;
 pub use comparator_config::ComparatorConfig;

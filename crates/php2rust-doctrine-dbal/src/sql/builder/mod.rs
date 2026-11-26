@@ -9,3 +9,8 @@ mod with_sql_builder;
 pub use select_sql_builder::{DefaultSelectSQLBuilder, SelectSQLBuilder};
 pub use union_sql_builder::{DefaultUnionSQLBuilder, UnionSQLBuilder};
 pub use with_sql_builder::WithSQLBuilder;
+
+// Slice SchemaManager.
+mod schema_objects_sql_builder;
+
+pub use schema_objects_sql_builder::{CreateSchemaObjectsSQLBuilder, DropSchemaObjectsSQLBuilder};

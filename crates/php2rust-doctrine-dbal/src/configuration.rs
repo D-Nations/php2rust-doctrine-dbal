@@ -1,20 +1,46 @@
 //! Port of Doctrine\DBAL\Configuration.php: what the connection reads of
-//! it. The result cache, the schema assets filter, the schema manager
-//! factory and the driver middlewares are not ported yet (their
-//! components are not).
+//! it. The result cache, the schema manager factory and the driver
+//! middlewares are not ported yet (their components are not). The schema
+//! assets filter is a `Fn(&str) -> bool` (PHP's callable takes the asset
+//! name); configurations compare it by identity.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
 //! Upstream: doctrine/dbal src/Configuration.php
 
+use std::fmt;
+use std::sync::Arc;
+
 use crate::Exception;
 
+/// The callable that filters schema assets by name.
+pub type SchemaAssetsFilter = Arc<dyn Fn(&str) -> bool + Send + Sync>;
+
 /// Configuration container for the Doctrine DBAL.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone)]
 pub struct Configuration {
     /// The default auto-commit mode for connections.
     auto_commit: bool,
+    // Slice SchemaManager: the callable to use to filter schema assets.
+    schema_assets_filter: SchemaAssetsFilter,
 }
+
+impl fmt::Debug for Configuration {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Configuration")
+            .field("auto_commit", &self.auto_commit)
+            .finish_non_exhaustive()
+    }
+}
+
+impl PartialEq for Configuration {
+    fn eq(&self, other: &Self) -> bool {
+        self.auto_commit == other.auto_commit
+            && Arc::ptr_eq(&self.schema_assets_filter, &other.schema_assets_filter)
+    }
+}
+
+impl Eq for Configuration {}
 
 impl Default for Configuration {
     fn default() -> Self {
@@ -24,7 +50,22 @@ impl Default for Configuration {
 
 impl Configuration {
     pub fn new() -> Self {
-        Self { auto_commit: true }
+        Self {
+            auto_commit: true,
+            schema_assets_filter: Arc::new(|_| true),
+        }
+    }
+
+    // Slice SchemaManager.
+
+    /// Sets the callable to use to filter schema assets.
+    pub fn set_schema_assets_filter(&mut self, schema_assets_filter: SchemaAssetsFilter) {
+        self.schema_assets_filter = schema_assets_filter;
+    }
+
+    /// Returns the callable to use to filter schema assets.
+    pub fn get_schema_assets_filter(&self) -> &SchemaAssetsFilter {
+        &self.schema_assets_filter
     }
 
     /// Sets the default auto-commit mode for connections.

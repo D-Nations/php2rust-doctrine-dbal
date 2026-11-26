@@ -38,7 +38,7 @@ pub mod schema;
 pub use transaction_isolation_level::{LockMode, TransactionIsolationLevel};
 
 pub use array_parameter_type::ArrayParameterType;
-pub use configuration::Configuration;
+pub use configuration::{Configuration, SchemaAssetsFilter};
 pub use connection::Connection;
 pub use connection_stand_in::ConnectionStandIn;
 pub use driver_manager::{DriverClass, DriverManager, PDO_SQLITE_DRIVER};

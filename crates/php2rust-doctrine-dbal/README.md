@@ -49,6 +49,7 @@ assert_eq!(visitor.get_parameters(), &[Value::Int(1), Value::Int(2)]);
 | Schema value objects: names and their parser, `AbstractAsset` (and its named subclasses), `Identifier`, `Column`, `ColumnDiff`, `Index`, `IndexedColumn`, `UniqueConstraint`, `ForeignKeyConstraint` (match type, referential actions, deferrability), `PrimaryKeyConstraint`, `Table`, `TableDiff`, `SchemaConfig`, their editors, the named object sets and the Schema exceptions | `Schema/*.php` (not `Comparator.php`, `ComparatorConfig.php` or the schema managers), `Schema/Name/**`, `Schema/Collections/**`, `Schema/Exception/*.php` | 292 tests of the Schema test classes (`tests/schema_*_test.rs`): TableTest 81 of 84, TableEditorTest 38, IndexTest 28, ForeignKeyConstraintEditorTest 18, ForeignKeyConstraintTest 16, ColumnTest 14 of 15, the Collections, Name, editor and constraint tests |
 | `Comparator::compareSchemas()` (created and dropped namespaces, tables and sequences by their shortest names, altered tables and sequences, auto-increment sequences left out), `diffSequence()`, `compareTables()` (added, dropped, changed and renamed columns, explicit renames, added, dropped, modified and renamed indexes with the ambiguity rules, foreign keys compared by properties, the modified-indexes deprecation), `ComparatorConfig`, and the SQLite comparator that ignores an explicit `BINARY` collation | `Schema/Comparator.php`, `Schema/ComparatorConfig.php`, `Platforms/SQLite/Comparator.php` | SQLite ComparatorTest with the inherited AbstractComparatorTestCase tests (42 of 43; the other upstream does not run on SQLite; `tests/platforms_sqlite_comparator_test.rs`) |
 | `Schema` (tables and sequences by case-insensitive, namespace-resolved name, implicit and deprecated explicit namespaces, the deprecated `createTable()`/`renameTable()`/`dropTable()`/`createSequence()`/`dropSequence()`, the qualified/unqualified name deprecations, deep `clone`), `SchemaEditor` (default namespace, add/modify/rename/drop of tables and sequences, uniform qualification), `Sequence` (`isAutoIncrementsFor()`), `View`, their editors, `SchemaDiff`, and the `InvalidSchemaModification`, `ImproperlyQualifiedName`, `InvalidSequenceDefinition`, `InvalidViewDefinition`, `NamespaceAlreadyExists`, `Sequence`/`Table` `AlreadyExists`/`DoesNotExist` messages | `Schema/{Schema,SchemaEditor,SchemaDiff,Sequence,SequenceEditor,View,ViewEditor}.php`, `Schema/Exception/*.php` | SchemaTest (28), SchemaEditorTest (28), SequenceTest (5), SequenceEditorTest (5), ViewTest (3), ViewEditorTest (5) |
+| Schema managers on `SQLite`: `Connection::createSchemaManager()` through `DefaultSchemaManagerFactory`, `AbstractSchemaManager` (the deprecated `list*()`/`introspectTable()` and the `introspect*()` methods, `tablesExist()`, the schema assets filter, `introspectSchema()`, `createSchemaConfig()`, the `create*()`/`drop*()`/`alter*()`/`renameTable()` methods, `migrateSchema()`), `SQLiteSchemaManager` (PHP's SQL and regular expressions for collations, comments, `WITHOUT ROWID`, foreign key details and the shorthand foreign key form), `SQLiteMetadataProvider`, `IntrospectingSchemaProvider` with its processors, the `Metadata` rows, `Schema::toSql()`/`toDropSql()` with the `Create`/`DropSchemaObjectsSQLBuilder`, `getAlterSchemaSQL()`, the `UnsupportedName`/`UnsupportedSchema` messages | `Schema/{AbstractSchemaManager,SQLiteSchemaManager,SchemaManagerFactory,DefaultSchemaManagerFactory}.php`, `Platforms/SQLite/SQLiteMetadataProvider*.php`, `Schema/Introspection/**`, `Schema/Metadata/**`, `SQL/Builder/{Create,Drop}SchemaObjectsSQLBuilder.php`, `Schema/Exception/Unsupported{Name,Schema}.php` | Functional SQLiteSchemaManagerTest with the inherited SchemaManagerFunctionalTestCase tests (54 of 65; the other 11 upstream does not run on SQLite; `tests/functional_schema_sqlite_schema_manager_test.rs`), functional SchemaManagerTest (15 of 22; the other 7 upstream skips on SQLite), IntrospectingSchemaProviderTest (2), the two metadata row tests |
 
 Vectors: `scripts/record.sh dbal` runs `oracle/recorders/doctrine_dbal.php`
 and writes `tests/data/php.json`: the upstream data providers, the
@@ -210,8 +211,10 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   platform is known without the database only for a driver that does not
   read the server version (the `SQLite` driver does not).
 - Not ported: the result cache (`executeCacheQuery()`,
-  `QueryCacheProfile`), the schema manager (`createSchemaManager()`, its
-  ConnectionTest tests pending), `getNativeConnection()`, middlewares,
+  `QueryCacheProfile`), `Configuration::setSchemaManagerFactory()`
+  (`createSchemaManager()` uses the default factory; ConnectionTest's two
+  factory tests stay pending, the other also needs the `sqlite3` driver),
+  `getNativeConnection()`, middlewares,
   the deprecation notices. A `BlobType` stream cannot be read
   (StatementTest `testFetchLongBlob` pending).
 - Pending because upstream skips or needs other platforms on `SQLite`:
@@ -273,15 +276,22 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
 - `$options` of `_getCreateTableSQL()` is the `CreateTableOptions` struct
   (the table options plus `primary`, `primary_index`, `indexes`,
   `uniqueConstraints` and `foreignKeys`).
-- Not ported: `createSchemaManager()`, `createMetadataProvider()`,
-  `getAlterSchemaSQL()` and the other `SchemaDiff`, `Sequence` and `View`
-  methods, the `Connection`-taking methods, `Schema::toSql()` and
-  `toDropSql()` (they need the `Create`/`DropSchemaObjectsSQLBuilder`),
-  `Comparator.php` and the schema managers. Their tests (the SQLite
-  ComparatorTest and SQLiteSchemaManagerTest, the introspection and
-  metadata tests) stay pending; so do the AbstractAssetTest, ColumnTest
-  and TableTest tests that need the MySQL, PostgreSQL, Oracle or SQL
-  Server platforms.
+- Not ported: the `SchemaDiff`, `Sequence` and `View` methods of the
+  platforms that `SQLite` does not support (`NotSupported`), and
+  `SchemaEditor::modifyTableByUnquotedName()` (testMigrateSchema edits the
+  table and puts it back). The AbstractAssetTest, ColumnTest and
+  TableTest tests that need the MySQL, PostgreSQL, Oracle or SQL Server
+  platforms stay pending.
+- `AbstractSchemaManager` is a trait (its protected methods are public
+  trait methods) and is not object-safe: a connection hands out the
+  concrete `SQLiteSchemaManager`, whose own methods are
+  `createComparator()` (`create_comparator_with()` for a config) and
+  `migrateSchema()`. The current schema name is not cached (`SQLite` has
+  none). The schema assets filter is a `Configuration` closure set
+  before the connection is made. A PHP regular expression that fails to
+  match (PHP's warning and `false`) is an exception. Unit
+  SQLiteSchemaManagerTest `testListTableForeignKeysDefaultDatabasePassing`
+  stays pending (it stubs `Connection` and intercepts a protected method).
 - AbstractOptionallyNamedObjectTest `testSetAccessToUninitializedName`
   stays pending: it builds a subclass whose constructor skips
   `parent::__construct()`, which `AbstractAsset::new()` cannot do.

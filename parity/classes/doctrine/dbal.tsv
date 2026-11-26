@@ -215,8 +215,8 @@ src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelec
 src/Platforms/SQLServer/SQLServerMetadataProvider.php	SQLServerMetadataProvider	564	pending	
 src/Platforms/SQLServerPlatform.php	SQLServerPlatform	883	pending	
 src/Platforms/SQLite/Comparator.php	Comparator	35	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs
-src/Platforms/SQLite/SQLiteMetadataProvider.php	SQLiteMetadataProvider	582	pending	
-src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	ForeignKeyConstraintDetails	23	pending	
+src/Platforms/SQLite/SQLiteMetadataProvider.php	SQLiteMetadataProvider	582	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs
+src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	ForeignKeyConstraintDetails	23	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs
 src/Platforms/SQLitePlatform.php	SQLitePlatform	713	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite_platform.rs
 src/Platforms/TrimMode.php	TrimMode	9	ported	crates/php2rust-doctrine-dbal/src/platforms/date_interval_unit.rs
 src/Portability/Connection.php	Connection	30	pending	
@@ -245,10 +245,10 @@ src/Query/Union.php	Union	10	ported	crates/php2rust-doctrine-dbal/src/query/unio
 src/Query/UnionQuery.php	UnionQuery	23	ported	crates/php2rust-doctrine-dbal/src/query/union_query.rs
 src/Query/UnionType.php	UnionType	7	ported	crates/php2rust-doctrine-dbal/src/query/union.rs
 src/Result.php	Result	160	ported	crates/php2rust-doctrine-dbal/src/result.rs
-src/SQL/Builder/CreateSchemaObjectsSQLBuilder.php	CreateSchemaObjectsSQLBuilder	43	pending	
+src/SQL/Builder/CreateSchemaObjectsSQLBuilder.php	CreateSchemaObjectsSQLBuilder	43	ported	crates/php2rust-doctrine-dbal/src/sql/builder/schema_objects_sql_builder.rs
 src/SQL/Builder/DefaultSelectSQLBuilder.php	DefaultSelectSQLBuilder	65	ported	crates/php2rust-doctrine-dbal/src/sql/builder/select_sql_builder.rs
 src/SQL/Builder/DefaultUnionSQLBuilder.php	DefaultUnionSQLBuilder	36	ported	crates/php2rust-doctrine-dbal/src/sql/builder/union_sql_builder.rs
-src/SQL/Builder/DropSchemaObjectsSQLBuilder.php	DropSchemaObjectsSQLBuilder	32	pending	
+src/SQL/Builder/DropSchemaObjectsSQLBuilder.php	DropSchemaObjectsSQLBuilder	32	ported	crates/php2rust-doctrine-dbal/src/sql/builder/schema_objects_sql_builder.rs
 src/SQL/Builder/SelectSQLBuilder.php	SelectSQLBuilder	8	ported	crates/php2rust-doctrine-dbal/src/sql/builder/select_sql_builder.rs
 src/SQL/Builder/UnionSQLBuilder.php	UnionSQLBuilder	8	ported	crates/php2rust-doctrine-dbal/src/sql/builder/union_sql_builder.rs
 src/SQL/Builder/WithSQLBuilder.php	WithSQLBuilder	22	ported	crates/php2rust-doctrine-dbal/src/sql/builder/with_sql_builder.rs
@@ -259,7 +259,7 @@ src/SQL/Parser/Visitor.php	Visitor	8	ported	crates/php2rust-doctrine-dbal/src/sq
 src/Schema/AbstractAsset.php	AbstractAsset	283	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_asset.rs
 src/Schema/AbstractNamedObject.php	AbstractNamedObject	26	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_asset.rs
 src/Schema/AbstractOptionallyNamedObject.php	AbstractOptionallyNamedObject	22	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_asset.rs
-src/Schema/AbstractSchemaManager.php	AbstractSchemaManager	712	pending	
+src/Schema/AbstractSchemaManager.php	AbstractSchemaManager	712	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_schema_manager.rs
 src/Schema/Collections/Exception.php	Exception	6	ported	crates/php2rust-doctrine-dbal/src/schema/collections.rs crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Collections/Exception/ObjectAlreadyExists.php	ObjectAlreadyExists	21	ported	crates/php2rust-doctrine-dbal/src/schema/collections.rs crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Collections/Exception/ObjectDoesNotExist.php	ObjectDoesNotExist	21	ported	crates/php2rust-doctrine-dbal/src/schema/collections.rs crates/php2rust-doctrine-dbal/src/schema/exception.rs
@@ -276,7 +276,7 @@ src/Schema/DefaultExpression.php	DefaultExpression	7	ported	crates/php2rust-doct
 src/Schema/DefaultExpression/CurrentDate.php	CurrentDate	11	ported	crates/php2rust-doctrine-dbal/src/schema/default_expression.rs
 src/Schema/DefaultExpression/CurrentTime.php	CurrentTime	11	ported	crates/php2rust-doctrine-dbal/src/schema/default_expression.rs
 src/Schema/DefaultExpression/CurrentTimestamp.php	CurrentTimestamp	11	ported	crates/php2rust-doctrine-dbal/src/schema/default_expression.rs
-src/Schema/DefaultSchemaManagerFactory.php	DefaultSchemaManagerFactory	11	pending	
+src/Schema/DefaultSchemaManagerFactory.php	DefaultSchemaManagerFactory	11	ported	crates/php2rust-doctrine-dbal/src/schema/schema_manager_factory.rs
 src/Schema/Exception/ColumnAlreadyExists.php	ColumnAlreadyExists	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/ColumnDoesNotExist.php	ColumnDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/ForeignKeyDoesNotExist.php	ForeignKeyDoesNotExist	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
@@ -308,8 +308,8 @@ src/Schema/Exception/TableAlreadyExists.php	TableAlreadyExists	12	ported	crates/
 src/Schema/Exception/TableDoesNotExist.php	TableDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/UniqueConstraintDoesNotExist.php	UniqueConstraintDoesNotExist	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/UnknownColumnOption.php	UnknownColumnOption	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/Exception/UnsupportedName.php	UnsupportedName	16	pending	
-src/Schema/Exception/UnsupportedSchema.php	UnsupportedSchema	26	pending	
+src/Schema/Exception/UnsupportedName.php	UnsupportedName	16	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/UnsupportedSchema.php	UnsupportedSchema	26	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/ForeignKeyConstraint.php	ForeignKeyConstraint	424	ported	crates/php2rust-doctrine-dbal/src/schema/foreign_key_constraint.rs
 src/Schema/ForeignKeyConstraint/Deferrability.php	Deferrability	12	ported	crates/php2rust-doctrine-dbal/src/schema/foreign_key_constraint.rs
 src/Schema/ForeignKeyConstraint/MatchType.php	MatchType	12	ported	crates/php2rust-doctrine-dbal/src/schema/foreign_key_constraint.rs
@@ -321,24 +321,24 @@ src/Schema/Index/IndexType.php	IndexType	9	ported	crates/php2rust-doctrine-dbal/
 src/Schema/Index/IndexedColumn.php	IndexedColumn	21	ported	crates/php2rust-doctrine-dbal/src/schema/index.rs
 src/Schema/IndexEditor.php	IndexEditor	152	ported	crates/php2rust-doctrine-dbal/src/schema/index_editor.rs
 src/Schema/IndexRename.php	IndexRename	17	ported	crates/php2rust-doctrine-dbal/src/schema/table_diff.rs
-src/Schema/Introspection/IntrospectingSchemaProvider.php	IntrospectingSchemaProvider	328	pending	
-src/Schema/Introspection/MetadataProcessor/ForeignKeyConstraintColumnMetadataProcessor.php	ForeignKeyConstraintColumnMetadataProcessor	50	pending	
-src/Schema/Introspection/MetadataProcessor/IndexColumnMetadataProcessor.php	IndexColumnMetadataProcessor	23	pending	
-src/Schema/Introspection/MetadataProcessor/PrimaryKeyConstraintColumnMetadataProcessor.php	PrimaryKeyConstraintColumnMetadataProcessor	17	pending	
-src/Schema/Introspection/MetadataProcessor/SequenceMetadataProcessor.php	SequenceMetadataProcessor	16	pending	
-src/Schema/Introspection/MetadataProcessor/UniqueConstraintColumnMetadataProcessor.php	UniqueConstraintColumnMetadataProcessor	21	pending	
-src/Schema/Introspection/MetadataProcessor/ViewMetadataProcessor.php	ViewMetadataProcessor	14	pending	
-src/Schema/Metadata/DatabaseMetadataRow.php	DatabaseMetadataRow	12	pending	
-src/Schema/Metadata/ForeignKeyConstraintColumnMetadataRow.php	ForeignKeyConstraintColumnMetadataRow	86	pending	
-src/Schema/Metadata/IndexColumnMetadataRow.php	IndexColumnMetadataRow	49	pending	
-src/Schema/Metadata/MetadataProvider.php	MetadataProvider	24	pending	
-src/Schema/Metadata/PrimaryKeyConstraintColumnRow.php	PrimaryKeyConstraintColumnRow	33	pending	
-src/Schema/Metadata/SchemaMetadataRow.php	SchemaMetadataRow	12	pending	
-src/Schema/Metadata/SequenceMetadataRow.php	SequenceMetadataRow	33	pending	
-src/Schema/Metadata/TableColumnMetadataRow.php	TableColumnMetadataRow	24	pending	
-src/Schema/Metadata/TableMetadataRow.php	TableMetadataRow	23	pending	
-src/Schema/Metadata/UniqueConstraintColumnMetadataRow.php	UniqueConstraintColumnMetadataRow	44	pending	
-src/Schema/Metadata/ViewMetadataRow.php	ViewMetadataRow	23	pending	
+src/Schema/Introspection/IntrospectingSchemaProvider.php	IntrospectingSchemaProvider	328	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/ForeignKeyConstraintColumnMetadataProcessor.php	ForeignKeyConstraintColumnMetadataProcessor	50	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/IndexColumnMetadataProcessor.php	IndexColumnMetadataProcessor	23	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/PrimaryKeyConstraintColumnMetadataProcessor.php	PrimaryKeyConstraintColumnMetadataProcessor	17	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/SequenceMetadataProcessor.php	SequenceMetadataProcessor	16	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/UniqueConstraintColumnMetadataProcessor.php	UniqueConstraintColumnMetadataProcessor	21	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Introspection/MetadataProcessor/ViewMetadataProcessor.php	ViewMetadataProcessor	14	ported	crates/php2rust-doctrine-dbal/src/schema/introspection.rs
+src/Schema/Metadata/DatabaseMetadataRow.php	DatabaseMetadataRow	12	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/ForeignKeyConstraintColumnMetadataRow.php	ForeignKeyConstraintColumnMetadataRow	86	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/IndexColumnMetadataRow.php	IndexColumnMetadataRow	49	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/MetadataProvider.php	MetadataProvider	24	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/PrimaryKeyConstraintColumnRow.php	PrimaryKeyConstraintColumnRow	33	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/SchemaMetadataRow.php	SchemaMetadataRow	12	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/SequenceMetadataRow.php	SequenceMetadataRow	33	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/TableColumnMetadataRow.php	TableColumnMetadataRow	24	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/TableMetadataRow.php	TableMetadataRow	23	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/UniqueConstraintColumnMetadataRow.php	UniqueConstraintColumnMetadataRow	44	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
+src/Schema/Metadata/ViewMetadataRow.php	ViewMetadataRow	23	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
 src/Schema/MySQLSchemaManager.php	MySQLSchemaManager	405	pending	
 src/Schema/Name.php	Name	8	ported	crates/php2rust-doctrine-dbal/src/schema/name/names.rs
 src/Schema/Name/GenericName.php	GenericName	32	ported	crates/php2rust-doctrine-dbal/src/schema/name/names.rs
@@ -363,13 +363,13 @@ src/Schema/PostgreSQLSchemaManager.php	PostgreSQLSchemaManager	413	pending
 src/Schema/PrimaryKeyConstraint.php	PrimaryKeyConstraint	40	ported	crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs
 src/Schema/PrimaryKeyConstraintEditor.php	PrimaryKeyConstraintEditor	81	ported	crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs
 src/Schema/SQLServerSchemaManager.php	SQLServerSchemaManager	381	pending	
-src/Schema/SQLiteSchemaManager.php	SQLiteSchemaManager	463	pending	
+src/Schema/SQLiteSchemaManager.php	SQLiteSchemaManager	463	ported	crates/php2rust-doctrine-dbal/src/schema/sqlite_schema_manager.rs
 src/Schema/Schema.php	Schema	315	ported	crates/php2rust-doctrine-dbal/src/schema/schema.rs
 src/Schema/SchemaConfig.php	SchemaConfig	36	ported	crates/php2rust-doctrine-dbal/src/schema/schema_config.rs
 src/Schema/SchemaDiff.php	SchemaDiff	65	ported	crates/php2rust-doctrine-dbal/src/schema/schema_diff.rs
 src/Schema/SchemaEditor.php	SchemaEditor	210	ported	crates/php2rust-doctrine-dbal/src/schema/schema_editor.rs
 src/Schema/SchemaException.php	SchemaException	6	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/SchemaManagerFactory.php	SchemaManagerFactory	7	pending	
+src/Schema/SchemaManagerFactory.php	SchemaManagerFactory	7	ported	crates/php2rust-doctrine-dbal/src/schema/schema_manager_factory.rs
 src/Schema/SchemaProvider.php	SchemaProvider	20	pending	
 src/Schema/Sequence.php	Sequence	126	ported	crates/php2rust-doctrine-dbal/src/schema/sequence.rs
 src/Schema/SequenceEditor.php	SequenceEditor	59	ported	crates/php2rust-doctrine-dbal/src/schema/sequence_editor.rs

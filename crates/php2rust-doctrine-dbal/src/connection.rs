@@ -17,8 +17,8 @@
 //! open (README.md, Differences).
 //!
 //! What is not ported: the result cache (`executeCacheQuery()`,
-//! `QueryCacheProfile`), the schema manager (`createSchemaManager()`),
-//! `getNativeConnection()`, middlewares and the deprecation notices.
+//! `QueryCacheProfile`), a configured schema manager factory
+//! (`createSchemaManager()` uses the default one), `getNativeConnection()`, middlewares and the deprecation notices.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -1105,6 +1105,19 @@ impl Connection {
             self.close();
         }
         exception
+    }
+}
+
+// Slice SchemaManager.
+impl Connection {
+    /// Creates a `SchemaManager` that can be used to inspect or change the
+    /// database schema through the connection.
+    pub async fn create_schema_manager(&self) -> StdResult<crate::schema::SQLiteSchemaManager<'_>> {
+        use crate::schema::SchemaManagerFactory as _;
+
+        crate::schema::DefaultSchemaManagerFactory
+            .create_schema_manager(self)
+            .await
     }
 }
 
