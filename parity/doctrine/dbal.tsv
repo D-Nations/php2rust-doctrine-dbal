@@ -2464,72 +2464,72 @@ tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testSetUnquotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testSetUnquotedName
 tests/Schema/PrimaryKeyConstraintTest.php	PrimaryKeyConstraintTest::testEmptyReferencingColumnNames	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_test.rs::testEmptyReferencingColumnNames
 tests/Schema/SQLiteSchemaManagerTest.php	SQLiteSchemaManagerTest::testListTableForeignKeysDefaultDatabasePassing	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testAddSequenceRejectsDuplicateName	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testAddTableRejectsDuplicateName	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDefaultNamespaceLookupParity	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropSequence	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropSequenceOnAbsentNameThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropTable	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropTableOnAbsentNameThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPreservesMixedQualificationUnderDefaultNamespace	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPreservesTablesAndSequences	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPropagatesDefaultNamespace	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditorCreatesEmptySchema	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixedQualificationUnderDefaultNamespaceIsAccepted	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixingQualifiedAndUnqualifiedThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixingUnqualifiedAfterQualifiedThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableAllowsRename	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableCannotChangeQualifier	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableOnAbsentNameThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableRenameCollisionThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableReplacesInPlacePreservingOrder	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testQualifiedAndUnqualifiedCollideUnderDefaultNamespace	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testRenameTableByUnquotedName	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testRenameTablePreservesQualifier	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSequenceDefaultNamespaceLookupParity	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetDefaultNamespaceAfterAddingSequenceThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetDefaultNamespaceAfterAddingTableThrows	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetSequencesReplacesPreviousSequences	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetTablesReplacesPreviousTables	pending	
-tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testWorkedExampleAddingUniqueIndex	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithQualifiedNameAfterUnqualifiedName	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithQualifiedNameAfterUnqualifiedNameWithDefaultNamespace	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithUnqualifiedNameAfterQualifiedName	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithUnqualifiedNameAfterQualifiedNameWithDefaultNamespace	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddSequenceTwiceThrowsException	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddSequences	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testAddTable	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testConfigMaxIdentifierLength	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreateSequence	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreateTable	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreateTableTwiceThrowsException	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespace	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespaceThroughAddingSequenceImplicitly	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespaceThroughAddingTableImplicitly	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testDeepClone	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testDropSequence	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testDropTable	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testGetUnknownSequenceThrowsException	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testGetUnknownTableThrowsException	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testHasNamespace	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testHasTableForQuotedAsset	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testReferenceByQualifiedNameAmongUnqualifiedNames	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testReferenceByUnqualifiedNameAmongQualifiedNames	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testReferencingByUnqualifiedNameAmongQualifiedNamesWithDefaultNamespace	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testRenameTable	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testSequenceAccessCaseInsensitive	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testTableMatchingCaseInsensitive	pending	
-tests/Schema/SchemaTest.php	SchemaTest::testThrowsExceptionOnCreatingNamespaceTwice	pending	
-tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testEdit	pending	
-tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testNameNotSet	pending	
-tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testNegativeCacheSize	pending	
-tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testSetQuotedName	pending	
-tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testSetUnquotedName	pending	
-tests/Schema/SequenceTest.php	SequenceTest::testEmptyName	pending	
-tests/Schema/SequenceTest.php	SequenceTest::testGetQualifiedObjectName	pending	
-tests/Schema/SequenceTest.php	SequenceTest::testGetUnqualifiedObjectName	pending	
-tests/Schema/SequenceTest.php	SequenceTest::testIsAutoincrementFor	pending	
-tests/Schema/SequenceTest.php	SequenceTest::testIsAutoincrementForCaseInsensitive	pending	
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testAddSequenceRejectsDuplicateName	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testAddSequenceRejectsDuplicateName
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testAddTableRejectsDuplicateName	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testAddTableRejectsDuplicateName
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDefaultNamespaceLookupParity	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testDefaultNamespaceLookupParity
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropSequence	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testDropSequence
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropSequenceOnAbsentNameThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testDropSequenceOnAbsentNameThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropTable	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testDropTable
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testDropTableOnAbsentNameThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testDropTableOnAbsentNameThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPreservesMixedQualificationUnderDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testEditRoundTripPreservesMixedQualificationUnderDefaultNamespace
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPreservesTablesAndSequences	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testEditRoundTripPreservesTablesAndSequences
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditRoundTripPropagatesDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testEditRoundTripPropagatesDefaultNamespace
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testEditorCreatesEmptySchema	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testEditorCreatesEmptySchema
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixedQualificationUnderDefaultNamespaceIsAccepted	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testMixedQualificationUnderDefaultNamespaceIsAccepted
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixingQualifiedAndUnqualifiedThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testMixingQualifiedAndUnqualifiedThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testMixingUnqualifiedAfterQualifiedThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testMixingUnqualifiedAfterQualifiedThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableAllowsRename	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testModifyTableAllowsRename
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableCannotChangeQualifier	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testModifyTableCannotChangeQualifier
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableOnAbsentNameThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testModifyTableOnAbsentNameThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableRenameCollisionThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testModifyTableRenameCollisionThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testModifyTableReplacesInPlacePreservingOrder	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testModifyTableReplacesInPlacePreservingOrder
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testQualifiedAndUnqualifiedCollideUnderDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testQualifiedAndUnqualifiedCollideUnderDefaultNamespace
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testRenameTableByUnquotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testRenameTableByUnquotedName
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testRenameTablePreservesQualifier	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testRenameTablePreservesQualifier
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSequenceDefaultNamespaceLookupParity	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testSequenceDefaultNamespaceLookupParity
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetDefaultNamespaceAfterAddingSequenceThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testSetDefaultNamespaceAfterAddingSequenceThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetDefaultNamespaceAfterAddingTableThrows	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testSetDefaultNamespaceAfterAddingTableThrows
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetSequencesReplacesPreviousSequences	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testSetSequencesReplacesPreviousSequences
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testSetTablesReplacesPreviousTables	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testSetTablesReplacesPreviousTables
+tests/Schema/SchemaEditorTest.php	SchemaEditorTest::testWorkedExampleAddingUniqueIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_editor_test.rs::testWorkedExampleAddingUniqueIndex
+tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithQualifiedNameAfterUnqualifiedName	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddObjectWithQualifiedNameAfterUnqualifiedName
+tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithQualifiedNameAfterUnqualifiedNameWithDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddObjectWithQualifiedNameAfterUnqualifiedNameWithDefaultNamespace
+tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithUnqualifiedNameAfterQualifiedName	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddObjectWithUnqualifiedNameAfterQualifiedName
+tests/Schema/SchemaTest.php	SchemaTest::testAddObjectWithUnqualifiedNameAfterQualifiedNameWithDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddObjectWithUnqualifiedNameAfterQualifiedNameWithDefaultNamespace
+tests/Schema/SchemaTest.php	SchemaTest::testAddSequenceTwiceThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddSequenceTwiceThrowsException
+tests/Schema/SchemaTest.php	SchemaTest::testAddSequences	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddSequences
+tests/Schema/SchemaTest.php	SchemaTest::testAddTable	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testAddTable
+tests/Schema/SchemaTest.php	SchemaTest::testConfigMaxIdentifierLength	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testConfigMaxIdentifierLength
+tests/Schema/SchemaTest.php	SchemaTest::testCreateSequence	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreateSequence
+tests/Schema/SchemaTest.php	SchemaTest::testCreateTable	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreateTable
+tests/Schema/SchemaTest.php	SchemaTest::testCreateTableTwiceThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreateTableTwiceThrowsException
+tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreatesNamespace
+tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespaceThroughAddingSequenceImplicitly	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreatesNamespaceThroughAddingSequenceImplicitly
+tests/Schema/SchemaTest.php	SchemaTest::testCreatesNamespaceThroughAddingTableImplicitly	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testCreatesNamespaceThroughAddingTableImplicitly
+tests/Schema/SchemaTest.php	SchemaTest::testDeepClone	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testDeepClone
+tests/Schema/SchemaTest.php	SchemaTest::testDropSequence	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testDropSequence
+tests/Schema/SchemaTest.php	SchemaTest::testDropTable	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testDropTable
+tests/Schema/SchemaTest.php	SchemaTest::testGetUnknownSequenceThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testGetUnknownSequenceThrowsException
+tests/Schema/SchemaTest.php	SchemaTest::testGetUnknownTableThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testGetUnknownTableThrowsException
+tests/Schema/SchemaTest.php	SchemaTest::testHasNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testHasNamespace
+tests/Schema/SchemaTest.php	SchemaTest::testHasTableForQuotedAsset	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testHasTableForQuotedAsset
+tests/Schema/SchemaTest.php	SchemaTest::testReferenceByQualifiedNameAmongUnqualifiedNames	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testReferenceByQualifiedNameAmongUnqualifiedNames
+tests/Schema/SchemaTest.php	SchemaTest::testReferenceByUnqualifiedNameAmongQualifiedNames	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testReferenceByUnqualifiedNameAmongQualifiedNames
+tests/Schema/SchemaTest.php	SchemaTest::testReferencingByUnqualifiedNameAmongQualifiedNamesWithDefaultNamespace	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testReferencingByUnqualifiedNameAmongQualifiedNamesWithDefaultNamespace
+tests/Schema/SchemaTest.php	SchemaTest::testRenameTable	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testRenameTable
+tests/Schema/SchemaTest.php	SchemaTest::testSequenceAccessCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testSequenceAccessCaseInsensitive
+tests/Schema/SchemaTest.php	SchemaTest::testTableMatchingCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testTableMatchingCaseInsensitive
+tests/Schema/SchemaTest.php	SchemaTest::testThrowsExceptionOnCreatingNamespaceTwice	ported	crates/php2rust-doctrine-dbal/tests/schema_test.rs::testThrowsExceptionOnCreatingNamespaceTwice
+tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testEdit	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_editor_test.rs::testEdit
+tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testNameNotSet	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_editor_test.rs::testNameNotSet
+tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testNegativeCacheSize	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_editor_test.rs::testNegativeCacheSize
+tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testSetQuotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_editor_test.rs::testSetQuotedName
+tests/Schema/SequenceEditorTest.php	SequenceEditorTest::testSetUnquotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_editor_test.rs::testSetUnquotedName
+tests/Schema/SequenceTest.php	SequenceTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_test.rs::testEmptyName
+tests/Schema/SequenceTest.php	SequenceTest::testGetQualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_test.rs::testGetQualifiedObjectName
+tests/Schema/SequenceTest.php	SequenceTest::testGetUnqualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_test.rs::testGetUnqualifiedObjectName
+tests/Schema/SequenceTest.php	SequenceTest::testIsAutoincrementFor	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_test.rs::testIsAutoincrementFor
+tests/Schema/SequenceTest.php	SequenceTest::testIsAutoincrementForCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/schema_sequence_test.rs::testIsAutoincrementForCaseInsensitive
 tests/Schema/TableDiffTest.php	TableDiffTest::testCreateWithInvalidDroppedForeignKeyName	ported	crates/php2rust-doctrine-dbal/tests/schema_table_diff_test.rs::testCreateWithInvalidDroppedForeignKeyName
 tests/Schema/TableEditorTest.php	TableEditorTest::testAddExistingColumn	ported	crates/php2rust-doctrine-dbal/tests/schema_table_editor_test.rs::testAddExistingColumn
 tests/Schema/TableEditorTest.php	TableEditorTest::testAddExistingForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_editor_test.rs::testAddExistingForeignKeyConstraint
@@ -2667,14 +2667,14 @@ tests/Schema/UniqueConstraintTest.php	UniqueConstraintTest::testGetNullObjectNam
 tests/Schema/UniqueConstraintTest.php	UniqueConstraintTest::testInstantiateWithOptions	ported	crates/php2rust-doctrine-dbal/tests/schema_unique_constraint_test.rs::testInstantiateWithOptions
 tests/Schema/UniqueConstraintTest.php	UniqueConstraintTest::testInvalidColumnNames	ported	crates/php2rust-doctrine-dbal/tests/schema_unique_constraint_test.rs::testInvalidColumnNames
 tests/Schema/UniqueConstraintTest.php	UniqueConstraintTest::testIsClustered	ported	crates/php2rust-doctrine-dbal/tests/schema_unique_constraint_test.rs::testIsClustered
-tests/Schema/ViewEditorTest.php	ViewEditorTest::testEdit	pending	
-tests/Schema/ViewEditorTest.php	ViewEditorTest::testNameNotSet	pending	
-tests/Schema/ViewEditorTest.php	ViewEditorTest::testSetQuotedName	pending	
-tests/Schema/ViewEditorTest.php	ViewEditorTest::testSetUnquotedName	pending	
-tests/Schema/ViewEditorTest.php	ViewEditorTest::testSqlNotSet	pending	
-tests/Schema/ViewTest.php	ViewTest::testEmptyName	pending	
-tests/Schema/ViewTest.php	ViewTest::testGetQualifiedObjectName	pending	
-tests/Schema/ViewTest.php	ViewTest::testGetUnqualifiedObjectName	pending	
+tests/Schema/ViewEditorTest.php	ViewEditorTest::testEdit	ported	crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs::testEdit
+tests/Schema/ViewEditorTest.php	ViewEditorTest::testNameNotSet	ported	crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs::testNameNotSet
+tests/Schema/ViewEditorTest.php	ViewEditorTest::testSetQuotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs::testSetQuotedName
+tests/Schema/ViewEditorTest.php	ViewEditorTest::testSetUnquotedName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs::testSetUnquotedName
+tests/Schema/ViewEditorTest.php	ViewEditorTest::testSqlNotSet	ported	crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs::testSqlNotSet
+tests/Schema/ViewTest.php	ViewTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testEmptyName
+tests/Schema/ViewTest.php	ViewTest::testGetQualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testGetQualifiedObjectName
+tests/Schema/ViewTest.php	ViewTest::testGetUnqualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testGetUnqualifiedObjectName
 tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testMissingSqlArgument	pending	
 tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectStatementsPrintsResult	pending	
 tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectWithEmptyResultSet	pending	

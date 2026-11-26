@@ -280,7 +280,7 @@ src/Schema/DefaultSchemaManagerFactory.php	DefaultSchemaManagerFactory	11	pendin
 src/Schema/Exception/ColumnAlreadyExists.php	ColumnAlreadyExists	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/ColumnDoesNotExist.php	ColumnDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/ForeignKeyDoesNotExist.php	ForeignKeyDoesNotExist	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/Exception/ImproperlyQualifiedName.php	ImproperlyQualifiedName	17	pending	
+src/Schema/Exception/ImproperlyQualifiedName.php	ImproperlyQualifiedName	17	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/IncomparableNames.php	IncomparableNames	19	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/IndexAlreadyExists.php	IndexAlreadyExists	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/IndexDoesNotExist.php	IndexDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
@@ -291,21 +291,21 @@ src/Schema/Exception/InvalidIdentifier.php	InvalidIdentifier	11	ported	crates/ph
 src/Schema/Exception/InvalidIndexDefinition.php	InvalidIndexDefinition	25	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidName.php	InvalidName	11	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidPrimaryKeyConstraintDefinition.php	InvalidPrimaryKeyConstraintDefinition	11	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/Exception/InvalidSchemaModification.php	InvalidSchemaModification	42	pending	
-src/Schema/Exception/InvalidSequenceDefinition.php	InvalidSequenceDefinition	16	pending	
+src/Schema/Exception/InvalidSchemaModification.php	InvalidSchemaModification	42	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/InvalidSequenceDefinition.php	InvalidSequenceDefinition	16	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidState.php	InvalidState	77	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidTableDefinition.php	InvalidTableDefinition	17	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidTableModification.php	InvalidTableModification	109	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidTableName.php	InvalidTableName	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/InvalidUniqueConstraintDefinition.php	InvalidUniqueConstraintDefinition	16	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/Exception/InvalidViewDefinition.php	InvalidViewDefinition	17	pending	
-src/Schema/Exception/NamespaceAlreadyExists.php	NamespaceAlreadyExists	12	pending	
+src/Schema/Exception/InvalidViewDefinition.php	InvalidViewDefinition	17	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/NamespaceAlreadyExists.php	NamespaceAlreadyExists	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/NotImplemented.php	NotImplemented	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/PrimaryKeyAlreadyExists.php	PrimaryKeyAlreadyExists	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
-src/Schema/Exception/SequenceAlreadyExists.php	SequenceAlreadyExists	12	pending	
-src/Schema/Exception/SequenceDoesNotExist.php	SequenceDoesNotExist	12	pending	
-src/Schema/Exception/TableAlreadyExists.php	TableAlreadyExists	12	pending	
-src/Schema/Exception/TableDoesNotExist.php	TableDoesNotExist	12	pending	
+src/Schema/Exception/SequenceAlreadyExists.php	SequenceAlreadyExists	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/SequenceDoesNotExist.php	SequenceDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/TableAlreadyExists.php	TableAlreadyExists	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
+src/Schema/Exception/TableDoesNotExist.php	TableDoesNotExist	12	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/UniqueConstraintDoesNotExist.php	UniqueConstraintDoesNotExist	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/UnknownColumnOption.php	UnknownColumnOption	14	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/Exception/UnsupportedName.php	UnsupportedName	16	pending	
@@ -364,23 +364,23 @@ src/Schema/PrimaryKeyConstraint.php	PrimaryKeyConstraint	40	ported	crates/php2ru
 src/Schema/PrimaryKeyConstraintEditor.php	PrimaryKeyConstraintEditor	81	ported	crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs
 src/Schema/SQLServerSchemaManager.php	SQLServerSchemaManager	381	pending	
 src/Schema/SQLiteSchemaManager.php	SQLiteSchemaManager	463	pending	
-src/Schema/Schema.php	Schema	315	pending	
+src/Schema/Schema.php	Schema	315	ported	crates/php2rust-doctrine-dbal/src/schema/schema.rs
 src/Schema/SchemaConfig.php	SchemaConfig	36	ported	crates/php2rust-doctrine-dbal/src/schema/schema_config.rs
-src/Schema/SchemaDiff.php	SchemaDiff	65	pending	
-src/Schema/SchemaEditor.php	SchemaEditor	210	pending	
+src/Schema/SchemaDiff.php	SchemaDiff	65	ported	crates/php2rust-doctrine-dbal/src/schema/schema_diff.rs
+src/Schema/SchemaEditor.php	SchemaEditor	210	ported	crates/php2rust-doctrine-dbal/src/schema/schema_editor.rs
 src/Schema/SchemaException.php	SchemaException	6	ported	crates/php2rust-doctrine-dbal/src/schema/exception.rs
 src/Schema/SchemaManagerFactory.php	SchemaManagerFactory	7	pending	
 src/Schema/SchemaProvider.php	SchemaProvider	20	pending	
-src/Schema/Sequence.php	Sequence	126	pending	
-src/Schema/SequenceEditor.php	SequenceEditor	59	pending	
+src/Schema/Sequence.php	Sequence	126	ported	crates/php2rust-doctrine-dbal/src/schema/sequence.rs
+src/Schema/SequenceEditor.php	SequenceEditor	59	ported	crates/php2rust-doctrine-dbal/src/schema/sequence_editor.rs
 src/Schema/Table.php	Table	876	ported	crates/php2rust-doctrine-dbal/src/schema/table.rs
 src/Schema/TableConfiguration.php	TableConfiguration	12	ported	crates/php2rust-doctrine-dbal/src/schema/schema_config.rs
 src/Schema/TableDiff.php	TableDiff	197	ported	crates/php2rust-doctrine-dbal/src/schema/table_diff.rs
 src/Schema/TableEditor.php	TableEditor	432	ported	crates/php2rust-doctrine-dbal/src/schema/table_editor.rs
 src/Schema/UniqueConstraint.php	UniqueConstraint	204	ported	crates/php2rust-doctrine-dbal/src/schema/unique_constraint.rs
 src/Schema/UniqueConstraintEditor.php	UniqueConstraintEditor	86	ported	crates/php2rust-doctrine-dbal/src/schema/unique_constraint_editor.rs
-src/Schema/View.php	View	30	pending	
-src/Schema/ViewEditor.php	ViewEditor	45	pending	
+src/Schema/View.php	View	30	ported	crates/php2rust-doctrine-dbal/src/schema/view.rs
+src/Schema/ViewEditor.php	ViewEditor	45	ported	crates/php2rust-doctrine-dbal/src/schema/view_editor.rs
 src/ServerVersionProvider.php	ServerVersionProvider	6	ported	crates/php2rust-doctrine-dbal/src/server_version_provider.rs
 src/Statement.php	Statement	63	ported	crates/php2rust-doctrine-dbal/src/statement.rs
 src/Tools/Console/Command/RunSqlCommand.php	RunSqlCommand	86	pending	

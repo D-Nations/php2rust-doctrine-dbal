@@ -46,8 +46,9 @@ assert_eq!(visitor.get_parameters(), &[Value::Int(1), Value::Int(2)]);
 | `DriverManager::getConnection()` (driver map, `driverClass`, `wrapperClass` checks, URL parameters through `DsnParser`), `getAvailableDrivers()`; `DsnParser::parse()`; the `Configuration` parts the connection reads (auto-commit, type comments) | `DriverManager.php`, `Tools/DsnParser.php`, `Configuration.php` | DriverManagerTest (7 of 8), DsnParserTest (2), ConfigurationTest (2) |
 | `QueryBuilder` execution: `executeQuery()`, `executeStatement()` and the `fetch*()` methods over a `Connection` | `Query/QueryBuilder.php` | QueryBuilderTest execution tests (9; `tests/query_builder_execution_test.rs`) |
 | `SQLitePlatform`: expressions (trim, locate, substring, date arithmetic and difference, mod, concat, bit operations), `escapeStringForLike()`, quoting, `TRUNCATE`, limit/offset, column declarations and defaults, `CREATE TABLE` (primary keys, autoincrement, indexes, unique constraints, inline foreign keys, comments, `WITHOUT ROWID`), `ALTER TABLE` (`ADD COLUMN`, `RENAME`, and the temporary-table rebuild), indexes, foreign key SQL, transaction isolation, the reserved keywords (`SQLiteKeywords`, `KeywordList`), the `NotSupported` and `NoColumnsSpecifiedForTable` messages | `Platforms/SQLitePlatform.php`, `Platforms/AbstractPlatform.php`, `Platforms/Keywords/{KeywordList,SQLiteKeywords}.php`, `Platforms/{DateIntervalUnit,TrimMode}.php`, `Platforms/Exception/*.php`, `TransactionIsolationLevel.php`, `LockMode.php` | SQLitePlatformTest with the inherited AbstractPlatformTestCase tests (92 of 96; the other 4 upstream does not run on SQLite); 1,500 expression, 600 `CREATE TABLE` and 400 `ALTER TABLE` recorded outputs (`sqlite_platform_*_vectors` in `tests/platforms_sqlite_platform_test.rs`) |
-| Schema value objects: names and their parser, `AbstractAsset` (and its named subclasses), `Identifier`, `Column`, `ColumnDiff`, `Index`, `IndexedColumn`, `UniqueConstraint`, `ForeignKeyConstraint` (match type, referential actions, deferrability), `PrimaryKeyConstraint`, `Table`, `TableDiff`, `SchemaConfig`, their editors, the named object sets and the Schema exceptions | `Schema/*.php` (not `Schema.php`, `Sequence.php`, `View.php`, `Comparator.php` or the schema managers), `Schema/Name/**`, `Schema/Collections/**`, `Schema/Exception/*.php` | 292 tests of the Schema test classes (`tests/schema_*_test.rs`): TableTest 81 of 84, TableEditorTest 38, IndexTest 28, ForeignKeyConstraintEditorTest 18, ForeignKeyConstraintTest 16, ColumnTest 14 of 15, the Collections, Name, editor and constraint tests |
+| Schema value objects: names and their parser, `AbstractAsset` (and its named subclasses), `Identifier`, `Column`, `ColumnDiff`, `Index`, `IndexedColumn`, `UniqueConstraint`, `ForeignKeyConstraint` (match type, referential actions, deferrability), `PrimaryKeyConstraint`, `Table`, `TableDiff`, `SchemaConfig`, their editors, the named object sets and the Schema exceptions | `Schema/*.php` (not `Comparator.php`, `ComparatorConfig.php` or the schema managers), `Schema/Name/**`, `Schema/Collections/**`, `Schema/Exception/*.php` | 292 tests of the Schema test classes (`tests/schema_*_test.rs`): TableTest 81 of 84, TableEditorTest 38, IndexTest 28, ForeignKeyConstraintEditorTest 18, ForeignKeyConstraintTest 16, ColumnTest 14 of 15, the Collections, Name, editor and constraint tests |
 | `Comparator::compareTables()` (added, dropped, changed and renamed columns, explicit renames, added, dropped, modified and renamed indexes with the ambiguity rules, foreign keys compared by properties, the modified-indexes deprecation), `ComparatorConfig`, and the SQLite comparator that ignores an explicit `BINARY` collation; not `compareSchemas()` or `diffSequence()` | `Schema/Comparator.php`, `Schema/ComparatorConfig.php`, `Platforms/SQLite/Comparator.php` | SQLite ComparatorTest with the inherited AbstractComparatorTestCase tests (23 of 44; 20 need `Schema`/`Sequence`, 1 upstream does not run on SQLite; `tests/platforms_sqlite_comparator_test.rs`) |
+| `Schema` (tables and sequences by case-insensitive, namespace-resolved name, implicit and deprecated explicit namespaces, the deprecated `createTable()`/`renameTable()`/`dropTable()`/`createSequence()`/`dropSequence()`, the qualified/unqualified name deprecations, deep `clone`), `SchemaEditor` (default namespace, add/modify/rename/drop of tables and sequences, uniform qualification), `Sequence` (`isAutoIncrementsFor()`), `View`, their editors, `SchemaDiff`, and the `InvalidSchemaModification`, `ImproperlyQualifiedName`, `InvalidSequenceDefinition`, `InvalidViewDefinition`, `NamespaceAlreadyExists`, `Sequence`/`Table` `AlreadyExists`/`DoesNotExist` messages | `Schema/{Schema,SchemaEditor,SchemaDiff,Sequence,SequenceEditor,View,ViewEditor}.php`, `Schema/Exception/*.php` | SchemaTest (28), SchemaEditorTest (28), SequenceTest (5), SequenceEditorTest (5), ViewTest (3), ViewEditorTest (5) |
 
 Vectors: `scripts/record.sh dbal` runs `oracle/recorders/doctrine_dbal.php`
 and writes `tests/data/php.json`: the upstream data providers, the
@@ -245,6 +246,19 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   from at once (an invalid name, an existing or missing object) keeps the
   first error, and `create()` returns it; the tests check the exception
   on `create()`.
+- `SchemaEditor`, `SequenceEditor` and `ViewEditor` are by-value
+  builders too; after a `SchemaEditor` call fails, the later calls change
+  nothing (in PHP the exception ends the chain). `modifyTable()` takes a
+  function from the table's editor to the changed editor.
+- `Schema` owns its tables and sequences: its constructor takes them by
+  value (PHP calls `setSchemaConfig()` on the caller's handles, so a
+  caller's table changes too), the getters borrow them and
+  `createTable()`/`createSequence()` return the stored object mutably.
+  `renameTable()` changes the stored table's `_name`, `_namespace` and
+  `_quoted` (not its object name), as PHP does. SchemaTest and
+  SchemaEditorTest `assertSame()` on tables compare the tables a round trip
+  through `edit()` gives; `assertNotSame()` after `clone` compares
+  addresses.
 - PHP compares objects by identity where this port compares values:
   `TableDiff::unsetAddedIndex()` and `unsetDroppedIndex()` remove every
   equal index, and TableTest
@@ -261,9 +275,9 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   `uniqueConstraints` and `foreignKeys`).
 - Not ported: `createSchemaManager()`, `createMetadataProvider()`,
   `getAlterSchemaSQL()` and the other `SchemaDiff`, `Sequence` and `View`
-  methods, the `Connection`-taking methods, `Schema.php`, `Sequence.php`,
-  `View.php`, `Comparator.php` and the schema managers. Their tests
-  (SchemaTest, SchemaEditorTest, SequenceTest, ViewTest, the SQLite
+  methods, the `Connection`-taking methods, `Schema::toSql()` and
+  `toDropSql()` (they need the `Create`/`DropSchemaObjectsSQLBuilder`),
+  `Comparator.php` and the schema managers. Their tests (the SQLite
   ComparatorTest and SQLiteSchemaManagerTest, the introspection and
   metadata tests) stay pending; so do the AbstractAssetTest, ColumnTest
   and TableTest tests that need the MySQL, PostgreSQL, Oracle or SQL
