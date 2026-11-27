@@ -252,6 +252,7 @@ fn class_is_a(sub: &str, class: &str) -> bool {
         .contains(&sub);
     if driver_exception::parents(sub)
         .iter()
+        .chain(crate::cache::cache_exception::parents(sub))
         .any(|parent| class_is_a(parent, class))
     {
         return true;

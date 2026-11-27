@@ -1,29 +1,29 @@
 # doctrine/dbal at c435cd7ea33e17d2a89288caf994cf3d4549b879: upstream test	method	status	rust test
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnCount	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnNameWithInvalidIndex	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnNames	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testEmptyResult	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchAllAssociative	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchAssociative	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchNumeric	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchOne	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testFree	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testRowCount	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testRowPointerIsNotSerialized	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testSameColumnNames	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testSerialize	pending	
-tests/Cache/ArrayResultTest.php	ArrayResultTest::testUnserialize	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testConnectionParamsShouldBeHashed	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateAnAutomaticKeyIfNoKeyHasBeenGiven	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateDifferentKeysForSameQueryAndParamsAndDifferentConnections	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateDifferentPasswordInTheParams	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateSameKeysIfNoneOfTheParamsChanges	pending	
-tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldUseTheGivenCacheKeyIfPresent	pending	
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnCount	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testColumnCount
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnNameWithInvalidIndex	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testColumnNameWithInvalidIndex
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testColumnNames	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testColumnNames
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testEmptyResult	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testEmptyResult
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testFetchAllAssociative
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchAssociative	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testFetchAssociative
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchNumeric	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testFetchNumeric
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testFetchOne	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testFetchOne
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testFree	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testFree
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testRowCount	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testRowCount
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testRowPointerIsNotSerialized	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testRowPointerIsNotSerialized
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testSameColumnNames	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testSameColumnNames
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testSerialize	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testSerialize
+tests/Cache/ArrayResultTest.php	ArrayResultTest::testUnserialize	ported	crates/php2rust-doctrine-dbal/tests/cache_array_result_test.rs::testUnserialize
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testConnectionParamsShouldBeHashed	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testConnectionParamsShouldBeHashed
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateAnAutomaticKeyIfNoKeyHasBeenGiven	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testShouldGenerateAnAutomaticKeyIfNoKeyHasBeenGiven
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateDifferentKeysForSameQueryAndParamsAndDifferentConnections	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testShouldGenerateDifferentKeysForSameQueryAndParamsAndDifferentConnections
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateDifferentPasswordInTheParams	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testShouldGenerateDifferentPasswordInTheParams
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldGenerateSameKeysIfNoneOfTheParamsChanges	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testShouldGenerateSameKeysIfNoneOfTheParamsChanges
+tests/Cache/QueryCacheProfileTest.php	QueryCacheProfileTest::testShouldUseTheGivenCacheKeyIfPresent	ported	crates/php2rust-doctrine-dbal/tests/cache_query_cache_profile_test.rs::testShouldUseTheGivenCacheKeyIfPresent
 tests/ConfigurationTest.php	ConfigurationTest::testReturnsDefaultConnectionAutoCommitMode	ported	crates/php2rust-doctrine-dbal/tests/configuration_test.rs::testReturnsDefaultConnectionAutoCommitMode
 tests/ConfigurationTest.php	ConfigurationTest::testSetsDefaultConnectionAutoCommitMode	ported	crates/php2rust-doctrine-dbal/tests/configuration_test.rs::testSetsDefaultConnectionAutoCommitMode
-tests/Connection/CachedQueryTest.php	CachedQueryTest::testCachedQuery	pending	
-tests/Connection/CachedQueryTest.php	CachedQueryTest::testCachedQueryWithChangedImplementationIsExecutedTwice	pending	
-tests/Connection/CachedQueryTest.php	CachedQueryTest::testOldCacheFormat	pending	
+tests/Connection/CachedQueryTest.php	CachedQueryTest::testCachedQuery	ported	crates/php2rust-doctrine-dbal/tests/connection_cached_query_test.rs::testCachedQuery
+tests/Connection/CachedQueryTest.php	CachedQueryTest::testCachedQueryWithChangedImplementationIsExecutedTwice	ported	crates/php2rust-doctrine-dbal/tests/connection_cached_query_test.rs::testCachedQueryWithChangedImplementationIsExecutedTwice
+tests/Connection/CachedQueryTest.php	CachedQueryTest::testOldCacheFormat	ported	crates/php2rust-doctrine-dbal/tests/connection_cached_query_test.rs::testOldCacheFormat
 tests/Connection/ExpandArrayParametersTest.php	ExpandArrayParametersTest::testExpandListParameters	ported	crates/php2rust-doctrine-dbal/tests/expand_array_parameters_test.rs::testExpandListParameters
 tests/Connection/ExpandArrayParametersTest.php	ExpandArrayParametersTest::testMissingNamedParameter	ported	crates/php2rust-doctrine-dbal/tests/expand_array_parameters_test.rs::testMissingNamedParameter
 tests/Connection/ExpandArrayParametersTest.php	ExpandArrayParametersTest::testMissingPositionalParameter	ported	crates/php2rust-doctrine-dbal/tests/expand_array_parameters_test.rs::testMissingPositionalParameter
@@ -32,7 +32,7 @@ tests/ConnectionTest.php	ConnectionTest::testCallConnectOnce	ported	crates/php2r
 tests/ConnectionTest.php	ConnectionTest::testCommitStartsTransactionInNoAutoCommitMode	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testCommitStartsTransactionInNoAutoCommitMode
 tests/ConnectionTest.php	ConnectionTest::testCommitWithNoActiveTransactionThrowsException	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testCommitWithNoActiveTransactionThrowsException
 tests/ConnectionTest.php	ConnectionTest::testConnectStartsTransactionInNoAutoCommitMode	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testConnectStartsTransactionInNoAutoCommitMode
-tests/ConnectionTest.php	ConnectionTest::testConnectionParamsArePassedToTheQueryCacheProfileInExecuteCacheQuery	pending	
+tests/ConnectionTest.php	ConnectionTest::testConnectionParamsArePassedToTheQueryCacheProfileInExecuteCacheQuery	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testConnectionParamsArePassedToTheQueryCacheProfileInExecuteCacheQuery
 tests/ConnectionTest.php	ConnectionTest::testCustomSchemaManagerFactory	pending	Configuration::setSchemaManagerFactory() is not ported
 tests/ConnectionTest.php	ConnectionTest::testDefaultSchemaManagerFactory	pending	the sqlite3 driver is not ported
 tests/ConnectionTest.php	ConnectionTest::testDeleteWithIsNull	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testDeleteWithIsNull
@@ -2216,7 +2216,7 @@ tests/Query/QueryBuilderTest.php	QueryBuilderTest::testDelete	ported	crates/php2
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testDeleteWhere	ported	crates/php2rust-doctrine-dbal/tests/query_builder_test.rs::testDeleteWhere
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testEmptySelect	ported	crates/php2rust-doctrine-dbal/tests/query_builder_test.rs::testEmptySelect
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteQuery	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testExecuteQuery
-tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteQueryWithResultCaching	pending	
+tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteQueryWithResultCaching	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testExecuteQueryWithResultCaching
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteStatement	pending	
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testFetchAllAssociative
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testFetchAllAssociativeIndexed	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testFetchAllAssociativeIndexed

@@ -12,6 +12,7 @@
 struct ReadmeExample;
 
 mod array_parameter_type;
+pub mod cache;
 mod configuration;
 mod connection;
 mod connection_stand_in;

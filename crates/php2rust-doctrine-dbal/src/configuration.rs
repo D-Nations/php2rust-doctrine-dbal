@@ -1,6 +1,7 @@
 //! Port of Doctrine\DBAL\Configuration.php: what the connection reads of
-//! it. The result cache, the schema manager factory and the driver
-//! middlewares are not ported yet (their components are not). The schema
+//! it, and the result cache (a PSR-6 pool, compared by identity). The
+//! schema manager factory and the driver middlewares are not ported yet
+//! (their components are not). The schema
 //! assets filter is a `Fn(&str) -> bool` (PHP's callable takes the asset
 //! name); configurations compare it by identity.
 //!
@@ -12,6 +13,7 @@ use std::fmt;
 use std::sync::Arc;
 
 use crate::Exception;
+use crate::cache::CacheItemPool;
 
 /// The callable that filters schema assets by name.
 pub type SchemaAssetsFilter = Arc<dyn Fn(&str) -> bool + Send + Sync>;
@@ -23,6 +25,9 @@ pub struct Configuration {
     auto_commit: bool,
     // Slice SchemaManager: the callable to use to filter schema assets.
     schema_assets_filter: SchemaAssetsFilter,
+    /// The cache driver implementation that is used for query result
+    /// caching.
+    result_cache: Option<Arc<dyn CacheItemPool>>,
 }
 
 impl fmt::Debug for Configuration {
@@ -37,6 +42,11 @@ impl PartialEq for Configuration {
     fn eq(&self, other: &Self) -> bool {
         self.auto_commit == other.auto_commit
             && Arc::ptr_eq(&self.schema_assets_filter, &other.schema_assets_filter)
+            && match (&self.result_cache, &other.result_cache) {
+                (Some(a), Some(b)) => Arc::ptr_eq(a, b),
+                (None, None) => true,
+                _ => false,
+            }
     }
 }
 
@@ -53,7 +63,20 @@ impl Configuration {
         Self {
             auto_commit: true,
             schema_assets_filter: Arc::new(|_| true),
+            result_cache: None,
         }
+    }
+
+    /// Gets the cache driver implementation that is used for query result
+    /// caching.
+    pub fn get_result_cache(&self) -> Option<&Arc<dyn CacheItemPool>> {
+        self.result_cache.as_ref()
+    }
+
+    /// Sets the cache driver implementation that is used for query result
+    /// caching.
+    pub fn set_result_cache(&mut self, cache: Arc<dyn CacheItemPool>) {
+        self.result_cache = Some(cache);
     }
 
     // Slice SchemaManager.

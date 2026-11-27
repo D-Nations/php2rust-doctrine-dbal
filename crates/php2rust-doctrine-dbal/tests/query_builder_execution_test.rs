@@ -1,5 +1,6 @@
 //! Port of the execution tests of tests/Query/QueryBuilderTest.php
-//! (`testFetch*`, `testExecuteQuery`); the SQL-building tests are in
+//! (`testFetch*`, `testExecuteQuery`, `testExecuteQueryWithResultCaching`);
+//! the SQL-building tests are in
 //! `query_builder_test.rs`.
 //!
 //! The PHP tests mock `Connection::executeQuery()` and the `Result` it
@@ -317,4 +318,42 @@ async fn testExecuteQuery() {
         assert!(result.fetch_associative().unwrap().is_none());
     })
     .await;
+}
+
+/// The PHP test expects `executeQuery()` to get the profile of
+/// `enableResultCache()`. Here the connection's configuration has a
+/// result cache (the profile has none, as in the PHP test): the query
+/// reaches the driver once, and running the builder again reads the
+/// cached rows.
+#[tokio::test]
+async fn testExecuteQueryWithResultCaching() {
+    use std::sync::Arc;
+
+    use php2rust_doctrine_dbal::Configuration;
+    use php2rust_doctrine_dbal::cache::{ArrayAdapter, QueryCacheProfile};
+
+    for (name, row) in fetch_provider() {
+        let driver = TestDriver::new(Script {
+            rows: vec![credentials()],
+            ..Script::default()
+        });
+        let mut config = Configuration::new();
+        config.set_result_cache(Arc::new(ArrayAdapter::new()));
+        let conn = Connection::new(none(), driver.clone(), Some(config));
+        let qcp = QueryCacheProfile::new(300, None, None);
+
+        let mut qb = builder(&conn, &row);
+        qb.enable_result_cache(qcp);
+        for _ in 0..2 {
+            let mut results = qb.execute_query().await.unwrap();
+            assert_equals(
+                rows(vec![array([
+                    ("username", s("jwage")),
+                    ("password", s("changeme")),
+                ])]),
+                rows(results.fetch_all_associative().unwrap()),
+            );
+        }
+        assert_eq!(driver.calls.all(), row.calls, "{name}");
+    }
 }

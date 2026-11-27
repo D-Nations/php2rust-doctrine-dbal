@@ -3,11 +3,11 @@ src/ArrayParameterType.php	ArrayParameterType	18	ported	crates/php2rust-doctrine
 src/ArrayParameters/Exception.php	Exception	6	ported	crates/php2rust-doctrine-dbal/src/expand_array_parameters.rs
 src/ArrayParameters/Exception/MissingNamedParameter.php	MissingNamedParameter	14	ported	crates/php2rust-doctrine-dbal/src/expand_array_parameters.rs
 src/ArrayParameters/Exception/MissingPositionalParameter.php	MissingPositionalParameter	14	ported	crates/php2rust-doctrine-dbal/src/expand_array_parameters.rs
-src/Cache/ArrayResult.php	ArrayResult	88	pending	
-src/Cache/CacheException.php	CacheException	6	pending	
-src/Cache/Exception/NoCacheKey.php	NoCacheKey	10	pending	
-src/Cache/Exception/NoResultDriverConfigured.php	NoResultDriverConfigured	10	pending	
-src/Cache/QueryCacheProfile.php	QueryCacheProfile	56	pending	
+src/Cache/ArrayResult.php	ArrayResult	88	ported	crates/php2rust-doctrine-dbal/src/cache/array_result.rs
+src/Cache/CacheException.php	CacheException	6	ported	crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs
+src/Cache/Exception/NoCacheKey.php	NoCacheKey	10	ported	crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs
+src/Cache/Exception/NoResultDriverConfigured.php	NoResultDriverConfigured	10	ported	crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs
+src/Cache/QueryCacheProfile.php	QueryCacheProfile	56	ported	crates/php2rust-doctrine-dbal/src/cache/query_cache_profile.rs
 src/ColumnCase.php	ColumnCase	7	pending	
 src/Configuration.php	Configuration	73	ported	crates/php2rust-doctrine-dbal/src/configuration.rs
 src/Connection.php	Connection	710	ported	crates/php2rust-doctrine-dbal/src/connection.rs
