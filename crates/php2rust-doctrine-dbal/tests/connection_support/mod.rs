@@ -301,6 +301,11 @@ impl DriverConnection for TestConnection {
             Ok(self.script.server_version.clone())
         })
     }
+
+    fn get_native_connection(&self) -> php2rust_doctrine_dbal::driver::NativeConnection {
+        self.calls.push("getNativeConnection");
+        Arc::new(())
+    }
 }
 
 struct TestStatement {

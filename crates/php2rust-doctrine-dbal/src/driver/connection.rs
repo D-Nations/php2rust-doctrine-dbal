@@ -5,6 +5,9 @@
 //!
 //! Upstream: doctrine/dbal src/Driver/Connection.php
 
+use std::any::Any;
+use std::sync::Arc;
+
 use php_value::{PhpString, Value};
 
 use super::{BoxFuture, Result as DriverResult, Statement};
@@ -43,4 +46,12 @@ pub trait Connection: Send + Sync {
     /// `getServerVersion()` (`ServerVersionProvider`): the database server
     /// version.
     fn get_server_version(&self) -> BoxFuture<'_, Result<String, Exception>>;
+
+    /// Provides access to the native connection (`getNativeConnection()`):
+    /// the driver's own connection object, as an [`Any`] the caller
+    /// downcasts.
+    fn get_native_connection(&self) -> NativeConnection;
 }
+
+/// The native connection a driver connection gives (`resource|object`).
+pub type NativeConnection = Arc<dyn Any + Send + Sync>;

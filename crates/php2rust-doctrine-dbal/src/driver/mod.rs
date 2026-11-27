@@ -31,7 +31,7 @@ mod result;
 mod statement;
 
 pub use abstract_sqlite_driver::AbstractSQLiteDriver;
-pub use connection::Connection;
+pub use connection::{Connection, NativeConnection};
 pub use fetch_utils::FetchUtils;
 pub use result::Result;
 pub use statement::Statement;
