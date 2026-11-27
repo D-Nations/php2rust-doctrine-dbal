@@ -65,6 +65,8 @@ assert_eq!(visitor.get_parameters(), &[Value::Int(1), Value::Int(2)]);
 | `Schema` (tables and sequences by case-insensitive, namespace-resolved name, implicit and deprecated explicit namespaces, the deprecated `createTable()`/`renameTable()`/`dropTable()`/`createSequence()`/`dropSequence()`, the qualified/unqualified name deprecations, deep `clone`), `SchemaEditor` (default namespace, add/modify/rename/drop of tables and sequences, uniform qualification), `Sequence` (`isAutoIncrementsFor()`), `View`, their editors, `SchemaDiff`, and the `InvalidSchemaModification`, `ImproperlyQualifiedName`, `InvalidSequenceDefinition`, `InvalidViewDefinition`, `NamespaceAlreadyExists`, `Sequence`/`Table` `AlreadyExists`/`DoesNotExist` messages | `Schema/{Schema,SchemaEditor,SchemaDiff,Sequence,SequenceEditor,View,ViewEditor}.php`, `Schema/Exception/*.php` | SchemaTest (28), SchemaEditorTest (28), SequenceTest (5), SequenceEditorTest (5), ViewTest (3), ViewEditorTest (5) |
 | Schema managers on `SQLite`: `Connection::createSchemaManager()` through `DefaultSchemaManagerFactory`, `AbstractSchemaManager` (the deprecated `list*()`/`introspectTable()` and the `introspect*()` methods, `tablesExist()`, the schema assets filter, `introspectSchema()`, `createSchemaConfig()`, the `create*()`/`drop*()`/`alter*()`/`renameTable()` methods, `migrateSchema()`), `SQLiteSchemaManager` (PHP's SQL and regular expressions for collations, comments, `WITHOUT ROWID`, foreign key details and the shorthand foreign key form), `SQLiteMetadataProvider`, `IntrospectingSchemaProvider` with its processors, the `Metadata` rows, `Schema::toSql()`/`toDropSql()` with the `Create`/`DropSchemaObjectsSQLBuilder`, `getAlterSchemaSQL()`, the `UnsupportedName`/`UnsupportedSchema` messages | `Schema/{AbstractSchemaManager,SQLiteSchemaManager,SchemaManagerFactory,DefaultSchemaManagerFactory}.php`, `Platforms/SQLite/SQLiteMetadataProvider*.php`, `Schema/Introspection/**`, `Schema/Metadata/**`, `SQL/Builder/{Create,Drop}SchemaObjectsSQLBuilder.php`, `Schema/Exception/Unsupported{Name,Schema}.php` | Functional SQLiteSchemaManagerTest with the inherited SchemaManagerFunctionalTestCase tests (54 of 65; the other 11 upstream does not run on SQLite; `tests/functional_schema_sqlite_schema_manager_test.rs`), functional SchemaManagerTest (15 of 22; the other 7 upstream skips on SQLite), IntrospectingSchemaProviderTest (2), the two metadata row tests; functional AlterTableTest (3 of 8), ColumnCommentTest (3), ColumnRenameTest (2), CustomIntrospectionTest (1), DefaultValueTest (2) and ForeignKeyConstraintTest (4 of 5, without the `RESTRICT` cases), the rest upstream does not run on SQLite (`tests/functional_schema_*_test.rs`) |
 | Schema managers on `MySQL` and `MariaDB`: `MySQLSchemaManager` (the deprecated `select*()`/`_getPortable*()` path, `MariaDB`'s quoted defaults and escape sequences, `createComparator()` and `migrateSchema()`), `MySQLMetadataProvider` (the `information_schema` queries, through `IntrospectingSchemaProvider`), the `AbstractMySQLPlatform` helpers `getColumnTypeSQLSnippet()` (`MariaDB`'s `json_valid()` check) and `fetchTableOptionsByTable()` (`FULL_COLLATION_NAME` from `MariaDB` 10.10), the connection-backed and caching charset and collation metadata providers | `Schema/MySQLSchemaManager.php`, `Platforms/MySQL/MySQLMetadataProvider.php`, `Platforms/MySQL/{CharsetMetadataProvider,CollationMetadataProvider}/*.php` | MySQLInheritCharsetTest `testInheritTableOptionsFromDatabase` (`tests/schema_mysql_inherit_charset_test.rs`); `tests/mysql_schema_manager_vectors.rs` checks introspection, the deprecated list methods and the comparator against PHP over a scripted driver (`scripts/record.sh dbal-mysql-schema`). Functional MySQLSchemaManagerTest (67) stays pending: it needs a live server and a `MySQL` driver, which is not ported |
+| The `pdo_pgsql` driver (the `pdo_pgsql` cargo feature): the `PostgreSQL` protocol on `postgres-protocol` over TCP or a Unix socket (cleartext, MD5 and SCRAM-SHA-256 passwords), statements as pdo_pgsql runs them with prepares disabled (`PQexecParams()` on the unnamed statement, text parameters, `?` and `:name` rewritten to `$n`), its values (`bool`, `int2`/`int4`/`int8`/`oid` as integers, `float4`/`float8` as floats, the rest strings), `rowCount()`, `lastInsertId()` (`LASTVAL()`), transactions, `quote()`, libpq's error messages and `SQLSTATE`s; `AbstractPostgreSQLDriver`'s platform detection (`PostgreSQL120Platform` from 12, the deprecation below, `InvalidPlatformVersion`), the `PostgreSQL` exception converter | `Driver/PDO/PgSQL/Driver.php`, `Driver/AbstractPostgreSQLDriver.php`, `Driver/API/PostgreSQL/ExceptionConverter.php`, `Platforms/PostgreSQL120Platform.php` | VersionAwarePlatformDriverTest `testPDOPgSQL` (`tests/driver_version_aware_platform_driver_pgsql_test.rs`); unit tests of the protocol against a scripted server; on a live server (pending here): Functional/Driver/PDO/PgSQL/DriverTest (4), ConnectionTest (1), `tests/pdo_pgsql_live_test.rs` |
+| Schema manager on `PostgreSQL`: `PostgreSQLSchemaManager` (the deprecated `select*()`/`_getPortable*()` path with `quote_ident()` names, `schema.table` names outside the current schema, `condef` foreign keys, domain types, `jsonb`, partial indexes, `listSchemaNames()`, sequences and views, `createComparator()` and `migrateSchema()`), `PostgreSQLMetadataProvider` (the `pg_catalog` queries, through `IntrospectingSchemaProvider`), `PostgreSQLPlatform::getDefaultColumnValueSQLSnippet()` and `createSchemaManager()` (a `SchemaManager::PostgreSQL`) | `Schema/PostgreSQLSchemaManager.php`, `Platforms/PostgreSQL/PostgreSQLMetadataProvider.php` | `tests/postgresql_schema_manager_vectors.rs` checks introspection, the deprecated list methods, the name lists and the comparator against PHP over a scripted driver (20 cases, `scripts/record.sh dbal-pgsql-schema`); on a live server (pending here): PostgreSQLSchemaManagerTest's own tests (11 of 64 written) |
 | On `pdo_sqlite`: the comparator against introspected tables (default values, float defaults converging after `alterTable()`, explicit column renames, collation changes), foreign key violations raised as `ForeignKeyConstraintViolationException` (insert, update, delete, truncate, in transactions and savepoints), string and binary columns round-tripped through their types, `alterTable()` with added defaults (the table rebuild for `CURRENT_TIMESTAMP` on a populated table), length, precision and scale changes and renames that keep the column order, the default expressions, the platform's expression and quoting SQL run on the database, and a table in an attached database | `Schema/Comparator.php`, `Platforms/SQLite/Comparator.php`, `Schema/SQLiteSchemaManager.php`, `Driver/API/SQLite/ExceptionConverter.php`, `Types/{String,Binary}Type.php` | Functional Schema/ComparatorTest (3), Schema/SQLite/ComparatorTest (1), ForeignKeyExceptionTest (4), ForeignKeyConstraintViolationsTest (3 of 8; the other 5 upstream does not run on SQLite), Platform/ColumnTest/SQLite (8), the other functional Platform tests on SQLite (AddColumnWithDefaultTest 2, AlterColumnLengthChangeTest 1, AlterColumnTest 1 of 3, AlterDecimalColumnTest 1, BitwiseExpressionTest 2, ConcatExpressionTest 1, DateExpressionTest 1, DefaultExpressionTest 3, LengthExpressionTest 1, ModExpressionTest 1, OtherSchemaTest 1, PlatformRestrictionsTest 1, QuotingTest 2, RenameColumnTest 3; `tests/functional_platform_*_test.rs`; OtherSchemaTest reopens the attached file with `pdo_sqlite`, as the `sqlite3` driver is not ported). The `EnableForeignKeys` middleware of upstream's test setup is not ported: the tests run its `PRAGMA foreign_keys=ON` |
 | On `pdo_sqlite`: `modifyLimitQuery()` results, `escapeStringForLike()` in a `LIKE ... ESCAPE`, temporary tables inside transactions, binary parameters and `ArrayParameterType::BINARY` lists, the round trip of values through the mapping types (boolean, integer, bigint, float, string, text, json, json_object, jsonb_object, date and time, decimal, number, guid, ascii_string, binary, enum), unique constraint violations as `UniqueConstraintViolationException`, result metadata (`InvalidColumnIndex`, also after `free()`), the introspection of unsigned integers | `Platforms/SQLitePlatform.php`, `Driver/PDO/Result.php`, `Types/*.php`, `Driver/API/SQLite/ExceptionConverter.php`, `Schema/SQLiteSchemaManager.php` | Functional ModifyLimitQueryTest (9), LikeWildcardsEscapingTest (1), TemporaryTableTest (2), BinaryDataAccessTest (12), TypeConversionTest (8 of 9; not the named time zones), ResultMetadataTest (4 of 5), UniqueConstraintViolationsTest (3 of 8), BlobTest (2 of 8; not the streams), Types/{AsciiString,Binary,Decimal,Guid,Json,JsonObject,Jsonb,JsonbObject}Test, Types/BigIntTypeTest (1 of 2), Types/NumberTest (2), Types/EnumTypeTest (2 of 4), Ticket/DBAL752Test; the rest upstream does not run on SQLite |
 
@@ -224,10 +226,27 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   A custom `driverClass` is registered with `DriverManager::get_connection_with()`
   (a `DriverClass`), and a DSN's driver class must be declared to
   `DsnParser`.
-- The drivers of the driver map other than `pdo_sqlite` and `pdo_mysql`
-  build a connection, but `connect()` refuses with `Unsupported` until
-  they are ported; `pdo_mysql` does the same without the `pdo_mysql`
-  cargo feature.
+- The drivers of the driver map other than `pdo_sqlite`, `pdo_mysql` and
+  `pdo_pgsql` build a connection, but `connect()` refuses with
+  `Unsupported` until they are ported; `pdo_mysql` and `pdo_pgsql` do the
+  same without their cargo feature. The `pgsql` driver is not ported.
+- `pdo_pgsql` (the `pdo_pgsql` feature) speaks the protocol itself on the
+  `postgres-protocol` crate, as libpq would: sqlx and tokio-postgres
+  read and bind values in the binary format, where pdo_pgsql sends text
+  parameters and reads text results. It always runs with prepares
+  disabled (DBAL's default): `driverOptions`, `persistent` and
+  `ATTR_DISABLE_PREPARES => false` are ignored. There is no TLS: `sslmode`
+  `disable`, `allow` and `prefer` connect in plain text and the others
+  are refused (`sslrootcert`, `sslcert`, `sslkey`, `sslcrl` and
+  `gssencmode` are ignored); Kerberos, GSSAPI and SSPI authentication and
+  SCRAM channel binding are not supported. A `bytea` value is the bytes
+  as a string, where pdo_pgsql gives a stream. `??` (PDO's escaped `?`)
+  is not unescaped. Without `user`, `host` or `port` it reads `PGUSER`
+  (then `USER` or `USERNAME`), `PGHOST` (then the socket
+  `/var/run/postgresql`) and `PGPORT` (then 5432), as libpq does; the
+  other libpq variables, `.pgpass` and service files are not read. The
+  driver's functional tests need a server (README.md, Live PostgreSQL
+  tests).
 - `pdo_mysql` (sqlx's MySQL client, the `pdo_mysql` feature) prepares
   statements on the server and binds the values through sqlx, as
   `PDO::ATTR_EMULATE_PREPARES` off does (PDO's default for `pdo_mysql`
@@ -304,8 +323,8 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   platform implements; the schema manager and metadata provider hold a
   `&dyn AbstractMySQLPlatform`.
 - `createSchemaManager()` gives a `SchemaManager`, the enum of the ported
-  managers (`SQLite` and `MySQL`, the latter for every `MySQL` and
-  `MariaDB` platform), which forwards the `AbstractSchemaManager`
+  managers (`SQLite`, `MySQL`, the latter for every `MySQL` and
+  `MariaDB` platform, and `PostgreSQL`), which forwards the `AbstractSchemaManager`
   methods to its variant (the trait is not object safe). Its
   `createComparator()` is `async` and gives a `SchemaComparator` that
   dereferences to `Comparator`. `createMetadataProvider()` is
@@ -318,6 +337,12 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   has to wait refuses with an "unsupported" exception. The caching
   providers do not cache a failed lookup, as PHP's exception leaves the
   cache unset.
+- `PostgreSQLSchemaManager` keeps the current schema it reads (`SELECT
+  current_schema()`, once), as PHP's `getCurrentSchemaName()` caches it;
+  `_getPortableTableDefinition()` is not `async`, so the methods that hand
+  it rows read the schema first, once they have a row, at the point where
+  PHP reads it. Its `createComparator()` is not `async` (the
+  `SchemaManager` enum's is).
 - `AbstractMySQLDriver` picks the platform from the server version with
   a port of PHP's `version_compare()`; `MariaDB` versions are read as its
   regular expression reads them, and a malformed one is
@@ -388,8 +413,8 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   trait methods) and is not object-safe: a connection hands out a
   `SchemaManager` enum, whose own methods are `createComparator()`
   (`async`; `create_comparator_with()` for a config) and
-  `migrateSchema()`; `as_sqlite()` and `as_mysql()` give the concrete
-  manager. The current schema name is not cached (`SQLite` has
+  `migrateSchema()`; `as_sqlite()`, `as_mysql()` and `as_postgresql()`
+  give the concrete manager. The current schema name is not cached (`SQLite` has
   none). The schema assets filter is a `Configuration` closure set
   before the connection is made. A PHP regular expression that fails to
   match (PHP's warning and `false`) is an exception. Unit
