@@ -167,14 +167,14 @@ src/Logging/Statement.php	Statement	34	pending
 src/ParameterType.php	ParameterType	12	ported	crates/php2rust-doctrine-dbal/src/parameter_type.rs
 src/Platforms/AbstractMySQLPlatform.php	AbstractMySQLPlatform	620	ported	crates/php2rust-doctrine-dbal/src/platforms/abstract_mysql_platform.rs
 src/Platforms/AbstractPlatform.php	AbstractPlatform	1312	ported	crates/php2rust-doctrine-dbal/src/platforms/abstract_platform.rs
-src/Platforms/DB2Platform.php	DB2Platform	420	pending	
+src/Platforms/DB2Platform.php	DB2Platform	420	ported	crates/php2rust-doctrine-dbal/src/platforms/db2_platform.rs
 src/Platforms/DateIntervalUnit.php	DateIntervalUnit	13	ported	crates/php2rust-doctrine-dbal/src/platforms/date_interval_unit.rs
 src/Platforms/Db2/Db2MetadataProvider.php	Db2MetadataProvider	416	pending	
 src/Platforms/Exception/InvalidPlatformVersion.php	InvalidPlatformVersion	15	pending	
 src/Platforms/Exception/NoColumnsSpecifiedForTable.php	NoColumnsSpecifiedForTable	11	ported	crates/php2rust-doctrine-dbal/src/platforms/no_columns_specified_for_table.rs
 src/Platforms/Exception/NotSupported.php	NotSupported	11	ported	crates/php2rust-doctrine-dbal/src/platforms/exception.rs
 src/Platforms/Exception/PlatformException.php	PlatformException	6	ported	crates/php2rust-doctrine-dbal/src/platforms/exception.rs
-src/Platforms/Keywords/DB2Keywords.php	DB2Keywords	404	pending	
+src/Platforms/Keywords/DB2Keywords.php	DB2Keywords	404	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/db2_keywords.rs
 src/Platforms/Keywords/KeywordList.php	KeywordList	31	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mod.rs
 src/Platforms/Keywords/MariaDB117Keywords.php	MariaDB117Keywords	12	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mariadb117_keywords.rs
 src/Platforms/Keywords/MariaDB123Keywords.php	MariaDB123Keywords	12	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mariadb123_keywords.rs
