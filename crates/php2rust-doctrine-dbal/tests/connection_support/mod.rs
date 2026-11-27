@@ -15,6 +15,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 
 use php_value::{Key, PhpArray, PhpString, Value};
+use php2rust_doctrine_dbal::cache::ArrayResult;
 use php2rust_doctrine_dbal::driver::api::ExceptionConverter;
 use php2rust_doctrine_dbal::driver::{
     BoxFuture, Connection as DriverConnection, Driver, PlatformBox, Result as DriverResult,
@@ -62,6 +63,9 @@ pub struct Script {
     /// What `commit()` and `rollBack()` of the driver connection throw.
     pub commit_error: Option<Exception>,
     pub rollback_error: Option<Exception>,
+    /// What every query gives instead of `rows`: an `ArrayResult` (a
+    /// mock's `willReturnCallback(fn () => new ArrayResult(...))`).
+    pub array_result: Option<ArrayResult>,
 }
 
 /// A driver whose connection, statements and results record their calls.
@@ -208,9 +212,17 @@ struct TestConnection {
 
 impl TestConnection {
     fn result(&self) -> Box<dyn DriverResult> {
+        if let Some(result) = &self.script.array_result {
+            return Box::new(result.clone());
+        }
         Box::new(TestResult {
             rows: self.script.rows.iter().cloned().collect(),
             columns: self.script.rows.first().map_or(0, Vec::len),
+            names: self
+                .script
+                .rows
+                .first()
+                .map_or_else(Vec::new, |row| row.iter().map(|(name, _)| *name).collect()),
         })
     }
 }
@@ -337,6 +349,8 @@ impl DriverStatement for TestStatement {
 struct TestResult {
     rows: VecDeque<Vec<(&'static str, Value)>>,
     columns: usize,
+    /// The column names, from the first row.
+    names: Vec<&'static str>,
 }
 
 impl DriverResult for TestResult {
@@ -367,6 +381,16 @@ impl DriverResult for TestResult {
 
     fn free(&mut self) {
         self.rows.clear();
+    }
+
+    fn get_column_name(&self, index: i64) -> Option<Result<PhpString, Exception>> {
+        let name = usize::try_from(index)
+            .ok()
+            .and_then(|index| self.names.get(index));
+        Some(
+            name.map(|name| PhpString::from(*name))
+                .ok_or_else(|| Exception::invalid_column_index(index, None)),
+        )
     }
 
     fn class(&self) -> &'static str {

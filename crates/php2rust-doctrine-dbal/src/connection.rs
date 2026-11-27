@@ -16,8 +16,11 @@
 //! without the database) and `quote()` needs a connection that is already
 //! open (README.md, Differences).
 //!
-//! What is not ported: the result cache (`executeCacheQuery()`,
-//! `QueryCacheProfile`), a configured schema manager factory
+//! `executeQuery()`'s `$qcp` argument is
+//! [`Connection::execute_query_with_profile`]; `executeCacheQuery()`
+//! caches the rows in the profile's or the configuration's PSR-6 pool.
+//!
+//! What is not ported: a configured schema manager factory
 //! (`createSchemaManager()` uses the default one), `getNativeConnection()`, middlewares and the deprecation notices.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
@@ -31,6 +34,7 @@ use std::task::{Context, Poll, Waker};
 
 use php_value::{Key, PhpArray, PhpString, Value};
 
+use crate::cache::{ArrayResult, CachedResult, PoolValue, QueryCacheProfile};
 use crate::driver::api::ExceptionConverter;
 use crate::driver::{
     BoxFuture, Connection as DriverConnection, Driver, PlatformBox, Statement as DriverStatement,
@@ -655,6 +659,93 @@ impl Connection {
             Ok(result) => Ok(Result::new(result, self)),
             Err(e) => Err(self.convert_if_driver(e, Some(query))),
         }
+    }
+
+    /// `executeQuery($sql, $params, $types, $qcp)`: with a query cache
+    /// profile, the result comes from the result cache
+    /// (`executeCacheQuery()`).
+    pub async fn execute_query_with_profile(
+        &self,
+        sql: &str,
+        params: &PhpArray,
+        types: &ParameterTypes,
+        qcp: Option<&QueryCacheProfile>,
+    ) -> StdResult<Result<'_>> {
+        match qcp {
+            Some(qcp) => self.execute_cache_query(sql, params, types, qcp).await,
+            None => self.execute_query(sql, params, types).await,
+        }
+    }
+
+    /// Executes a caching query.
+    pub async fn execute_cache_query(
+        &self,
+        sql: &str,
+        params: &PhpArray,
+        types: &ParameterTypes,
+        qcp: &QueryCacheProfile,
+    ) -> StdResult<Result<'_>> {
+        let Some(result_cache) = qcp
+            .get_result_cache()
+            .or_else(|| self.config.get_result_cache())
+            .cloned()
+        else {
+            return Err(Exception::no_result_driver_configured());
+        };
+
+        let mut connection_params = self.params.clone();
+        connection_params.remove(&Key::from("password"));
+
+        let (cache_key, real_key) = qcp.generate_cache_keys(sql, params, types, &connection_params);
+        let real_key = Key::from(real_key);
+
+        let item = result_cache
+            .get_item(&cache_key)
+            .map_err(Exception::from_cache_pool)?;
+
+        let mut value: Vec<(Key, CachedResult)> = if item.is_hit() {
+            match item.get() {
+                Some(PoolValue::Results(results)) => results.clone(),
+                Some(PoolValue::Value(Value::Array(array))) => array
+                    .iter()
+                    .map(|(key, value)| (key.clone(), CachedResult::Value(value.clone())))
+                    .collect(),
+                _ => Vec::new(),
+            }
+        } else {
+            Vec::new()
+        };
+        if let Some((_, CachedResult::ArrayResult(cached))) =
+            value.iter().find(|(key, _)| *key == real_key)
+        {
+            return Ok(Result::new(Box::new(cached.clone()), self));
+        }
+
+        let mut result = self.execute_query(sql, params, types).await?;
+
+        let mut column_names = Vec::new();
+        for i in 0..result.column_count()? {
+            column_names.push(result.get_column_name(i64::try_from(i).unwrap_or(i64::MAX))?);
+        }
+
+        let rows = result.fetch_all_numeric()?;
+        let array_result = ArrayResult::new(column_names, rows);
+
+        match value.iter_mut().find(|(key, _)| *key == real_key) {
+            Some((_, slot)) => *slot = CachedResult::ArrayResult(array_result.clone()),
+            None => value.push((real_key, CachedResult::ArrayResult(array_result.clone()))),
+        }
+
+        let mut item = item.set(PoolValue::Results(value));
+
+        let lifetime = qcp.get_lifetime();
+        if lifetime > 0 {
+            item = item.expires_after(lifetime);
+        }
+
+        result_cache.save(item);
+
+        Ok(Result::new(Box::new(array_result), self))
     }
 
     /// Executes an SQL statement with the given parameters and returns the

@@ -529,3 +529,109 @@ async fn testItPreservesTheOriginalExceptionOnRollbackFailure() {
     let previous = e.previous().unwrap();
     assert_eq!(previous.message().as_bytes(), b"Original exception");
 }
+
+/// A pool that records the keys it is asked for and the items it saves,
+/// and gives every key the hit of the PHP test's item stub
+/// (`['realKey' => [[], []]]`).
+#[derive(Debug, Default)]
+struct RecordingPool {
+    keys: std::sync::Mutex<Vec<String>>,
+    saved: std::sync::Mutex<Vec<php2rust_doctrine_dbal::cache::CacheItem>>,
+}
+
+impl php2rust_doctrine_dbal::cache::CacheItemPool for RecordingPool {
+    fn get_item(
+        &self,
+        key: &str,
+    ) -> Result<php2rust_doctrine_dbal::cache::CacheItem, php_value::Thrown> {
+        use php2rust_doctrine_dbal::cache::{CacheItem, PoolValue};
+        self.keys.lock().unwrap().push(key.to_owned());
+        let mut value = PhpArray::new();
+        value.insert(
+            "realKey",
+            Value::Array(list([Value::Array(none()), Value::Array(none())])),
+        );
+        Ok(CacheItem::new(
+            key,
+            Some(PoolValue::Value(Value::Array(value))),
+        ))
+    }
+
+    fn get_items(
+        &self,
+        keys: &[String],
+    ) -> Result<Vec<php2rust_doctrine_dbal::cache::CacheItem>, php_value::Thrown> {
+        keys.iter().map(|key| self.get_item(key)).collect()
+    }
+
+    fn has_item(&self, _key: &str) -> Result<bool, php_value::Thrown> {
+        Ok(true)
+    }
+
+    fn clear(&self, _prefix: &str) -> bool {
+        true
+    }
+
+    fn delete_item(&self, _key: &str) -> Result<bool, php_value::Thrown> {
+        Ok(true)
+    }
+
+    fn save(&self, item: php2rust_doctrine_dbal::cache::CacheItem) -> bool {
+        self.saved.lock().unwrap().push(item);
+        true
+    }
+}
+
+/// The PHP test mocks `QueryCacheProfile` and expects `generateCacheKeys()`
+/// to get the connection parameters without the password. The profile is
+/// a final value here: it has the key `cacheKey`, and the test checks that
+/// the pool is asked for that key and that the result is saved under the
+/// real key generated from the parameters without the password.
+#[tokio::test]
+async fn testConnectionParamsArePassedToTheQueryCacheProfileInExecuteCacheQuery() {
+    use php2rust_doctrine_dbal::cache::{CacheItemPool, PoolValue, QueryCacheProfile};
+
+    let result_cache_mock = std::sync::Arc::new(RecordingPool::default());
+
+    let query = "SELECT * FROM foo WHERE bar = ?";
+    let params = list([i(666)]);
+    let types = positional_types([WrapperParameterType::Parameter(ParameterType::Integer)]);
+
+    let pool: std::sync::Arc<dyn CacheItemPool> = result_cache_mock.clone();
+    let query_cache_profile = QueryCacheProfile::new(0, Some("cacheKey".to_owned()), Some(pool));
+
+    let mut expected_connection_params = connection_params();
+    expected_connection_params.remove(&php_value::Key::from("password"));
+
+    let driver = TestDriver::new(Script::default());
+    driver
+        .connection(connection_params())
+        .execute_cache_query(query, &params, &types, &query_cache_profile)
+        .await
+        .unwrap();
+
+    assert!(!result_cache_mock.keys.lock().unwrap().is_empty());
+    assert!(
+        result_cache_mock
+            .keys
+            .lock()
+            .unwrap()
+            .iter()
+            .all(|key| key == "cacheKey")
+    );
+    let (_, real_key) = query_cache_profile.generate_cache_keys(
+        query,
+        &params,
+        &types,
+        &expected_connection_params,
+    );
+    let saved = result_cache_mock.saved.lock().unwrap();
+    let Some(PoolValue::Results(results)) = saved[0].get() else {
+        panic!("the result is not saved");
+    };
+    assert!(
+        results
+            .iter()
+            .any(|(key, _)| *key == php_value::Key::from(real_key.clone()))
+    );
+}

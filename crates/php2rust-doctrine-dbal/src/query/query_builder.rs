@@ -1,9 +1,8 @@
 //! Port of Doctrine\DBAL\Query\QueryBuilder.php: SQL building, parameters
 //! and state. The execution methods (`executeQuery()`,
 //! `executeStatement()`, `fetch*()`) are those of a builder over a
-//! `Connection` (Slice Connection, at the end); the result cache
-//! (`enableResultCache()`, `disableResultCache()`) needs
-//! `QueryCacheProfile`, which is not ported (README.md).
+//! `Connection` (Slice Connection, at the end); `executeQuery()` passes
+//! the result cache profile (`enableResultCache()`) to the connection.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -137,6 +136,8 @@ pub struct QueryBuilder<'c, C: ?Sized> {
     union_parts: Vec<Union<'c>>,
     /// The common table expressions of the query.
     common_table_expressions: Vec<CommonTableExpression<'c>>,
+    /// The query cache profile used for caching results.
+    result_cache_profile: Option<crate::cache::QueryCacheProfile>,
 }
 
 impl<C: ?Sized> fmt::Debug for QueryBuilder<'_, C> {
@@ -189,6 +190,7 @@ impl<C: ?Sized> Clone for QueryBuilder<'_, C> {
             values: self.values.clone(),
             union_parts: self.union_parts.clone(),
             common_table_expressions: self.common_table_expressions.clone(),
+            result_cache_profile: self.result_cache_profile.clone(),
         }
     }
 }
@@ -252,7 +254,27 @@ impl<'c, C: ?Sized> QueryBuilder<'c, C> {
             values: Vec::new(),
             union_parts: Vec::new(),
             common_table_expressions: Vec::new(),
+            result_cache_profile: None,
         }
+    }
+
+    /// Enables caching of the results of this query, for given amount of
+    /// seconds and optionally specified which key to use for the cache
+    /// entry.
+    pub fn enable_result_cache(
+        &mut self,
+        cache_profile: crate::cache::QueryCacheProfile,
+    ) -> &mut Self {
+        self.result_cache_profile = Some(cache_profile);
+
+        self
+    }
+
+    /// Disables caching of the results of this query.
+    pub fn disable_result_cache(&mut self) -> &mut Self {
+        self.result_cache_profile = None;
+
+        self
     }
 
     /// `$this->sql = null`.
@@ -1063,7 +1085,12 @@ impl<'c> QueryBuilder<'c, crate::Connection> {
     pub async fn execute_query(&self) -> Result<crate::Result<'c>, Exception> {
         let sql = self.get_sql()?;
         self.connection
-            .execute_query(&sql, &self.params, &self.connection_types())
+            .execute_query_with_profile(
+                &sql,
+                &self.params,
+                &self.connection_types(),
+                self.result_cache_profile.as_ref(),
+            )
             .await
     }
 
