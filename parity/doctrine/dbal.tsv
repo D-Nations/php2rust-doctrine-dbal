@@ -322,15 +322,15 @@ tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQ
 tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryZeroOffsetNoLimit	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryZeroOffsetNoLimit
 tests/Functional/NamedParametersTest.php	NamedParametersTest::testTicket	ported	crates/php2rust-doctrine-dbal/tests/functional_named_parameters_test.rs::testTicket
 tests/Functional/ParameterTypes/AsciiTest.php	AsciiTest::testAsciiBinding	n/a: upstream does not run it on SQLite (markTestSkipped: Driver does not support ascii string binding)	
-tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithCurrentTimestampDefaultToPopulatedTable	pending	
-tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithDefault	pending	
-tests/Functional/Platform/AlterColumnLengthChangeTest.php	AlterColumnLengthChangeTest::testColumnLengthIsChanged	pending	
-tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testColumnPositionRetainedAfterAltering	pending	
-tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testSupportsCollations	pending	
-tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testSupportsIcuCollationProviders	pending	
-tests/Functional/Platform/AlterDecimalColumnTest.php	AlterDecimalColumnTest::testAlterPrecisionAndScale	pending	
-tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseAnd	pending	
-tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseOr	pending	
+tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithCurrentTimestampDefaultToPopulatedTable	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_add_column_with_default_test.rs::testAddColumnWithCurrentTimestampDefaultToPopulatedTable
+tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithDefault	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_add_column_with_default_test.rs::testAddColumnWithDefault
+tests/Functional/Platform/AlterColumnLengthChangeTest.php	AlterColumnLengthChangeTest::testColumnLengthIsChanged	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_alter_column_length_change_test.rs::testColumnLengthIsChanged
+tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testColumnPositionRetainedAfterAltering	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_alter_column_test.rs::testColumnPositionRetainedAfterAltering
+tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testSupportsCollations	n/a: upstream does not run it on SQLite (markTestSkipped: This test covers PostgreSQL-specific schema comparison scenarios.)
+tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testSupportsIcuCollationProviders	n/a: upstream does not run it on SQLite (markTestSkipped: This test covers PostgreSQL-specific schema comparison scenarios.)
+tests/Functional/Platform/AlterDecimalColumnTest.php	AlterDecimalColumnTest::testAlterPrecisionAndScale	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_alter_decimal_column_test.rs::testAlterPrecisionAndScale
+tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseAnd	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_bitwise_expression_test.rs::testBitwiseAnd
+tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseOr	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_bitwise_expression_test.rs::testBitwiseOr
 tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryNoLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
 tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryWithLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
 tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthStringNoLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
@@ -379,20 +379,20 @@ tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testVariableLengthBinary
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testVariableLengthBinaryWithLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testVariableLengthBinaryWithLength
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testVariableLengthStringNoLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testVariableLengthStringNoLength
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testVariableLengthStringWithLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testVariableLengthStringWithLength
-tests/Functional/Platform/ConcatExpressionTest.php	ConcatExpressionTest::testConcatExpression	pending	
-tests/Functional/Platform/DateExpressionTest.php	DateExpressionTest::testDifference	pending	
-tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentDate	pending	
-tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentTime	pending	
-tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentTimestamp	pending	
-tests/Functional/Platform/LengthExpressionTest.php	LengthExpressionTest::testLengthExpression	pending	
-tests/Functional/Platform/ModExpressionTest.php	ModExpressionTest::testModExpression	pending	
-tests/Functional/Platform/OtherSchemaTest.php	OtherSchemaTest::testATableCanBeCreatedInAnotherSchema	pending	
-tests/Functional/Platform/PlatformRestrictionsTest.php	PlatformRestrictionsTest::testMaxIdentifierLengthLimitWithAutoIncrement	pending	
-tests/Functional/Platform/QuotingTest.php	QuotingTest::testQuoteIdentifier	pending	
-tests/Functional/Platform/QuotingTest.php	QuotingTest::testQuoteStringLiteral	pending	
-tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testColumnPositionRetainedAfterExplicitRenaming	pending	
-tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testColumnPositionRetainedAfterImplicitRenaming	pending	
-tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testRenameColumToQuoted	pending	
+tests/Functional/Platform/ConcatExpressionTest.php	ConcatExpressionTest::testConcatExpression	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_concat_expression_test.rs::testConcatExpression
+tests/Functional/Platform/DateExpressionTest.php	DateExpressionTest::testDifference	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_date_expression_test.rs::testDifference
+tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentDate	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_default_expression_test.rs::testCurrentDate
+tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentTime	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_default_expression_test.rs::testCurrentTime
+tests/Functional/Platform/DefaultExpressionTest.php	DefaultExpressionTest::testCurrentTimestamp	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_default_expression_test.rs::testCurrentTimestamp
+tests/Functional/Platform/LengthExpressionTest.php	LengthExpressionTest::testLengthExpression	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_length_expression_test.rs::testLengthExpression
+tests/Functional/Platform/ModExpressionTest.php	ModExpressionTest::testModExpression	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_mod_expression_test.rs::testModExpression
+tests/Functional/Platform/OtherSchemaTest.php	OtherSchemaTest::testATableCanBeCreatedInAnotherSchema	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_other_schema_test.rs::testATableCanBeCreatedInAnotherSchema
+tests/Functional/Platform/PlatformRestrictionsTest.php	PlatformRestrictionsTest::testMaxIdentifierLengthLimitWithAutoIncrement	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_platform_restrictions_test.rs::testMaxIdentifierLengthLimitWithAutoIncrement
+tests/Functional/Platform/QuotingTest.php	QuotingTest::testQuoteIdentifier	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_quoting_test.rs::testQuoteIdentifier
+tests/Functional/Platform/QuotingTest.php	QuotingTest::testQuoteStringLiteral	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_quoting_test.rs::testQuoteStringLiteral
+tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testColumnPositionRetainedAfterExplicitRenaming	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_rename_column_test.rs::testColumnPositionRetainedAfterExplicitRenaming
+tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testColumnPositionRetainedAfterImplicitRenaming	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_rename_column_test.rs::testColumnPositionRetainedAfterImplicitRenaming
+tests/Functional/Platform/RenameColumnTest.php	RenameColumnTest::testRenameColumToQuoted	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_rename_column_test.rs::testRenameColumToQuoted
 tests/Functional/PortabilityTest.php	PortabilityTest::testCaseConversion	pending	
 tests/Functional/PortabilityTest.php	PortabilityTest::testCaseConversionColumnName	pending	
 tests/Functional/PortabilityTest.php	PortabilityTest::testFetchAllNullColumn	pending	
