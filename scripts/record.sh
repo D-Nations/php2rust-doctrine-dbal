@@ -4,7 +4,8 @@
 #
 #   scripts/record.sh dbal             tests/data/php.json (providers, SQL\Parser, ExpandArrayParameters, Query\QueryBuilder, date vectors)
 #   scripts/record.sh dbal-connection  tests/data/connection.json (pdo_sqlite behaviour, SQLitePlatform SQL and DDL, DsnParser/DriverManager providers)
-#   scripts/record.sh all              both
+#   scripts/record.sh dbal-mysql-schema tests/data/mysql_schema.json (MySQLSchemaManager and MySQLMetadataProvider over a scripted driver)
+#   scripts/record.sh all              all three
 #
 # Run scripts/fetch-upstream.sh first: the recorders load doctrine/dbal and
 # its tests from upstream/doctrine/dbal.
@@ -36,6 +37,7 @@ data=crates/php2rust-doctrine-dbal/tests/data
 case "${1:-}" in
     dbal) record doctrine_dbal.php "$data/php.json" ;;
     dbal-connection) record doctrine_dbal_connection.php "$data/connection.json" ;;
-    all) record doctrine_dbal.php "$data/php.json"; record doctrine_dbal_connection.php "$data/connection.json" ;;
-    *) echo "usage: scripts/record.sh dbal|dbal-connection|all" >&2; exit 2 ;;
+    dbal-mysql-schema) record doctrine_dbal_mysql_schema.php "$data/mysql_schema.json" ;;
+    all) record doctrine_dbal.php "$data/php.json"; record doctrine_dbal_connection.php "$data/connection.json"; record doctrine_dbal_mysql_schema.php "$data/mysql_schema.json" ;;
+    *) echo "usage: scripts/record.sh dbal|dbal-connection|dbal-mysql-schema|all" >&2; exit 2 ;;
 esac
