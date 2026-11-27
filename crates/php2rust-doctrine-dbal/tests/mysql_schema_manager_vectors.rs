@@ -1,6 +1,6 @@
 //! `MySQLSchemaManager`, `MySQLMetadataProvider` and the `MySQL`
 //! comparator's connection-backed metadata providers against what PHP 8.4
-//! gives through doctrine/dbal (tests/data/mysql_schema.json,
+//! gives through doctrine/dbal (`tests/data/mysql_schema.json`,
 //! `scripts/record.sh dbal-mysql-schema`). No server: a scripted driver
 //! answers each query with the first recorded response whose needle the
 //! SQL contains, as `information_schema` would. Each case checks the
