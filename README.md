@@ -10,7 +10,7 @@ Doctrine Project.
 Part of the php2rust project. The crate came from
 [symfony-rs](https://github.com/php2rust/symfony-rs), with its git
 history. PHP's own behaviour (values, arrays, dates) comes from
-[php2rust/compatibility-tools-rs](https://github.com/php2rust/compatibility-tools-rs).
+[php2rust/compatibility-tools](https://github.com/php2rust/compatibility-tools).
 
 **Status.** Work in progress: see the crate's contract table in
 [crates/php2rust-doctrine-dbal/README.md](crates/php2rust-doctrine-dbal/README.md)
@@ -28,7 +28,7 @@ To change php2rust-compatibility-tools and see the result here at once,
 add an uncommitted `.cargo/config.toml`:
 
 ```toml
-[patch."https://github.com/php2rust/compatibility-tools-rs"]
+[patch."https://github.com/php2rust/compatibility-tools"]
 php2rust-value = { path = "../php2rust-compatibility-tools/crates/php2rust-value" }
 ```
 
