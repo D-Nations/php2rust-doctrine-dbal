@@ -2346,7 +2346,7 @@ tests/Schema/ColumnTest.php	ColumnTest::testGetTypeNameIsNotDeprecated	ported	cr
 tests/Schema/ColumnTest.php	ColumnTest::testIsQuoted	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testIsQuoted
 tests/Schema/ColumnTest.php	ColumnTest::testOptionsShouldNotBeIgnored	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testOptionsShouldNotBeIgnored
 tests/Schema/ColumnTest.php	ColumnTest::testPassingTypeInstanceToConstructorIsDeprecated	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testPassingTypeInstanceToConstructorIsDeprecated
-tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	pending	needs the MySQL and SQL Server platforms
+tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testQuotedColumnName
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionsJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionsJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSettingUnknownOptionIsStillSupported	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSettingUnknownOptionIsStillSupported
