@@ -29,6 +29,7 @@ pub mod sqlite;
 
 // Slice MySQL, PostgreSQL and Oracle platforms; slice MariaDB platforms.
 pub(crate) mod abstract_mysql_platform;
+mod db2_platform;
 mod mariadb1010_platform;
 mod mariadb1052_platform;
 mod mariadb1060_platform;
@@ -49,6 +50,7 @@ pub use abstract_mysql_platform::{
     LENGTH_LIMIT_BLOB, LENGTH_LIMIT_MEDIUMBLOB, LENGTH_LIMIT_MEDIUMTEXT, LENGTH_LIMIT_TEXT,
     LENGTH_LIMIT_TINYBLOB, LENGTH_LIMIT_TINYTEXT,
 };
+pub use db2_platform::DB2Platform;
 pub use mariadb_platform::MariaDBPlatform;
 pub use mariadb1010_platform::MariaDB1010Platform;
 pub use mariadb1052_platform::MariaDB1052Platform;
