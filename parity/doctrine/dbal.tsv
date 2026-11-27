@@ -331,46 +331,46 @@ tests/Functional/Platform/AlterColumnTest.php	AlterColumnTest::testSupportsIcuCo
 tests/Functional/Platform/AlterDecimalColumnTest.php	AlterDecimalColumnTest::testAlterPrecisionAndScale	pending	
 tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseAnd	pending	
 tests/Functional/Platform/BitwiseExpressionTest.php	BitwiseExpressionTest::testBitwiseOr	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthStringWithLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthBinaryNoLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthBinaryWithLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthStringNoLength	pending	
-tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthStringWithLength	pending	
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryNoLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthBinaryWithLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthStringNoLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testFixedLengthStringWithLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthBinaryNoLength	n/a: upstream does not run it on DB2 (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthBinaryWithLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthStringNoLength	n/a: upstream does not run it on DB2 (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/IBMDB2.php	IBMDB2::testVariableLengthStringWithLength	pending	needs a live DB2 server (requirePlatform(DB2Platform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthBinaryNoLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthBinaryWithLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthStringNoLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testFixedLengthStringWithLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthBinaryNoLength	n/a: upstream does not run it on MySQL (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthBinaryWithLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthStringNoLength	n/a: upstream does not run it on MySQL (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/MySQL.php	MySQL::testVariableLengthStringWithLength	pending	needs a live MySQL server (requirePlatform(AbstractMySQLPlatform))
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthBinaryNoLength	n/a: upstream does not run it on Oracle (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthBinaryWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthStringNoLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testFixedLengthStringWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinaryNoLength	n/a: upstream does not run it on Oracle (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinaryWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringNoLength	n/a: upstream does not run it on Oracle (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryNoLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryWithLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthStringNoLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthStringWithLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthBinaryNoLength	n/a: upstream does not run it on SQL Server (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthBinaryWithLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthStringNoLength	n/a: upstream does not run it on SQL Server (markTestSkipped)	
+tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testVariableLengthStringWithLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testFixedLengthBinaryNoLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testFixedLengthBinaryNoLength
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testFixedLengthBinaryWithLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testFixedLengthBinaryWithLength
 tests/Functional/Platform/ColumnTest/SQLite.php	SQLite::testFixedLengthStringNoLength	ported	crates/php2rust-doctrine-dbal/tests/functional_platform_column_test_sqlite_test.rs::testFixedLengthStringNoLength
@@ -1383,7 +1383,7 @@ tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testSupportsIdentit
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported	n/a: upstream does not run it on MariaDB (markTestSkipped: MariaDBPlatform supports inline column comments)	
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testUniquePrimaryKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_mariadb_platform_test.rs::testUniquePrimaryKey
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testZeroOffsetWithoutLimitIsIgnored	ported	crates/php2rust-doctrine-dbal/tests/platforms_mariadb_platform_test.rs::testZeroOffsetWithoutLimitIsIgnored
-tests/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProviderTest.php	CachingCollationMetadataProviderTest::testCharsetCaching	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_collation_metadata_provider_caching_collation_metadata_provider_test.rs::testCharsetCaching
+tests/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProviderTest.php	CachingCollationMetadataProviderTest::testCharsetCaching	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_caching_collation_metadata_provider_test.rs::testCharsetCaching
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAddedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAddedSequence
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAlteredSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAlteredSequence
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAutoIncrementNoSequences
@@ -2295,8 +2295,8 @@ tests/SQL/ParserTest.php	ParserTest::testStatementsWithParameters	ported	crates/
 tests/SQL/ParserTest.php	ParserTest::testStatementsWithoutParameters	ported	crates/php2rust-doctrine-dbal/tests/parser_test.rs::testStatementsWithoutParameters
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testConstructWithoutArguments	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testConstructWithoutArguments
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testCreateParserNotImplemented	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testCreateParserNotImplemented
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	pending	needs the Oracle, PostgreSQL and MySQL platforms
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	pending	needs the MySQL, Oracle and PostgreSQL platforms
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testNameParsingDeprecation
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testNoNameParsingDeprecation
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testEmptyName
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testSetAccessToUninitializedName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testSetAccessToUninitializedName
 tests/Schema/AbstractOptionallyNamedObjectTest.php	AbstractOptionallyNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_optionally_named_object_test.rs::testEmptyName
@@ -2346,7 +2346,7 @@ tests/Schema/ColumnTest.php	ColumnTest::testGetTypeNameIsNotDeprecated	ported	cr
 tests/Schema/ColumnTest.php	ColumnTest::testIsQuoted	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testIsQuoted
 tests/Schema/ColumnTest.php	ColumnTest::testOptionsShouldNotBeIgnored	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testOptionsShouldNotBeIgnored
 tests/Schema/ColumnTest.php	ColumnTest::testPassingTypeInstanceToConstructorIsDeprecated	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testPassingTypeInstanceToConstructorIsDeprecated
-tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	pending	needs the MySQL and SQL Server platforms
+tests/Schema/ColumnTest.php	ColumnTest::testQuotedColumnName	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testQuotedColumnName
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSetPlatformOptionsJsonb	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSetPlatformOptionsJsonb
 tests/Schema/ColumnTest.php	ColumnTest::testSettingUnknownOptionIsStillSupported	ported	crates/php2rust-doctrine-dbal/tests/schema_column_test.rs::testSettingUnknownOptionIsStillSupported
@@ -2632,8 +2632,8 @@ tests/Schema/TableTest.php	TableTest::testOverrulingIndexDoesNotDropOverruledInd
 tests/Schema/TableTest.php	TableTest::testOverwritingForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testOverwritingForeignKeyConstraint
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyConstraintIsDerivedFromIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyConstraintIsDerivedFromIndex
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex
-tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	pending	needs the MySQL platform
-tests/Schema/TableTest.php	TableTest::testQuotedTableName	pending	needs the MySQL platform
+tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testQuoteSchemaPrefixed
+tests/Schema/TableTest.php	TableTest::testQuotedTableName	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testQuotedTableName
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraint
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraintUnknownNameThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraintUnknownNameThrowsException
 tests/Schema/TableTest.php	TableTest::testRenameColumn	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRenameColumn

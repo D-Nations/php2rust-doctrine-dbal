@@ -1,7 +1,6 @@
 //! Port of tests/Schema/ColumnTest.php at doctrine/dbal
 //! c435cd7ea33e17d2a89288caf994cf3d4549b879. Names and assertions are
-//! PHPUnit's. `testQuotedColumnName` needs the `MySQL` and SQL Server
-//! platforms, which are not ported (pending).
+//! PHPUnit's.
 //!
 //! Upstream: doctrine/dbal tests/Schema/ColumnTest.php
 
@@ -17,6 +16,7 @@ mod schema_support;
 use std::sync::Arc;
 
 use php_value::{Key, PhpArray, Value, php_array};
+use php2rust_doctrine_dbal::platforms::{MySQLPlatform, SQLServerPlatform, SQLitePlatform};
 use php2rust_doctrine_dbal::schema::name::{Identifier, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{Column, TypeObject};
 use php2rust_doctrine_dbal::types::{self, Type, Types};
@@ -292,4 +292,31 @@ fn testSetPlatformOptionsJsonb() {
     expect_deprecation("https://github.com/doctrine/dbal/pull/6939", || {
         column.set_platform_options(php_array!["jsonb" => true]);
     });
+}
+
+#[test]
+fn testQuotedColumnName() {
+    let column = Column::editor()
+        .set_quoted_name("bar")
+        .set_type_name(Types::STRING)
+        .create()
+        .unwrap();
+
+    let mysql_platform = MySQLPlatform::new();
+    let sqlite_platform = SQLitePlatform::new();
+
+    assert_eq!("\"bar\"", column.get_object_name().unwrap().to_string());
+    assert_eq!("`bar`", column.get_quoted_name(&mysql_platform));
+    assert_eq!("\"bar\"", column.get_quoted_name(&sqlite_platform));
+
+    let column = Column::editor()
+        .set_quoted_name("bar")
+        .set_type_name(Types::STRING)
+        .create()
+        .unwrap();
+
+    let sql_server_platform = SQLServerPlatform::new();
+
+    assert_eq!("\"bar\"", column.get_object_name().unwrap().to_string());
+    assert_eq!("[bar]", column.get_quoted_name(&sql_server_platform));
 }

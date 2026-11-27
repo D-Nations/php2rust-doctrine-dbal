@@ -8,9 +8,9 @@ pin what the tests leave open. Not affiliated with or endorsed by the
 Doctrine Project.
 
 Part of the php2rust project. The crate came from
-[symfony-rs](https://github.com/D-Nations/symfony-rs), with its git
+[symfony-rs](https://github.com/php2rust/symfony-rs), with its git
 history. PHP's own behaviour (values, arrays, dates) comes from
-[php2rust-compatibility-tools](https://github.com/D-Nations/php2rust-compatibility-tools).
+[php2rust/compatibility-tools-rs](https://github.com/php2rust/compatibility-tools-rs).
 
 **Status.** Work in progress: see the crate's contract table in
 [crates/php2rust-doctrine-dbal/README.md](crates/php2rust-doctrine-dbal/README.md)
@@ -21,14 +21,14 @@ a commit:
 
 ```toml
 [dependencies]
-php2rust-doctrine-dbal = { git = "https://github.com/D-Nations/php2rust-doctrine-dbal", rev = "<commit>" }
+php2rust-doctrine-dbal = { git = "https://github.com/php2rust/doctrine-dbal-rs", rev = "<commit>" }
 ```
 
 To change php2rust-compatibility-tools and see the result here at once,
 add an uncommitted `.cargo/config.toml`:
 
 ```toml
-[patch."https://github.com/D-Nations/php2rust-compatibility-tools"]
+[patch."https://github.com/php2rust/compatibility-tools-rs"]
 php2rust-value = { path = "../php2rust-compatibility-tools/crates/php2rust-value" }
 ```
 

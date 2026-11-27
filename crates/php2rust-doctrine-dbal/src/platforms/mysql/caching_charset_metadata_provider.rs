@@ -1,9 +1,9 @@
-//! Port of
-//! Doctrine\DBAL\Platforms\MySQL\CharsetMetadataProvider\CachingCharsetMetadataProvider.php.
+//! Port of Doctrine\DBAL\Platforms\MySQL\CharsetMetadataProvider\CachingCharsetMetadataProvider.php.
 //!
-//! `@internal`. The cache is a `RefCell`, as the provider is called
-//! through `&self`; a failing lookup is not cached (PHP's exception leaves
-//! the assignment undone).
+//! `@internal`. The cache is behind a `RefCell` because
+//! `CharsetMetadataProvider::get_default_charset_collation()` takes `&self`.
+//! A `null` collation is cached like any other answer; an exception from the
+//! underlying provider is passed on and nothing is cached, as in PHP.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -15,17 +15,20 @@ use std::collections::HashMap;
 use super::CharsetMetadataProvider;
 use crate::exception::Exception;
 
-/// `@internal`
+/// `@internal` `final class CachingCharsetMetadataProvider implements CharsetMetadataProvider`
 pub struct CachingCharsetMetadataProvider<'a> {
-    charset_metadata_provider: Box<dyn CharsetMetadataProvider + 'a>,
+    /// `private array $cache`: charset => `?non-empty-string`.
     cache: RefCell<HashMap<String, Option<String>>>,
+    charset_metadata_provider: Box<dyn CharsetMetadataProvider + 'a>,
 }
 
 impl<'a> CachingCharsetMetadataProvider<'a> {
+    /// `__construct(CharsetMetadataProvider $charsetMetadataProvider)`.
+    #[must_use]
     pub fn new(charset_metadata_provider: Box<dyn CharsetMetadataProvider + 'a>) -> Self {
         Self {
-            charset_metadata_provider,
             cache: RefCell::new(HashMap::new()),
+            charset_metadata_provider,
         }
     }
 }
@@ -42,6 +45,7 @@ impl CharsetMetadataProvider for CachingCharsetMetadataProvider<'_> {
         self.cache
             .borrow_mut()
             .insert(charset.to_owned(), collation.clone());
+
         Ok(collation)
     }
 }
