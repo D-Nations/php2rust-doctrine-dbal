@@ -959,7 +959,7 @@ impl<'c, C: ConnectionStandIn + ?Sized> QueryBuilder<'c, C> {
         if let Some((first, others)) = self.common_table_expressions.split_first() {
             select_parts.push(
                 database_platform
-                    .create_with_sql_builder()
+                    .create_with_sql_builder()?
                     .build_sql(first, others)?,
             );
         }
@@ -995,7 +995,7 @@ impl<'c, C: ConnectionStandIn + ?Sized> QueryBuilder<'c, C> {
         if let Some((first, others)) = self.common_table_expressions.split_first() {
             union_parts.push(
                 database_platform
-                    .create_with_sql_builder()
+                    .create_with_sql_builder()?
                     .build_sql(first, others)?,
             );
         }

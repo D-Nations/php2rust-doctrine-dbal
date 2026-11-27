@@ -230,8 +230,8 @@ impl AbstractPlatform for StubPlatform {
         Box::new(DefaultUnionSQLBuilder::new(self))
     }
 
-    fn create_with_sql_builder(&self) -> WithSQLBuilder {
-        WithSQLBuilder::new()
+    fn create_with_sql_builder(&self) -> Result<WithSQLBuilder, Exception> {
+        Ok(WithSQLBuilder::new())
     }
 }
 

@@ -161,9 +161,10 @@ impl AbstractPlatform for StubPlatform {
         self.declaration("getDecimalTypeDeclarationSQL", column)
     }
 
-    fn convert_booleans(&self, item: &Value) -> Value {
-        self.call("convertBooleans", vec![item.clone()])
-            .unwrap_or_default()
+    fn convert_booleans(&self, item: &Value) -> Result<Value, Exception> {
+        Ok(self
+            .call("convertBooleans", vec![item.clone()])
+            .unwrap_or_default())
     }
 
     fn convert_from_boolean(&self, item: &Value) -> Option<bool> {
@@ -174,9 +175,10 @@ impl AbstractPlatform for StubPlatform {
         }
     }
 
-    fn convert_booleans_to_database_value(&self, item: &Value) -> Value {
-        self.call("convertBooleansToDatabaseValue", vec![item.clone()])
-            .unwrap_or_default()
+    fn convert_booleans_to_database_value(&self, item: &Value) -> Result<Value, Exception> {
+        Ok(self
+            .call("convertBooleansToDatabaseValue", vec![item.clone()])
+            .unwrap_or_default())
     }
 
     fn get_date_time_type_declaration_sql(

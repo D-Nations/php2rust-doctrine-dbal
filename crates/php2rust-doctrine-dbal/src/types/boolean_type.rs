@@ -4,7 +4,7 @@
 //!
 //! Upstream: doctrine/dbal src/Types/BooleanType.php
 
-use php_value::{PhpArray, PhpString, Value};
+use php_value::{PhpArray, PhpString, Thrown, Value};
 
 use super::{ConversionError, Type};
 use crate::{ParameterType, exception::Exception, platforms::AbstractPlatform};
@@ -31,7 +31,15 @@ impl Type for BooleanType {
         value: &Value,
         platform: &dyn AbstractPlatform,
     ) -> Result<Value, ConversionError> {
-        Ok(platform.convert_booleans_to_database_value(value))
+        platform
+            .convert_booleans_to_database_value(value)
+            .map_err(|e| {
+                if e.class() == Exception::UNSUPPORTED {
+                    ConversionError::Unsupported(e.message().to_string_lossy().into_owned())
+                } else {
+                    ConversionError::Thrown(Thrown::new(e.class(), e.message().clone(), 0))
+                }
+            })
     }
 
     fn convert_to_php_value(
