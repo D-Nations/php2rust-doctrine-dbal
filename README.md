@@ -29,7 +29,7 @@ add an uncommitted `.cargo/config.toml`:
 
 ```toml
 [patch."https://github.com/php2rust/compatibility-tools"]
-php2rust-value = { path = "../php2rust-compatibility-tools/crates/php2rust-value" }
+php2rust-value = { path = "../compatibility-tools/crates/php2rust-value" }
 ```
 
 When the change is merged there, update `rev` in the root `Cargo.toml`.
