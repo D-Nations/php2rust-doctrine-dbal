@@ -149,6 +149,8 @@ namespace {
         'Types/DateTimeTest', 'Types/DateTimeTzTest', 'Types/JsonObjectTest', 'Types/JsonTest',
         'Types/TimeTest', 'Types/TypeTest',
         'Platforms/SQLitePlatformTest',
+        'Platforms/MySQLPlatformTest', 'Platforms/MySQL84PlatformTest', 'Platforms/PostgreSQLPlatformTest',
+        'Platforms/OraclePlatformTest',
     ];
     foreach ($classes as $path) {
         $reflection = new ReflectionClass('Doctrine\\DBAL\\Tests\\' . str_replace('/', '\\', $path));

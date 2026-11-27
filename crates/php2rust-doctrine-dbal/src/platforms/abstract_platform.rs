@@ -236,56 +236,25 @@ pub trait AbstractPlatform: AsDynPlatform {
     /// Returns the SQL snippet that declares a floating point column of
     /// arbitrary precision: `NUMERIC(precision, scale)`.
     fn get_decimal_type_declaration_sql(&self, column: &PhpArray) -> Result<PhpString, Exception> {
-        let set = |name: &str| column.get(&Key::from(name)).filter(|v| !v.is_null());
-        let Some(precision) = set("precision") else {
-            return invalid_column_declaration(column, Exception::column_precision_required());
-        };
-        let Some(scale) = set("scale") else {
-            return invalid_column_declaration(column, Exception::column_scale_required());
-        };
-        let (Some(precision), Some(scale)) = (precision.to_php_string(), scale.to_php_string())
-        else {
-            return Err(Exception::new(
-                Exception::UNSUPPORTED,
-                "a NUMERIC precision or scale that is an array or object",
-            ));
-        };
-        let mut sql = b"NUMERIC(".to_vec();
-        sql.extend_from_slice(precision.as_bytes());
-        sql.extend_from_slice(b", ");
-        sql.extend_from_slice(scale.as_bytes());
-        sql.push(b')');
-        Ok(PhpString::from(sql))
+        parent::get_decimal_type_declaration_sql(self, column)
     }
 
     /// Converts a boolean, or the booleans of an array, to ints (the
     /// literal case); any other value is returned as it is.
-    fn convert_booleans(&self, item: &Value) -> Value {
-        match item {
-            Value::Array(array) => {
-                let mut converted = array.clone();
-                for (key, value) in array.iter() {
-                    if let Value::Bool(b) = value {
-                        converted.insert(key.clone(), Value::Int(i64::from(*b)));
-                    }
-                }
-                Value::Array(converted)
-            }
-            Value::Bool(b) => Value::Int(i64::from(*b)),
-            other => other.clone(),
-        }
+    ///
+    /// A `Result`: `PostgreSQLPlatform` throws an
+    /// `UnexpectedValueException` for a string it does not read.
+    fn convert_booleans(&self, item: &Value) -> Result<Value, Exception> {
+        Ok(parent::convert_booleans(self, item))
     }
 
     /// `(bool) $item`, `null` staying `null`.
     fn convert_from_boolean(&self, item: &Value) -> Option<bool> {
-        if item.is_null() {
-            return None;
-        }
-        Some(item.is_truthy())
+        parent::convert_from_boolean(self, item)
     }
 
     /// Converts booleans for a prepared statement.
-    fn convert_booleans_to_database_value(&self, item: &Value) -> Value {
+    fn convert_booleans_to_database_value(&self, item: &Value) -> Result<Value, Exception> {
         self.convert_booleans(item)
     }
 
@@ -356,8 +325,10 @@ pub trait AbstractPlatform: AsDynPlatform {
     }
 
     /// `createWithSQLBuilder()`.
-    fn create_with_sql_builder(&self) -> WithSQLBuilder {
-        WithSQLBuilder::new()
+    ///
+    /// A `Result`: `MySQLPlatform` throws `NotSupported`.
+    fn create_with_sql_builder(&self) -> Result<WithSQLBuilder, Exception> {
+        Ok(WithSQLBuilder::new())
     }
 
     /// Adds a driver-specific LIMIT clause to the query
@@ -730,8 +701,8 @@ pub trait AbstractPlatform: AsDynPlatform {
     }
 
     /// Returns the SQL to drop an index from a table.
-    fn get_drop_index_sql(&self, name: &str, _table: &str) -> String {
-        format!("DROP INDEX {name}")
+    fn get_drop_index_sql(&self, name: &str, table: &str) -> String {
+        parent::get_drop_index_sql(self, name, table)
     }
 
     /// Returns the SQL to drop a constraint (protected).
@@ -952,45 +923,7 @@ pub trait AbstractPlatform: AsDynPlatform {
         columns: &[PhpArray],
         options: CreateTableOptions,
     ) -> Result<Vec<String>, Exception> {
-        validate_create_table_options(
-            &options,
-            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::_getCreateTableSQL",
-        );
-
-        let mut column_list_sql = self.get_column_declaration_list_sql(columns)?;
-
-        for definition in options.unique_constraints.iter().flatten() {
-            column_list_sql.push_str(", ");
-            column_list_sql.push_str(&self.get_unique_constraint_declaration_sql(definition)?);
-        }
-
-        if let Some(primary) = options.primary.as_ref().filter(|p| !p.is_empty()) {
-            let _ = write!(
-                column_list_sql,
-                ", PRIMARY KEY ({})",
-                array_unique(primary).join(", ")
-            );
-        }
-
-        for definition in options.indexes.iter().flatten() {
-            column_list_sql.push_str(", ");
-            column_list_sql.push_str(&self.get_index_declaration_sql(definition)?);
-        }
-
-        let mut query = format!("CREATE TABLE {name} ({column_list_sql}");
-        let definitions: Vec<Value> = columns.iter().cloned().map(Value::Array).collect();
-        let check = self.get_check_declaration_sql(&definitions)?;
-        if !check.is_empty() {
-            query.push_str(", ");
-            query.push_str(&check);
-        }
-        query.push(')');
-
-        let mut sql = vec![query];
-        for definition in options.foreign_keys.iter().flatten() {
-            sql.push(self.get_create_foreign_key_sql(definition, name)?);
-        }
-        Ok(sql)
+        parent::get_create_table_sql_internal(self, name, columns, options)
     }
 
     /// `getCreateTemporaryTableSnippetSQL()`.
@@ -1000,10 +933,7 @@ pub trait AbstractPlatform: AsDynPlatform {
 
     /// Returns the SQL to drop an existing sequence.
     fn get_drop_sequence_sql(&self, name: &str) -> Result<String, Exception> {
-        if !self.supports_sequences() {
-            return Err(not_supported("getDropSequenceSQL"));
-        }
-        Ok(format!("DROP SEQUENCE {name}"))
+        parent::get_drop_sequence_sql(self, name)
     }
 
     /// Returns the SQL to create an index on a table on this platform.
@@ -1127,25 +1057,7 @@ pub trait AbstractPlatform: AsDynPlatform {
         &self,
         diff: &TableDiff,
     ) -> Result<Vec<String>, Exception> {
-        let table_name_sql = diff.get_old_table().get_quoted_name(self);
-        let mut sql = Vec::new();
-        for foreign_key in diff.get_dropped_foreign_keys() {
-            sql.push(
-                self.get_drop_foreign_key_sql(&foreign_key.get_quoted_name(self), &table_name_sql)?,
-            );
-        }
-        for foreign_key in diff.modified_foreign_keys() {
-            sql.push(
-                self.get_drop_foreign_key_sql(&foreign_key.get_quoted_name(self), &table_name_sql)?,
-            );
-        }
-        for index in diff.get_dropped_indexes() {
-            sql.push(self.get_drop_index_sql(&index.get_quoted_name(self), &table_name_sql));
-        }
-        for index in diff.modified_indexes() {
-            sql.push(self.get_drop_index_sql(&index.get_quoted_name(self), &table_name_sql));
-        }
-        Ok(sql)
+        parent::get_pre_alter_table_index_foreign_key_sql(self, diff)
     }
 
     /// `getPostAlterTableIndexForeignKeySQL()` (protected).
@@ -1296,85 +1208,7 @@ pub trait AbstractPlatform: AsDynPlatform {
     /// Obtains DBMS specific SQL code portion needed to set a default
     /// value declaration to be used in statements like CREATE TABLE.
     fn get_default_value_declaration_sql(&self, column: &PhpArray) -> Result<String, Exception> {
-        let default = match column.get(&Key::from("default")) {
-            None | Some(Value::Null) => {
-                return Ok(if column_flag(column, "notnull") {
-                    String::new()
-                } else {
-                    " DEFAULT NULL".to_owned()
-                });
-            }
-            Some(default) => default,
-        };
-
-        if let Some(expression) = DefaultExpressionObject::of(default) {
-            return Ok(format!(" DEFAULT {}", expression.to_sql(self.as_dyn())));
-        }
-
-        let Some(type_) = self.get_column_type_or_null(column)? else {
-            return Ok(format!(" DEFAULT '{}'", concat_value(default)?));
-        };
-
-        let mapping = type_.php_mapping_type();
-        if mapping == Some(PhpMappingType::Integer) {
-            return Ok(format!(" DEFAULT {}", concat_value(default)?));
-        }
-
-        let is =
-            |sql: String| matches!(default, Value::String(s) if s.as_bytes() == sql.as_bytes());
-        let current = [
-            (
-                PhpMappingType::DateTime,
-                self.get_current_timestamp_sql(),
-                "CurrentTimestamp",
-            ),
-            (
-                PhpMappingType::Time,
-                self.get_current_time_sql(),
-                "CurrentTime",
-            ),
-            (
-                PhpMappingType::Date,
-                self.get_current_date_sql(),
-                "CurrentDate",
-            ),
-        ];
-        for (kind, sql, class) in current {
-            if mapping == Some(kind) && is(sql.clone()) {
-                deprecations::trigger("https://github.com/doctrine/dbal/pull/7195", || {
-                    format!(
-                        "Using \"{sql}\" as a column default value is deprecated. Use a {class} instance instead."
-                    )
-                });
-                return Ok(format!(" DEFAULT {sql}"));
-            }
-        }
-
-        if type_.class() == "Doctrine\\DBAL\\Types\\BooleanType" {
-            return Ok(format!(
-                " DEFAULT {}",
-                concat_value(&self.convert_booleans(default))?
-            ));
-        }
-
-        if matches!(default, Value::Int(_) | Value::Float(_)) {
-            return Ok(format!(" DEFAULT {}", concat_value(default)?));
-        }
-
-        if mapping == Some(PhpMappingType::Float) {
-            return Ok(format!(
-                " DEFAULT {}",
-                php_value::numeric::float_to_string(php_value::numeric::float_cast(default))
-            ));
-        }
-
-        let default = string_argument(
-            default,
-            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::quoteStringLiteral",
-            1,
-            "str",
-        )?;
-        Ok(format!(" DEFAULT {}", self.quote_string_literal(&default)))
+        parent::get_default_value_declaration_sql(self, column)
     }
 
     /// Obtains DBMS specific SQL code portion needed to set a CHECK
@@ -1487,23 +1321,7 @@ pub trait AbstractPlatform: AsDynPlatform {
         &self,
         foreign_key: &ForeignKeyConstraint,
     ) -> Result<String, Exception> {
-        let mut query = String::new();
-        for (option, clause) in [("onUpdate", "ON UPDATE"), ("onDelete", "ON DELETE")] {
-            if foreign_key.has_option_inner(option) {
-                let action = string_argument(
-                    &foreign_key.option(option),
-                    "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getForeignKeyReferentialActionSQL",
-                    1,
-                    "action",
-                )?;
-                let _ = write!(
-                    query,
-                    " {clause} {}",
-                    self.get_foreign_key_referential_action_sql(&action)?
-                );
-            }
-        }
-        Ok(query)
+        parent::get_advanced_foreign_key_options_sql(self, foreign_key)
     }
 
     /// `getConstraintDeferrabilitySQL()` (protected).
@@ -1767,7 +1585,7 @@ pub trait AbstractPlatform: AsDynPlatform {
 
     /// Quotes a literal string.
     fn quote_string_literal(&self, str: &str) -> String {
-        format!("'{}'", str.replace('\'', "''"))
+        parent::quote_string_literal(self, str)
     }
 
     /// Escapes metacharacters in a string intended to be used with a
@@ -2006,4 +1824,282 @@ pub(crate) fn array_unique(values: &[String]) -> Vec<String> {
         }
     }
     unique
+}
+
+/// The bodies of the trait's default methods that a platform's override
+/// calls as `parent::method()` (a Rust override cannot call the default it
+/// replaces).
+pub(crate) mod parent {
+    use super::*;
+
+    /// `parent::get_decimal_type_declaration_sql()`: the body of [`AbstractPlatform::get_decimal_type_declaration_sql`].
+    pub(crate) fn get_decimal_type_declaration_sql<P: AbstractPlatform + ?Sized>(
+        _this: &P,
+        column: &PhpArray,
+    ) -> Result<PhpString, Exception> {
+        let set = |name: &str| column.get(&Key::from(name)).filter(|v| !v.is_null());
+        let Some(precision) = set("precision") else {
+            return invalid_column_declaration(column, Exception::column_precision_required());
+        };
+        let Some(scale) = set("scale") else {
+            return invalid_column_declaration(column, Exception::column_scale_required());
+        };
+        let (Some(precision), Some(scale)) = (precision.to_php_string(), scale.to_php_string())
+        else {
+            return Err(Exception::new(
+                Exception::UNSUPPORTED,
+                "a NUMERIC precision or scale that is an array or object",
+            ));
+        };
+        let mut sql = b"NUMERIC(".to_vec();
+        sql.extend_from_slice(precision.as_bytes());
+        sql.extend_from_slice(b", ");
+        sql.extend_from_slice(scale.as_bytes());
+        sql.push(b')');
+        Ok(PhpString::from(sql))
+    }
+
+    /// `parent::convert_booleans()`: the body of [`AbstractPlatform::convert_booleans`].
+    pub(crate) fn convert_booleans<P: AbstractPlatform + ?Sized>(_this: &P, item: &Value) -> Value {
+        match item {
+            Value::Array(array) => {
+                let mut converted = array.clone();
+                for (key, value) in array.iter() {
+                    if let Value::Bool(b) = value {
+                        converted.insert(key.clone(), Value::Int(i64::from(*b)));
+                    }
+                }
+                Value::Array(converted)
+            }
+            Value::Bool(b) => Value::Int(i64::from(*b)),
+            other => other.clone(),
+        }
+    }
+
+    /// `parent::convert_from_boolean()`: the body of [`AbstractPlatform::convert_from_boolean`].
+    pub(crate) fn convert_from_boolean<P: AbstractPlatform + ?Sized>(
+        _this: &P,
+        item: &Value,
+    ) -> Option<bool> {
+        if item.is_null() {
+            return None;
+        }
+        Some(item.is_truthy())
+    }
+
+    /// `parent::get_default_value_declaration_sql()`: the body of [`AbstractPlatform::get_default_value_declaration_sql`].
+    pub(crate) fn get_default_value_declaration_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        column: &PhpArray,
+    ) -> Result<String, Exception> {
+        let default = match column.get(&Key::from("default")) {
+            None | Some(Value::Null) => {
+                return Ok(if column_flag(column, "notnull") {
+                    String::new()
+                } else {
+                    " DEFAULT NULL".to_owned()
+                });
+            }
+            Some(default) => default,
+        };
+
+        if let Some(expression) = DefaultExpressionObject::of(default) {
+            return Ok(format!(" DEFAULT {}", expression.to_sql(this.as_dyn())));
+        }
+
+        let Some(type_) = this.get_column_type_or_null(column)? else {
+            return Ok(format!(" DEFAULT '{}'", concat_value(default)?));
+        };
+
+        let mapping = type_.php_mapping_type();
+        if mapping == Some(PhpMappingType::Integer) {
+            return Ok(format!(" DEFAULT {}", concat_value(default)?));
+        }
+
+        let is =
+            |sql: String| matches!(default, Value::String(s) if s.as_bytes() == sql.as_bytes());
+        let current = [
+            (
+                PhpMappingType::DateTime,
+                this.get_current_timestamp_sql(),
+                "CurrentTimestamp",
+            ),
+            (
+                PhpMappingType::Time,
+                this.get_current_time_sql(),
+                "CurrentTime",
+            ),
+            (
+                PhpMappingType::Date,
+                this.get_current_date_sql(),
+                "CurrentDate",
+            ),
+        ];
+        for (kind, sql, class) in current {
+            if mapping == Some(kind) && is(sql.clone()) {
+                deprecations::trigger("https://github.com/doctrine/dbal/pull/7195", || {
+                    format!(
+                        "Using \"{sql}\" as a column default value is deprecated. Use a {class} instance instead."
+                    )
+                });
+                return Ok(format!(" DEFAULT {sql}"));
+            }
+        }
+
+        if type_.class() == "Doctrine\\DBAL\\Types\\BooleanType" {
+            return Ok(format!(
+                " DEFAULT {}",
+                concat_value(&this.convert_booleans(default)?)?
+            ));
+        }
+
+        if matches!(default, Value::Int(_) | Value::Float(_)) {
+            return Ok(format!(" DEFAULT {}", concat_value(default)?));
+        }
+
+        if mapping == Some(PhpMappingType::Float) {
+            return Ok(format!(
+                " DEFAULT {}",
+                php_value::numeric::float_to_string(php_value::numeric::float_cast(default))
+            ));
+        }
+
+        let default = string_argument(
+            default,
+            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::quoteStringLiteral",
+            1,
+            "str",
+        )?;
+        Ok(format!(" DEFAULT {}", this.quote_string_literal(&default)))
+    }
+
+    /// `parent::get_advanced_foreign_key_options_sql()`: the body of [`AbstractPlatform::get_advanced_foreign_key_options_sql`].
+    pub(crate) fn get_advanced_foreign_key_options_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        foreign_key: &ForeignKeyConstraint,
+    ) -> Result<String, Exception> {
+        let mut query = String::new();
+        for (option, clause) in [("onUpdate", "ON UPDATE"), ("onDelete", "ON DELETE")] {
+            if foreign_key.has_option_inner(option) {
+                let action = string_argument(
+                    &foreign_key.option(option),
+                    "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getForeignKeyReferentialActionSQL",
+                    1,
+                    "action",
+                )?;
+                let _ = write!(
+                    query,
+                    " {clause} {}",
+                    this.get_foreign_key_referential_action_sql(&action)?
+                );
+            }
+        }
+        Ok(query)
+    }
+
+    /// `parent::get_pre_alter_table_index_foreign_key_sql()`: the body of [`AbstractPlatform::get_pre_alter_table_index_foreign_key_sql`].
+    pub(crate) fn get_pre_alter_table_index_foreign_key_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        diff: &TableDiff,
+    ) -> Result<Vec<String>, Exception> {
+        let table_name_sql = diff.get_old_table().get_quoted_name(this);
+        let mut sql = Vec::new();
+        for foreign_key in diff.get_dropped_foreign_keys() {
+            sql.push(
+                this.get_drop_foreign_key_sql(&foreign_key.get_quoted_name(this), &table_name_sql)?,
+            );
+        }
+        for foreign_key in diff.modified_foreign_keys() {
+            sql.push(
+                this.get_drop_foreign_key_sql(&foreign_key.get_quoted_name(this), &table_name_sql)?,
+            );
+        }
+        for index in diff.get_dropped_indexes() {
+            sql.push(this.get_drop_index_sql(&index.get_quoted_name(this), &table_name_sql));
+        }
+        for index in diff.modified_indexes() {
+            sql.push(this.get_drop_index_sql(&index.get_quoted_name(this), &table_name_sql));
+        }
+        Ok(sql)
+    }
+
+    /// `parent::get_create_table_sql_internal()`: the body of [`AbstractPlatform::get_create_table_sql_internal`].
+    #[allow(
+        clippy::needless_pass_by_value,
+        reason = "the trait method's signature"
+    )]
+    pub(crate) fn get_create_table_sql_internal<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        name: &str,
+        columns: &[PhpArray],
+        options: CreateTableOptions,
+    ) -> Result<Vec<String>, Exception> {
+        validate_create_table_options(
+            &options,
+            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::_getCreateTableSQL",
+        );
+
+        let mut column_list_sql = this.get_column_declaration_list_sql(columns)?;
+
+        for definition in options.unique_constraints.iter().flatten() {
+            column_list_sql.push_str(", ");
+            column_list_sql.push_str(&this.get_unique_constraint_declaration_sql(definition)?);
+        }
+
+        if let Some(primary) = options.primary.as_ref().filter(|p| !p.is_empty()) {
+            let _ = write!(
+                column_list_sql,
+                ", PRIMARY KEY ({})",
+                array_unique(primary).join(", ")
+            );
+        }
+
+        for definition in options.indexes.iter().flatten() {
+            column_list_sql.push_str(", ");
+            column_list_sql.push_str(&this.get_index_declaration_sql(definition)?);
+        }
+
+        let mut query = format!("CREATE TABLE {name} ({column_list_sql}");
+        let definitions: Vec<Value> = columns.iter().cloned().map(Value::Array).collect();
+        let check = this.get_check_declaration_sql(&definitions)?;
+        if !check.is_empty() {
+            query.push_str(", ");
+            query.push_str(&check);
+        }
+        query.push(')');
+
+        let mut sql = vec![query];
+        for definition in options.foreign_keys.iter().flatten() {
+            sql.push(this.get_create_foreign_key_sql(definition, name)?);
+        }
+        Ok(sql)
+    }
+
+    /// `parent::get_drop_index_sql()`: the body of [`AbstractPlatform::get_drop_index_sql`].
+    pub(crate) fn get_drop_index_sql<P: AbstractPlatform + ?Sized>(
+        _this: &P,
+        name: &str,
+        _table: &str,
+    ) -> String {
+        format!("DROP INDEX {name}")
+    }
+
+    /// `parent::get_drop_sequence_sql()`: the body of [`AbstractPlatform::get_drop_sequence_sql`].
+    pub(crate) fn get_drop_sequence_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        name: &str,
+    ) -> Result<String, Exception> {
+        if !this.supports_sequences() {
+            return Err(not_supported("getDropSequenceSQL"));
+        }
+        Ok(format!("DROP SEQUENCE {name}"))
+    }
+
+    /// `parent::quote_string_literal()`: the body of [`AbstractPlatform::quote_string_literal`].
+    pub(crate) fn quote_string_literal<P: AbstractPlatform + ?Sized>(
+        _this: &P,
+        str: &str,
+    ) -> String {
+        format!("'{}'", str.replace('\'', "''"))
+    }
 }
