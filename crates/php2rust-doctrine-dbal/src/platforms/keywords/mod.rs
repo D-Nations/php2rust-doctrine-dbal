@@ -56,6 +56,7 @@ mod mysql84_keywords;
 mod mysql_keywords;
 mod oracle_keywords;
 mod postgresql_keywords;
+mod sqlserver_keywords;
 
 pub use mariadb_keywords::MariaDBKeywords;
 pub use mariadb117_keywords::MariaDB117Keywords;
@@ -65,6 +66,7 @@ pub use mysql80_keywords::MySQL80Keywords;
 pub use mysql84_keywords::MySQL84Keywords;
 pub use oracle_keywords::OracleKeywords;
 pub use postgresql_keywords::PostgreSQLKeywords;
+pub use sqlserver_keywords::SQLServerKeywords;
 
 /// `SQLite` Keywordlist (`new SQLiteKeywords()`).
 pub struct SQLiteKeywords;

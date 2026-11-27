@@ -184,7 +184,7 @@ src/Platforms/Keywords/MySQL84Keywords.php	MySQL84Keywords	28	ported	crates/php2
 src/Platforms/Keywords/MySQLKeywords.php	MySQLKeywords	245	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql_keywords.rs
 src/Platforms/Keywords/OracleKeywords.php	OracleKeywords	123	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/oracle_keywords.rs
 src/Platforms/Keywords/PostgreSQLKeywords.php	PostgreSQLKeywords	109	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/postgresql_keywords.rs
-src/Platforms/Keywords/SQLServerKeywords.php	SQLServerKeywords	195	pending	
+src/Platforms/Keywords/SQLServerKeywords.php	SQLServerKeywords	195	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/sqlserver_keywords.rs
 src/Platforms/Keywords/SQLiteKeywords.php	SQLiteKeywords	131	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mod.rs
 src/Platforms/MariaDB1010Platform.php	MariaDB1010Platform	32	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb1010_platform.rs
 src/Platforms/MariaDB1052Platform.php	MariaDB1052Platform	19	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb1052_platform.rs
@@ -210,10 +210,10 @@ src/Platforms/PostgreSQL/Comparator.php	Comparator	28	pending
 src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	PostgreSQLMetadataProvider	594	pending	
 src/Platforms/PostgreSQL120Platform.php	PostgreSQL120Platform	18	pending	
 src/Platforms/PostgreSQLPlatform.php	PostgreSQLPlatform	588	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs
-src/Platforms/SQLServer/Comparator.php	Comparator	37	pending	
-src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelectSQLBuilder	57	pending	
+src/Platforms/SQLServer/Comparator.php	Comparator	37	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlserver/comparator.rs
+src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelectSQLBuilder	57	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlserver/sql/builder/sqlserver_select_sql_builder.rs
 src/Platforms/SQLServer/SQLServerMetadataProvider.php	SQLServerMetadataProvider	564	pending	
-src/Platforms/SQLServerPlatform.php	SQLServerPlatform	883	pending	
+src/Platforms/SQLServerPlatform.php	SQLServerPlatform	883	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlserver_platform.rs
 src/Platforms/SQLite/Comparator.php	Comparator	35	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs
 src/Platforms/SQLite/SQLiteMetadataProvider.php	SQLiteMetadataProvider	582	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs
 src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	ForeignKeyConstraintDetails	23	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs
