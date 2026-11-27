@@ -2295,8 +2295,8 @@ tests/SQL/ParserTest.php	ParserTest::testStatementsWithParameters	ported	crates/
 tests/SQL/ParserTest.php	ParserTest::testStatementsWithoutParameters	ported	crates/php2rust-doctrine-dbal/tests/parser_test.rs::testStatementsWithoutParameters
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testConstructWithoutArguments	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testConstructWithoutArguments
 tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testCreateParserNotImplemented	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testCreateParserNotImplemented
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	pending	needs the Oracle, PostgreSQL and MySQL platforms
-tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	pending	needs the MySQL, Oracle and PostgreSQL platforms
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNameParsingDeprecation	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testNameParsingDeprecation
+tests/Schema/AbstractAssetTest.php	AbstractAssetTest::testNoNameParsingDeprecation	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_asset_test.rs::testNoNameParsingDeprecation
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testEmptyName
 tests/Schema/AbstractNamedObjectTest.php	AbstractNamedObjectTest::testSetAccessToUninitializedName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_named_object_test.rs::testSetAccessToUninitializedName
 tests/Schema/AbstractOptionallyNamedObjectTest.php	AbstractOptionallyNamedObjectTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_abstract_optionally_named_object_test.rs::testEmptyName
