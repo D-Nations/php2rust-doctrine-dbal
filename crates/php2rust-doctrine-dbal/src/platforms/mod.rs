@@ -40,6 +40,10 @@ mod mysql84_platform;
 mod mysql_platform;
 mod oracle_platform;
 mod postgresql_platform;
+mod sqlserver_platform;
+
+// Slice SQL Server platform.
+pub mod sqlserver;
 
 pub use abstract_mysql_platform::{
     LENGTH_LIMIT_BLOB, LENGTH_LIMIT_MEDIUMBLOB, LENGTH_LIMIT_MEDIUMTEXT, LENGTH_LIMIT_TEXT,
@@ -56,3 +60,4 @@ pub use mysql80_platform::MySQL80Platform;
 pub use mysql84_platform::MySQL84Platform;
 pub use oracle_platform::OraclePlatform;
 pub use postgresql_platform::PostgreSQLPlatform;
+pub use sqlserver_platform::SQLServerPlatform;

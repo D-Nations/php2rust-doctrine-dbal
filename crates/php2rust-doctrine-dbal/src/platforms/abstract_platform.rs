@@ -186,7 +186,7 @@ pub trait AbstractPlatform: AsDynPlatform {
         &self,
         length: Option<i64>,
     ) -> Result<PhpString, Exception> {
-        parent::get_char_type_declaration_sql_snippet(self, length)
+        Ok(parent::get_char_type_declaration_sql_snippet(self, length))
     }
 
     /// `VARCHAR(n)`; a length is required.
@@ -1611,14 +1611,18 @@ pub trait AbstractPlatform: AsDynPlatform {
 }
 
 /// `empty($column[$name])` negated.
-fn column_flag(column: &PhpArray, name: &str) -> bool {
+pub(crate) fn column_flag(column: &PhpArray, name: &str) -> bool {
     column.get(&Key::from(name)).is_some_and(Value::is_truthy)
 }
 
 /// `$column['length'] ?? null` passed to a `?int` parameter of `method`
 /// (the varying or the fixed snippet, as `fixed` chooses) under
 /// `strict_types`.
-fn column_length(column: &PhpArray, varying: &str, fixed: &str) -> Result<Option<i64>, Exception> {
+pub(crate) fn column_length(
+    column: &PhpArray,
+    varying: &str,
+    fixed: &str,
+) -> Result<Option<i64>, Exception> {
     match column.get(&Key::from("length")) {
         None | Some(Value::Null) => Ok(None),
         Some(Value::Int(length)) => Ok(Some(*length)),
@@ -1738,11 +1742,11 @@ pub(crate) mod parent {
     pub(crate) fn get_char_type_declaration_sql_snippet<P: AbstractPlatform + ?Sized>(
         _this: &P,
         length: Option<i64>,
-    ) -> Result<PhpString, Exception> {
-        Ok(PhpString::from(match length {
+    ) -> PhpString {
+        PhpString::from(match length {
             Some(length) => format!("CHAR({length})"),
             None => "CHAR".to_owned(),
-        }))
+        })
     }
 
     /// `parent::get_foreign_key_referential_action_sql()`: the body of [`AbstractPlatform::get_foreign_key_referential_action_sql`].
