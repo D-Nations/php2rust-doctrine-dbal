@@ -154,7 +154,7 @@ fn extract_type_values(columns: &[Key], types: &ParameterTypes) -> ParameterType
 
 /// Polls a future once: what a synchronous caller can get from a future
 /// that does not wait (a `SQLite` platform needs no I/O).
-fn poll_once<F: Future>(future: F) -> Option<F::Output> {
+pub(crate) fn poll_once<F: Future>(future: F) -> Option<F::Output> {
     let mut future = pin!(future);
     match future
         .as_mut()

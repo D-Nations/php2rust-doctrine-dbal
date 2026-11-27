@@ -118,7 +118,10 @@ crates/php2rust-doctrine-dbal/src/platforms/mysql/caching_collation_metadata_pro
 crates/php2rust-doctrine-dbal/src/platforms/mysql/charset_metadata_provider.rs	doctrine/dbal	src/Platforms/MySQL/CharsetMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql/collation_metadata_provider.rs	doctrine/dbal	src/Platforms/MySQL/CollationMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql/comparator.rs	doctrine/dbal	src/Platforms/MySQL/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/mysql/connection_charset_metadata_provider.rs	doctrine/dbal	src/Platforms/MySQL/CharsetMetadataProvider/ConnectionCharsetMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/mysql/connection_collation_metadata_provider.rs	doctrine/dbal	src/Platforms/MySQL/CollationMetadataProvider/ConnectionCollationMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql/default_table_options.rs	doctrine/dbal	src/Platforms/MySQL/DefaultTableOptions.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/mysql/mysql_metadata_provider.rs	doctrine/dbal	src/Platforms/MySQL/MySQLMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql80_platform.rs	doctrine/dbal	src/Platforms/MySQL80Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql84_platform.rs	doctrine/dbal	src/Platforms/MySQL84Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs	doctrine/dbal	src/Platforms/MySQLPlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -249,6 +252,7 @@ crates/php2rust-doctrine-dbal/src/schema/metadata.rs	doctrine/dbal	src/Schema/Me
 crates/php2rust-doctrine-dbal/src/schema/metadata.rs	doctrine/dbal	src/Schema/Metadata/TableMetadataRow.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/metadata.rs	doctrine/dbal	src/Schema/Metadata/UniqueConstraintColumnMetadataRow.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/metadata.rs	doctrine/dbal	src/Schema/Metadata/ViewMetadataRow.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/schema/mysql_schema_manager.rs	doctrine/dbal	src/Schema/MySQLSchemaManager.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/name/identifier.rs	doctrine/dbal	src/Schema/Name/Identifier.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/name/identifier.rs	doctrine/dbal	src/Schema/Name/UnquotedIdentifierFolding.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/name/names.rs	doctrine/dbal	src/Schema/Name.php	c435cd7ea33e17d2a89288caf994cf3d4549b879

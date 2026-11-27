@@ -13,6 +13,7 @@ mod column_diff;
 mod column_editor;
 pub mod introspection;
 pub mod metadata;
+mod mysql_schema_manager;
 mod schema_manager_factory;
 mod sqlite_schema_manager;
 // Slice Comparator.
@@ -54,6 +55,7 @@ pub(crate) use column::array_merge_into as column_array_merge;
 pub use column::{Column, ColumnType, TypeObject};
 pub use column_diff::ColumnDiff;
 pub use column_editor::ColumnEditor;
+pub use mysql_schema_manager::MySQLSchemaManager;
 pub use schema_manager_factory::{DefaultSchemaManagerFactory, SchemaManagerFactory};
 pub use sqlite_schema_manager::SQLiteSchemaManager;
 // Slice Comparator.
