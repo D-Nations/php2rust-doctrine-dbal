@@ -50,10 +50,10 @@ src/Driver/IBMDB2/Exception/StatementError.php	StatementError	21	pending
 src/Driver/IBMDB2/Result.php	Result	79	pending	
 src/Driver/IBMDB2/Statement.php	Statement	97	pending	
 src/Driver/Middleware.php	Middleware	7	pending	
-src/Driver/Middleware/AbstractConnectionMiddleware.php	AbstractConnectionMiddleware	51	pending	
-src/Driver/Middleware/AbstractDriverMiddleware.php	AbstractDriverMiddleware	28	pending	
-src/Driver/Middleware/AbstractResultMiddleware.php	AbstractResultMiddleware	59	pending	
-src/Driver/Middleware/AbstractStatementMiddleware.php	AbstractStatementMiddleware	19	pending	
+src/Driver/Middleware/AbstractConnectionMiddleware.php	AbstractConnectionMiddleware	51	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_connection_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
+src/Driver/Middleware/AbstractDriverMiddleware.php	AbstractDriverMiddleware	28	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_driver_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
+src/Driver/Middleware/AbstractResultMiddleware.php	AbstractResultMiddleware	59	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_result_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
+src/Driver/Middleware/AbstractStatementMiddleware.php	AbstractStatementMiddleware	19	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_statement_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
 src/Driver/Mysqli/Connection.php	Connection	84	pending	
 src/Driver/Mysqli/Driver.php	Driver	81	pending	
 src/Driver/Mysqli/Exception/ConnectionError.php	ConnectionError	18	pending	
