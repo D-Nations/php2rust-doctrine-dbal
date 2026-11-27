@@ -60,10 +60,10 @@ tests/ConnectionTest.php	ConnectionTest::testTransactionIsNotActiveAfterTransact
 tests/ConnectionTest.php	ConnectionTest::testUpdateWithDifferentColumnsInDataAndIdentifiers	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testUpdateWithDifferentColumnsInDataAndIdentifiers
 tests/ConnectionTest.php	ConnectionTest::testUpdateWithIsNull	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testUpdateWithIsNull
 tests/ConnectionTest.php	ConnectionTest::testUpdateWithSameColumnInDataAndIdentifiers	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testUpdateWithSameColumnInDataAndIdentifiers
-tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testFromConnectionParameters	pending	
-tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testNoHostOrConnectStringSpecified	pending	
-tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testParameterDeprecation	pending	
-tests/Driver/IBMDB2/DataSourceNameTest.php	DataSourceNameTest::testFromConnectionParameters	pending	
+tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testFromConnectionParameters	ported	crates/php2rust-doctrine-dbal/tests/driver_abstract_oracle_driver_easy_connect_string_test.rs::testFromConnectionParameters
+tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testNoHostOrConnectStringSpecified	ported	crates/php2rust-doctrine-dbal/tests/driver_abstract_oracle_driver_easy_connect_string_test.rs::testNoHostOrConnectStringSpecified
+tests/Driver/AbstractOracleDriver/EasyConnectStringTest.php	EasyConnectStringTest::testParameterDeprecation	ported	crates/php2rust-doctrine-dbal/tests/driver_abstract_oracle_driver_easy_connect_string_test.rs::testParameterDeprecation
+tests/Driver/IBMDB2/DataSourceNameTest.php	DataSourceNameTest::testFromConnectionParameters	ported	crates/php2rust-doctrine-dbal/tests/driver_ibm_db2_data_source_name_test.rs::testFromConnectionParameters
 tests/Driver/Middleware/AbstractConnectionMiddlewareTest.php	AbstractConnectionMiddlewareTest::testExec	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_connection_middleware_test.rs::testExec
 tests/Driver/Middleware/AbstractConnectionMiddlewareTest.php	AbstractConnectionMiddlewareTest::testGetNativeConnection	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_connection_middleware_test.rs::testGetNativeConnection
 tests/Driver/Middleware/AbstractConnectionMiddlewareTest.php	AbstractConnectionMiddlewareTest::testGetServerVersion	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_connection_middleware_test.rs::testGetServerVersion
@@ -73,11 +73,11 @@ tests/Driver/Middleware/AbstractDriverMiddlewareTest.php	AbstractDriverMiddlewar
 tests/Driver/Middleware/AbstractResultMiddlewareTest.php	AbstractResultMiddlewareTest::testFetchAssociative	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_result_middleware_test.rs::testFetchAssociative
 tests/Driver/Middleware/AbstractStatementMiddlewareTest.php	AbstractStatementMiddlewareTest::testExecute	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_statement_middleware_test.rs::testExecute
 tests/Driver/Mysqli/ConnectionTest.php	ConnectionTest::testHostnameIsRequiredForPersistentConnection	pending	
-tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php	ConvertPositionalToNamedPlaceholdersTest::testConvertPositionalToNamedParameters	pending	
+tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php	ConvertPositionalToNamedPlaceholdersTest::testConvertPositionalToNamedParameters	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_convert_positional_to_named_placeholders_test.rs::testConvertPositionalToNamedParameters
 tests/Driver/OCI8/DriverTest.php	DriverTest::testPersistentAndExclusiveAreMutuallyExclusive	pending	
 tests/Driver/OCI8/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testChangeAutoCommitStatus	pending	
-tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testDefaultAutoCommitStatus	pending	
+tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testChangeAutoCommitStatus	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_execution_mode_test.rs::testChangeAutoCommitStatus
+tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testDefaultAutoCommitStatus	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_execution_mode_test.rs::testDefaultAutoCommitStatus
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testOriginalExceptionIsInChain	pending	
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsCode	pending	
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsMessage	pending	
@@ -2167,22 +2167,22 @@ tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testSupportsColumnCol
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testSupportsCommentOnStatement	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs::testSupportsCommentOnStatement
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported	n/a: upstream does not run it on SQLite (markTestSkipped: SQLitePlatform supports inline column comments)	
 tests/Platforms/SQLitePlatformTest.php	SQLitePlatformTest::testZeroOffsetWithoutLimitIsIgnored	ported	crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs::testZeroOffsetWithoutLimitIsIgnored
-tests/Portability/ConnectionTest.php	ConnectionTest::testGetNativeConnection	pending	
-tests/Portability/ConnectionTest.php	ConnectionTest::testGetServerVersion	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertAllAssociative	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertAllNumeric	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertAssociative	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertFirstColumn	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertNumeric	pending	
-tests/Portability/ConverterTest.php	ConverterTest::testConvertOne	pending	
-tests/Portability/OptimizeFlagsTest.php	OptimizeFlagsTest::testAnotherPlatform	pending	
-tests/Portability/OptimizeFlagsTest.php	OptimizeFlagsTest::testOracle	pending	
-tests/Portability/ResultTest.php	ResultTest::testColumnCount	pending	
-tests/Portability/ResultTest.php	ResultTest::testFetch	pending	
-tests/Portability/ResultTest.php	ResultTest::testFree	pending	
-tests/Portability/ResultTest.php	ResultTest::testRowCount	pending	
-tests/Portability/StatementTest.php	StatementTest::testBindValue	pending	
-tests/Portability/StatementTest.php	StatementTest::testExecute	pending	
+tests/Portability/ConnectionTest.php	ConnectionTest::testGetNativeConnection	ported	crates/php2rust-doctrine-dbal/tests/portability_connection_test.rs::testGetNativeConnection
+tests/Portability/ConnectionTest.php	ConnectionTest::testGetServerVersion	ported	crates/php2rust-doctrine-dbal/tests/portability_connection_test.rs::testGetServerVersion
+tests/Portability/ConverterTest.php	ConverterTest::testConvertAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertAllAssociative
+tests/Portability/ConverterTest.php	ConverterTest::testConvertAllNumeric	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertAllNumeric
+tests/Portability/ConverterTest.php	ConverterTest::testConvertAssociative	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertAssociative
+tests/Portability/ConverterTest.php	ConverterTest::testConvertFirstColumn	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertFirstColumn
+tests/Portability/ConverterTest.php	ConverterTest::testConvertNumeric	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertNumeric
+tests/Portability/ConverterTest.php	ConverterTest::testConvertOne	ported	crates/php2rust-doctrine-dbal/tests/portability_converter_test.rs::testConvertOne
+tests/Portability/OptimizeFlagsTest.php	OptimizeFlagsTest::testAnotherPlatform	ported	crates/php2rust-doctrine-dbal/tests/portability_optimize_flags_test.rs::testAnotherPlatform
+tests/Portability/OptimizeFlagsTest.php	OptimizeFlagsTest::testOracle	ported	crates/php2rust-doctrine-dbal/tests/portability_optimize_flags_test.rs::testOracle
+tests/Portability/ResultTest.php	ResultTest::testColumnCount	ported	crates/php2rust-doctrine-dbal/tests/portability_result_test.rs::testColumnCount
+tests/Portability/ResultTest.php	ResultTest::testFetch	ported	crates/php2rust-doctrine-dbal/tests/portability_result_test.rs::testFetch
+tests/Portability/ResultTest.php	ResultTest::testFree	ported	crates/php2rust-doctrine-dbal/tests/portability_result_test.rs::testFree
+tests/Portability/ResultTest.php	ResultTest::testRowCount	ported	crates/php2rust-doctrine-dbal/tests/portability_result_test.rs::testRowCount
+tests/Portability/StatementTest.php	StatementTest::testBindValue	ported	crates/php2rust-doctrine-dbal/tests/portability_statement_test.rs::testBindValue
+tests/Portability/StatementTest.php	StatementTest::testExecute	ported	crates/php2rust-doctrine-dbal/tests/portability_statement_test.rs::testExecute
 tests/Query/Expression/CompositeExpressionTest.php	CompositeExpressionTest::testCompositeUsageAndGeneration	ported	crates/php2rust-doctrine-dbal/tests/composite_expression_test.rs::testCompositeUsageAndGeneration
 tests/Query/Expression/CompositeExpressionTest.php	CompositeExpressionTest::testCount	ported	crates/php2rust-doctrine-dbal/tests/composite_expression_test.rs::testCount
 tests/Query/Expression/CompositeExpressionTest.php	CompositeExpressionTest::testWith	ported	crates/php2rust-doctrine-dbal/tests/composite_expression_test.rs::testWith

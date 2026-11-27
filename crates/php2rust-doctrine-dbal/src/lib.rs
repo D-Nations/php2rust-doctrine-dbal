@@ -13,6 +13,7 @@ struct ReadmeExample;
 
 mod array_parameter_type;
 pub mod cache;
+mod column_case;
 mod configuration;
 mod connection;
 mod connection_stand_in;
@@ -22,6 +23,7 @@ pub mod exception;
 mod expand_array_parameters;
 mod parameter_type;
 pub mod platforms;
+pub mod portability;
 pub mod query;
 mod result;
 mod server_version_provider;
@@ -39,6 +41,7 @@ pub mod schema;
 pub use transaction_isolation_level::{LockMode, TransactionIsolationLevel};
 
 pub use array_parameter_type::ArrayParameterType;
+pub use column_case::ColumnCase;
 pub use configuration::{Configuration, SchemaAssetsFilter};
 pub use connection::Connection;
 pub use connection_stand_in::ConnectionStandIn;
