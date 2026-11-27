@@ -4,10 +4,9 @@
 //! `createComparator()` (with and without a config) and `migrateSchema()`
 //! are inherent `async` methods, as for the other managers. PHP's
 //! `getCurrentSchemaName()` caches the current schema; here the manager
-//! caches it, and the methods that select rows for
-//! `_getPortableTableDefinition()` (which is not `async`) read it first,
-//! so `SELECT current_schema()` runs before the first of them rather than
-//! after it. The deprecated `getCurrentSchema()` and
+//! caches it, and the methods that hand rows to
+//! `_getPortableTableDefinition()` (which is not `async`) read it once
+//! they have a row, where PHP reads it for the first row. The deprecated `getCurrentSchema()` and
 //! `determineCurrentSchema()` are that cached value.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
@@ -167,6 +166,15 @@ impl<'c> PostgreSQLSchemaManager<'c> {
         Ok(current_schema)
     }
 
+    /// Reads the current schema before `_getPortableTableDefinition()`
+    /// first needs it (PHP reads it there, for the first row).
+    async fn prime_current_schema(&self, rows: &[Row]) -> R<()> {
+        if !rows.is_empty() {
+            self.determine_current_schema().await?;
+        }
+        Ok(())
+    }
+
     async fn query(&self, sql: &str, params: Vec<String>) -> R<crate::Result<'c>> {
         self.connection
             .execute_query(
@@ -207,6 +215,51 @@ AND    schema_name != 'information_schema'",
             .iter()
             .map(|name| text_value(Some(name)))
             .collect()
+    }
+
+    /// Returns a list of all tables in the current database (deprecated).
+    async fn list_table_names(&self) -> R<Vec<String>> {
+        let database = self.get_database("listTableNames").await?;
+        let rows = self
+            .select_table_names(&database)
+            .await?
+            .fetch_all_associative()?;
+        self.prime_current_schema(&rows).await?;
+
+        let filter = self
+            .connection
+            .get_configuration()
+            .get_schema_assets_filter()
+            .clone();
+        let mut names = Vec::new();
+        for row in &rows {
+            let name = self.get_portable_table_definition(row)?;
+            if filter(&name) {
+                names.push(name);
+            }
+        }
+        Ok(names)
+    }
+
+    async fn fetch_table_columns_by_table(&self, database_name: &str) -> R<ArrayMap<Vec<Row>>> {
+        let rows = self.fetch_table_columns(database_name, None).await?;
+        self.prime_current_schema(&rows).await?;
+        self.group_by_table(rows)
+    }
+
+    async fn fetch_index_columns_by_table(&self, database_name: &str) -> R<ArrayMap<Vec<Row>>> {
+        let rows = self.fetch_index_columns(database_name, None).await?;
+        self.prime_current_schema(&rows).await?;
+        self.group_by_table(rows)
+    }
+
+    async fn fetch_foreign_key_columns_by_table(
+        &self,
+        database_name: &str,
+    ) -> R<ArrayMap<Vec<Row>>> {
+        let rows = self.fetch_foreign_key_columns(database_name, None).await?;
+        self.prime_current_schema(&rows).await?;
+        self.group_by_table(rows)
     }
 
     async fn determine_current_schema_name(&self) -> R<Option<String>> {
@@ -443,8 +496,6 @@ AND    schema_name != 'information_schema'",
     }
 
     async fn select_table_names(&self, database_name: &str) -> R<crate::Result<'c>> {
-        self.determine_current_schema().await?;
-
         let sql = "SELECT quote_ident(table_name) AS table_name,
        table_schema AS schema_name
 FROM information_schema.tables
@@ -465,8 +516,6 @@ ORDER BY
         _database_name: &str,
         table_name: Option<&str>,
     ) -> R<crate::Result<'c>> {
-        self.determine_current_schema().await?;
-
         let (conditions, params) = build_query_conditions(table_name);
 
         let sql = format!(
@@ -533,8 +582,6 @@ ORDER BY n.nspname,
         _database_name: &str,
         table_name: Option<&str>,
     ) -> R<crate::Result<'c>> {
-        self.determine_current_schema().await?;
-
         let (conditions, params) = build_query_conditions(table_name);
 
         let sql = format!(
@@ -570,30 +617,28 @@ ORDER BY n.nspname,
         _database_name: &str,
         table_name: Option<&str>,
     ) -> R<crate::Result<'c>> {
-        self.determine_current_schema().await?;
-
         let (conditions, params) = build_query_conditions(table_name);
 
         let sql = format!(
-            "SELECT
-       quote_ident(tn.nspname) AS schema_name,
-       quote_ident(tc.relname) AS table_name,
-       quote_ident(r.conname) as conname,
-       pg_get_constraintdef(r.oid, true) as condef,
-       r.condeferrable,
-       r.condeferred
-       FROM pg_constraint r
-           JOIN pg_class AS tc ON tc.oid = r.conrelid
-           JOIN pg_namespace tn ON tn.oid = tc.relnamespace
-       WHERE r.conrelid IN
-       (
-           SELECT c.oid
-           FROM pg_class c
-             JOIN pg_namespace n
-                 ON n.oid = c.relnamespace
-             WHERE {})
-       AND r.contype = 'f'
-       ORDER BY 1, 2",
+            "   SELECT
+          quote_ident(tn.nspname) AS schema_name,
+          quote_ident(tc.relname) AS table_name,
+          quote_ident(r.conname) as conname,
+          pg_get_constraintdef(r.oid, true) as condef,
+          r.condeferrable,
+          r.condeferred
+          FROM pg_constraint r
+              JOIN pg_class AS tc ON tc.oid = r.conrelid
+              JOIN pg_namespace tn ON tn.oid = tc.relnamespace
+          WHERE r.conrelid IN
+          (
+              SELECT c.oid
+              FROM pg_class c
+                JOIN pg_namespace n
+                    ON n.oid = c.relnamespace
+                WHERE {})
+          AND r.contype = 'f'
+          ORDER BY 1, 2",
             conditions.join(" AND "),
         );
 
@@ -605,8 +650,6 @@ ORDER BY n.nspname,
         _database_name: &str,
         table_name: Option<&str>,
     ) -> R<ArrayMap<PhpArray>> {
-        self.determine_current_schema().await?;
-
         let (conditions, params) = build_query_conditions(table_name);
 
         let sql = format!(
@@ -623,8 +666,11 @@ WHERE
             conditions.join(" AND "),
         );
 
+        let rows = self.query(&sql, params).await?.fetch_all_associative()?;
+        self.prime_current_schema(&rows).await?;
+
         let mut table_options = ArrayMap::new();
-        for row in self.query(&sql, params).await?.fetch_all_associative()? {
+        for row in rows {
             table_options.insert(self.get_portable_table_definition(&row)?, row);
         }
 

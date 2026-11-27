@@ -501,41 +501,41 @@ ORDER BY n.nspname,
             build_table_query_predicate("pkn", schema_name, "pkc", table_name)?;
 
         let sql = format!(
-            "SELECT pkn.nspname,
-       pkc.relname,
-       r.conname,
-       fkn.nspname,
-       fkc.relname,
-       r.confupdtype,
-       r.confdeltype,
-       r.condeferrable,
-       r.condeferred,
-       pka.attname,
-       fka.attname
-FROM pg_constraint r
-         JOIN pg_class fkc
-              ON fkc.oid = r.confrelid
-         JOIN pg_namespace fkn
-              ON fkn.oid = fkc.relnamespace
-         JOIN unnest(r.confkey) WITH ORDINALITY AS fk_attnum(attnum, ord)
-              ON TRUE
-         JOIN pg_attribute fka
-              ON fka.attrelid = fkc.oid
-                  AND fka.attnum = fk_attnum.attnum
-         JOIN pg_class pkc
-              ON pkc.oid = r.conrelid
-         JOIN pg_namespace pkn
-              ON pkn.oid = pkc.relnamespace
-         JOIN unnest(r.conkey) WITH ORDINALITY AS pk_attnum(attnum, ord)
-              ON pk_attnum.ord = fk_attnum.ord
-         JOIN pg_attribute pka
-              ON pka.attrelid = pkc.oid
-                  AND pka.attnum = pk_attnum.attnum
-WHERE {predicate}
-  AND r.contype = 'f'
-ORDER BY pkn.nspname,
-         pkc.relname,
-         r.conname"
+            "    SELECT pkn.nspname,
+           pkc.relname,
+           r.conname,
+           fkn.nspname,
+           fkc.relname,
+           r.confupdtype,
+           r.confdeltype,
+           r.condeferrable,
+           r.condeferred,
+           pka.attname,
+           fka.attname
+    FROM pg_constraint r
+             JOIN pg_class fkc
+                  ON fkc.oid = r.confrelid
+             JOIN pg_namespace fkn
+                  ON fkn.oid = fkc.relnamespace
+             JOIN unnest(r.confkey) WITH ORDINALITY AS fk_attnum(attnum, ord)
+                  ON TRUE
+             JOIN pg_attribute fka
+                  ON fka.attrelid = fkc.oid
+                      AND fka.attnum = fk_attnum.attnum
+             JOIN pg_class pkc
+                  ON pkc.oid = r.conrelid
+             JOIN pg_namespace pkn
+                  ON pkn.oid = pkc.relnamespace
+             JOIN unnest(r.conkey) WITH ORDINALITY AS pk_attnum(attnum, ord)
+                  ON pk_attnum.ord = fk_attnum.ord
+             JOIN pg_attribute pka
+                  ON pka.attrelid = pkc.oid
+                      AND pka.attnum = pk_attnum.attnum
+    WHERE {predicate}
+      AND r.contype = 'f'
+    ORDER BY pkn.nspname,
+             pkc.relname,
+             r.conname"
         );
 
         let mut rows = Vec::new();
