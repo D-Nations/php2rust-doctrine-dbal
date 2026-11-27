@@ -74,6 +74,33 @@ impl Driver {
 
 impl AbstractSQLiteDriver for Driver {}
 
+/// PHP's `PDOException` class, as the `previous` of a `PDO\Exception`.
+pub const PDO_EXCEPTION_CLASS: &str = "PDOException";
+
+/// `PDO\Exception::new($exception)`: `exception` is the `PDOException`
+/// (an [`Exception`] of class [`PDO_EXCEPTION_CLASS`]) and `error_info` its
+/// `errorInfo` (`[$sqlState, $code]`; `None` when it is `null`). The code
+/// and `SQLSTATE` come from `errorInfo` when it is set, otherwise the code
+/// is the `PDOException`'s and there is no `SQLSTATE`; the `PDOException`
+/// is the previous exception.
+pub fn exception(
+    exception: Exception,
+    error_info: Option<(Option<String>, Option<i64>)>,
+) -> Exception {
+    let (sql_state, code) = match error_info {
+        Some((sql_state, code)) => (sql_state, code.unwrap_or(0)),
+        None => (None, exception.code()),
+    };
+
+    Exception::driver(
+        Exception::PDO_EXCEPTION,
+        exception.message().clone(),
+        sql_state,
+        code,
+    )
+    .with_previous(exception)
+}
+
 /// `InvalidConfiguration::notAStringOrNull($key, $value)`.
 fn not_a_string_or_null(key: &str, value: &Value) -> Exception {
     Exception::driver(

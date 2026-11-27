@@ -8,7 +8,7 @@ src/Cache/CacheException.php	CacheException	6	ported	crates/php2rust-doctrine-db
 src/Cache/Exception/NoCacheKey.php	NoCacheKey	10	ported	crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs
 src/Cache/Exception/NoResultDriverConfigured.php	NoResultDriverConfigured	10	ported	crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs
 src/Cache/QueryCacheProfile.php	QueryCacheProfile	56	ported	crates/php2rust-doctrine-dbal/src/cache/query_cache_profile.rs
-src/ColumnCase.php	ColumnCase	7	pending	
+src/ColumnCase.php	ColumnCase	7	ported	crates/php2rust-doctrine-dbal/src/column_case.rs
 src/Configuration.php	Configuration	73	ported	crates/php2rust-doctrine-dbal/src/configuration.rs
 src/Connection.php	Connection	710	ported	crates/php2rust-doctrine-dbal/src/connection.rs
 src/Connection/StaticServerVersionProvider.php	StaticServerVersionProvider	13	ported	crates/php2rust-doctrine-dbal/src/server_version_provider.rs
@@ -26,7 +26,7 @@ src/Driver/AbstractDB2Driver.php	AbstractDB2Driver	18	pending
 src/Driver/AbstractException.php	AbstractException	19	ported	crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs
 src/Driver/AbstractMySQLDriver.php	AbstractMySQLDriver	84	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_mysql_driver.rs
 src/Driver/AbstractOracleDriver.php	AbstractOracleDriver	23	pending	
-src/Driver/AbstractOracleDriver/EasyConnectString.php	EasyConnectString	96	pending	
+src/Driver/AbstractOracleDriver/EasyConnectString.php	EasyConnectString	96	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_oracle_driver/easy_connect_string.rs
 src/Driver/AbstractPostgreSQLDriver.php	AbstractPostgreSQLDriver	42	pending	
 src/Driver/AbstractSQLServerDriver.php	AbstractSQLServerDriver	18	pending	
 src/Driver/AbstractSQLServerDriver/Exception/PortWithoutHost.php	PortWithoutHost	10	pending	
@@ -38,7 +38,7 @@ src/Driver/Exception/IdentityColumnsNotSupported.php	IdentityColumnsNotSupported
 src/Driver/Exception/NoIdentityValue.php	NoIdentityValue	11	ported	crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs
 src/Driver/FetchUtils.php	FetchUtils	37	ported	crates/php2rust-doctrine-dbal/src/driver/fetch_utils.rs
 src/Driver/IBMDB2/Connection.php	Connection	97	pending	
-src/Driver/IBMDB2/DataSourceName.php	DataSourceName	51	pending	
+src/Driver/IBMDB2/DataSourceName.php	DataSourceName	51	ported	crates/php2rust-doctrine-dbal/src/driver/ibm_db2/data_source_name.rs
 src/Driver/IBMDB2/Driver.php	Driver	28	pending	
 src/Driver/IBMDB2/Exception/CannotCopyStreamToStream.php	CannotCopyStreamToStream	14	pending	
 src/Driver/IBMDB2/Exception/CannotCreateTemporaryFile.php	CannotCreateTemporaryFile	14	pending	
@@ -49,7 +49,7 @@ src/Driver/IBMDB2/Exception/PrepareFailed.php	PrepareFailed	13	pending
 src/Driver/IBMDB2/Exception/StatementError.php	StatementError	21	pending	
 src/Driver/IBMDB2/Result.php	Result	79	pending	
 src/Driver/IBMDB2/Statement.php	Statement	97	pending	
-src/Driver/Middleware.php	Middleware	7	pending	
+src/Driver/Middleware.php	Middleware	7	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
 src/Driver/Middleware/AbstractConnectionMiddleware.php	AbstractConnectionMiddleware	51	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_connection_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
 src/Driver/Middleware/AbstractDriverMiddleware.php	AbstractDriverMiddleware	28	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_driver_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
 src/Driver/Middleware/AbstractResultMiddleware.php	AbstractResultMiddleware	59	ported	crates/php2rust-doctrine-dbal/src/driver/middleware/abstract_result_middleware.rs crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs
@@ -71,14 +71,14 @@ src/Driver/Mysqli/Initializer/Secure.php	Secure	21	pending
 src/Driver/Mysqli/Result.php	Result	95	pending	
 src/Driver/Mysqli/Statement.php	Statement	114	pending	
 src/Driver/OCI8/Connection.php	Connection	82	pending	
-src/Driver/OCI8/ConvertPositionalToNamedPlaceholders.php	ConvertPositionalToNamedPlaceholders	33	pending	
+src/Driver/OCI8/ConvertPositionalToNamedPlaceholders.php	ConvertPositionalToNamedPlaceholders	33	ported	crates/php2rust-doctrine-dbal/src/driver/oci8/convert_positional_to_named_placeholders.rs
 src/Driver/OCI8/Driver.php	Driver	39	pending	
 src/Driver/OCI8/Exception/ConnectionFailed.php	ConnectionFailed	14	pending	
 src/Driver/OCI8/Exception/Error.php	Error	14	pending	
 src/Driver/OCI8/Exception/InvalidConfiguration.php	InvalidConfiguration	10	pending	
 src/Driver/OCI8/Exception/NonTerminatedStringLiteral.php	NonTerminatedStringLiteral	16	pending	
 src/Driver/OCI8/Exception/UnknownParameterIndex.php	UnknownParameterIndex	13	pending	
-src/Driver/OCI8/ExecutionMode.php	ExecutionMode	18	pending	
+src/Driver/OCI8/ExecutionMode.php	ExecutionMode	18	ported	crates/php2rust-doctrine-dbal/src/driver/oci8/execution_mode.rs
 src/Driver/OCI8/Middleware/InitializeSession.php	InitializeSession	30	pending	
 src/Driver/OCI8/Result.php	Result	93	pending	
 src/Driver/OCI8/Statement.php	Statement	77	pending	
@@ -219,13 +219,13 @@ src/Platforms/SQLite/SQLiteMetadataProvider.php	SQLiteMetadataProvider	582	porte
 src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	ForeignKeyConstraintDetails	23	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs
 src/Platforms/SQLitePlatform.php	SQLitePlatform	713	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlite_platform.rs
 src/Platforms/TrimMode.php	TrimMode	9	ported	crates/php2rust-doctrine-dbal/src/platforms/date_interval_unit.rs
-src/Portability/Connection.php	Connection	30	pending	
-src/Portability/Converter.php	Converter	143	pending	
-src/Portability/Driver.php	Driver	53	pending	
-src/Portability/Middleware.php	Middleware	18	pending	
-src/Portability/OptimizeFlags.php	OptimizeFlags	28	pending	
-src/Portability/Result.php	Result	53	pending	
-src/Portability/Statement.php	Statement	19	pending	
+src/Portability/Connection.php	Connection	30	ported	crates/php2rust-doctrine-dbal/src/portability/connection.rs
+src/Portability/Converter.php	Converter	143	ported	crates/php2rust-doctrine-dbal/src/portability/converter.rs
+src/Portability/Driver.php	Driver	53	ported	crates/php2rust-doctrine-dbal/src/portability/driver.rs
+src/Portability/Middleware.php	Middleware	18	ported	crates/php2rust-doctrine-dbal/src/portability/middleware.rs
+src/Portability/OptimizeFlags.php	OptimizeFlags	28	ported	crates/php2rust-doctrine-dbal/src/portability/optimize_flags.rs
+src/Portability/Result.php	Result	53	ported	crates/php2rust-doctrine-dbal/src/portability/result.rs
+src/Portability/Statement.php	Statement	19	ported	crates/php2rust-doctrine-dbal/src/portability/statement.rs
 src/Query.php	Query	23	ported	crates/php2rust-doctrine-dbal/src/sql_query.rs
 src/Query/CommonTableExpression.php	CommonTableExpression	16	ported	crates/php2rust-doctrine-dbal/src/query/common_table_expression.rs
 src/Query/Exception/NonUniqueAlias.php	NonUniqueAlias	19	ported	crates/php2rust-doctrine-dbal/src/query/query_exception.rs
@@ -383,10 +383,10 @@ src/Schema/View.php	View	30	ported	crates/php2rust-doctrine-dbal/src/schema/view
 src/Schema/ViewEditor.php	ViewEditor	45	ported	crates/php2rust-doctrine-dbal/src/schema/view_editor.rs
 src/ServerVersionProvider.php	ServerVersionProvider	6	ported	crates/php2rust-doctrine-dbal/src/server_version_provider.rs
 src/Statement.php	Statement	63	ported	crates/php2rust-doctrine-dbal/src/statement.rs
-src/Tools/Console/Command/RunSqlCommand.php	RunSqlCommand	86	pending	
-src/Tools/Console/ConnectionNotFound.php	ConnectionNotFound	6	pending	
-src/Tools/Console/ConnectionProvider.php	ConnectionProvider	8	pending	
-src/Tools/Console/ConnectionProvider/SingleConnectionProvider.php	SingleConnectionProvider	25	pending	
+src/Tools/Console/Command/RunSqlCommand.php	RunSqlCommand	86	ported	crates/php2rust-doctrine-dbal/src/tools/console/command/run_sql_command.rs
+src/Tools/Console/ConnectionNotFound.php	ConnectionNotFound	6	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_not_found.rs
+src/Tools/Console/ConnectionProvider.php	ConnectionProvider	8	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_provider.rs
+src/Tools/Console/ConnectionProvider/SingleConnectionProvider.php	SingleConnectionProvider	25	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_provider/single_connection_provider.rs
 src/Tools/DsnParser.php	DsnParser	112	ported	crates/php2rust-doctrine-dbal/src/tools/dsn_parser.rs
 src/TransactionIsolationLevel.php	TransactionIsolationLevel	9	ported	crates/php2rust-doctrine-dbal/src/transaction_isolation_level.rs
 src/Types/AsciiStringType.php	AsciiStringType	15	ported	crates/php2rust-doctrine-dbal/src/types/string_type.rs
