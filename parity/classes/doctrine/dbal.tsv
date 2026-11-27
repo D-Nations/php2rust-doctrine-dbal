@@ -165,7 +165,7 @@ src/Logging/Driver.php	Driver	32	pending
 src/Logging/Middleware.php	Middleware	15	pending	
 src/Logging/Statement.php	Statement	34	pending	
 src/ParameterType.php	ParameterType	12	ported	crates/php2rust-doctrine-dbal/src/parameter_type.rs
-src/Platforms/AbstractMySQLPlatform.php	AbstractMySQLPlatform	620	pending	
+src/Platforms/AbstractMySQLPlatform.php	AbstractMySQLPlatform	620	ported	crates/php2rust-doctrine-dbal/src/platforms/abstract_mysql_platform.rs
 src/Platforms/AbstractPlatform.php	AbstractPlatform	1312	ported	crates/php2rust-doctrine-dbal/src/platforms/abstract_platform.rs
 src/Platforms/DB2Platform.php	DB2Platform	420	pending	
 src/Platforms/DateIntervalUnit.php	DateIntervalUnit	13	ported	crates/php2rust-doctrine-dbal/src/platforms/date_interval_unit.rs
@@ -179,11 +179,11 @@ src/Platforms/Keywords/KeywordList.php	KeywordList	31	ported	crates/php2rust-doc
 src/Platforms/Keywords/MariaDB117Keywords.php	MariaDB117Keywords	12	pending	
 src/Platforms/Keywords/MariaDB123Keywords.php	MariaDB123Keywords	12	pending	
 src/Platforms/Keywords/MariaDBKeywords.php	MariaDBKeywords	257	pending	
-src/Platforms/Keywords/MySQL80Keywords.php	MySQL80Keywords	44	pending	
-src/Platforms/Keywords/MySQL84Keywords.php	MySQL84Keywords	28	pending	
-src/Platforms/Keywords/MySQLKeywords.php	MySQLKeywords	245	pending	
-src/Platforms/Keywords/OracleKeywords.php	OracleKeywords	123	pending	
-src/Platforms/Keywords/PostgreSQLKeywords.php	PostgreSQLKeywords	109	pending	
+src/Platforms/Keywords/MySQL80Keywords.php	MySQL80Keywords	44	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql80_keywords.rs
+src/Platforms/Keywords/MySQL84Keywords.php	MySQL84Keywords	28	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql84_keywords.rs
+src/Platforms/Keywords/MySQLKeywords.php	MySQLKeywords	245	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql_keywords.rs
+src/Platforms/Keywords/OracleKeywords.php	OracleKeywords	123	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/oracle_keywords.rs
+src/Platforms/Keywords/PostgreSQLKeywords.php	PostgreSQLKeywords	109	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/postgresql_keywords.rs
 src/Platforms/Keywords/SQLServerKeywords.php	SQLServerKeywords	195	pending	
 src/Platforms/Keywords/SQLiteKeywords.php	SQLiteKeywords	131	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mod.rs
 src/Platforms/MariaDB1010Platform.php	MariaDB1010Platform	32	pending	
@@ -192,24 +192,24 @@ src/Platforms/MariaDB1060Platform.php	MariaDB1060Platform	10	pending
 src/Platforms/MariaDB110700Platform.php	MariaDB110700Platform	18	pending	
 src/Platforms/MariaDB120300Platform.php	MariaDB120300Platform	18	pending	
 src/Platforms/MariaDBPlatform.php	MariaDBPlatform	110	pending	
-src/Platforms/MySQL/CharsetMetadataProvider.php	CharsetMetadataProvider	6	pending	
+src/Platforms/MySQL/CharsetMetadataProvider.php	CharsetMetadataProvider	6	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/charset_metadata_provider.rs
 src/Platforms/MySQL/CharsetMetadataProvider/CachingCharsetMetadataProvider.php	CachingCharsetMetadataProvider	18	pending	
 src/Platforms/MySQL/CharsetMetadataProvider/ConnectionCharsetMetadataProvider.php	ConnectionCharsetMetadataProvider	27	pending	
-src/Platforms/MySQL/CollationMetadataProvider.php	CollationMetadataProvider	6	pending	
+src/Platforms/MySQL/CollationMetadataProvider.php	CollationMetadataProvider	6	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/collation_metadata_provider.rs
 src/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProvider.php	CachingCollationMetadataProvider	18	pending	
 src/Platforms/MySQL/CollationMetadataProvider/ConnectionCollationMetadataProvider.php	ConnectionCollationMetadataProvider	27	pending	
-src/Platforms/MySQL/Comparator.php	Comparator	64	pending	
-src/Platforms/MySQL/DefaultTableOptions.php	DefaultTableOptions	16	pending	
+src/Platforms/MySQL/Comparator.php	Comparator	64	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/comparator.rs
+src/Platforms/MySQL/DefaultTableOptions.php	DefaultTableOptions	16	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/default_table_options.rs
 src/Platforms/MySQL/MySQLMetadataProvider.php	MySQLMetadataProvider	535	pending	
-src/Platforms/MySQL80Platform.php	MySQL80Platform	28	pending	
-src/Platforms/MySQL84Platform.php	MySQL84Platform	18	pending	
-src/Platforms/MySQLPlatform.php	MySQLPlatform	39	pending	
+src/Platforms/MySQL80Platform.php	MySQL80Platform	28	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql80_platform.rs
+src/Platforms/MySQL84Platform.php	MySQL84Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql84_platform.rs
+src/Platforms/MySQLPlatform.php	MySQLPlatform	39	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs
 src/Platforms/Oracle/OracleMetadataProvider.php	OracleMetadataProvider	465	pending	
-src/Platforms/OraclePlatform.php	OraclePlatform	610	pending	
+src/Platforms/OraclePlatform.php	OraclePlatform	610	ported	crates/php2rust-doctrine-dbal/src/platforms/oracle_platform.rs
 src/Platforms/PostgreSQL/Comparator.php	Comparator	28	pending	
 src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	PostgreSQLMetadataProvider	594	pending	
 src/Platforms/PostgreSQL120Platform.php	PostgreSQL120Platform	18	pending	
-src/Platforms/PostgreSQLPlatform.php	PostgreSQLPlatform	588	pending	
+src/Platforms/PostgreSQLPlatform.php	PostgreSQLPlatform	588	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs
 src/Platforms/SQLServer/Comparator.php	Comparator	37	pending	
 src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelectSQLBuilder	57	pending	
 src/Platforms/SQLServer/SQLServerMetadataProvider.php	SQLServerMetadataProvider	564	pending	
