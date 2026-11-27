@@ -3,17 +3,23 @@
 //! `PDO\Connection`, `PDO\Statement` and `PDO\Result`), and gives what
 //! `pdo_mysql` (mysqlnd) gives in PHP 8.4 with its defaults:
 //!
-//! - Prepares are emulated, as `PDO::ATTR_EMULATE_PREPARES` is on for
-//!   `pdo_mysql`: `prepare()` only reads the placeholders, and `execute()`
-//!   sends the SQL with each bound value written in as a literal, over the
-//!   text protocol. `NULL` (or a null value) is `NULL`; `INTEGER` writes an
-//!   int (or a bool as `0`/`1`) as a number; `BOOLEAN` writes a bool or an
-//!   int as `1`/`0`; any other value is the quoted `(string) $value`, and
-//!   `BINARY` and `LARGE_OBJECT` quote it as `_binary'...'`.
+//! - Prepares are the server's (`PDO::ATTR_EMULATE_PREPARES` off): the
+//!   values are bound through sqlx, as this repository binds every value
+//!   (PDO's default for `pdo_mysql` is to write them into the SQL).
+//!   `prepare()` prepares the statement on the server (its errors come
+//!   from there); a named placeholder becomes a `?` (one name used twice
+//!   binds its value twice). A value converts as PDO converts it for its
+//!   type: `NULL` (or a null value) binds null; `INTEGER` and `BOOLEAN`
+//!   bind `(int) $value` (`BOOLEAN` makes an int 0 or 1 first); the other
+//!   types bind `(string) $value`, as text, or as bytes for `BINARY`,
+//!   `LARGE_OBJECT` and a string that is not UTF-8. `query()` and `exec()`
+//!   send the SQL over the text protocol.
 //! - Values come back as mysqlnd gives them in PHP 8.1 and later: integer
 //!   columns (`BIT` and `YEAR` included) as ints (an unsigned `BIGINT`
-//!   above `PHP_INT_MAX` as a string), `FLOAT` and `DOUBLE` as floats,
-//!   `NULL` as null and everything else (`DECIMAL` too) as strings.
+//!   above `PHP_INT_MAX` as a string), `FLOAT` and `DOUBLE` as floats
+//!   (a `FLOAT` read from a prepared statement rounded to 6 significant
+//!   digits, mysqlnd's `FLT_DIG`), `NULL` as null and everything else
+//!   (`DECIMAL`, dates and times too) as strings.
 //! - Errors read `SQLSTATE[<state>]: <description>: <code> <message>`, and
 //!   for a failed connection `SQLSTATE[<state>] [<code>] <message>`; the
 //!   code is `MySQL`'s error number, which the exception converter reads.
@@ -30,13 +36,15 @@
 //! What PDO does that this driver does not (README.md, Differences): the
 //! `driverOptions` PDO attributes and `persistent` are ignored; without a
 //! `host` (or with `localhost`) PDO uses the Unix socket, this driver
-//! connects over TCP to `localhost` unless `unix_socket` is given; a
-//! string that is not UTF-8 is written as a hex literal (`X'...'`), since
-//! sqlx sends the SQL as UTF-8 text; `inTransaction()` is PDO's own flag,
-//! not the server's status (an implicit commit is not seen); the column
-//! names of a result without rows come from preparing the statement on
-//! the server; `quote()` does not read `NO_BACKSLASH_ESCAPES`; the
-//! messages of network errors are the operating system's.
+//! connects over TCP to `localhost` unless `unix_socket` is given;
+//! `inTransaction()` is PDO's own flag, not the server's status (an
+//! implicit commit is not seen); the column names of a result of
+//! `query()` without rows come from preparing the statement on the
+//! server; a date or time of a prepared statement shows its fraction of a
+//! second with 6 digits when it has one (mysqlnd uses the column's
+//! precision, which sqlx does not give); `quote()` does not read
+//! `NO_BACKSLASH_ESCAPES`; the messages of network errors are the
+//! operating system's.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -48,10 +56,12 @@ use std::sync::Arc;
 
 use futures_core::Stream;
 use php_value::{Key, PhpArray, PhpString, Value};
-use sqlx::mysql::{MySqlConnectOptions, MySqlConnection, MySqlDatabaseError, MySqlRow};
+use sqlx::mysql::{
+    MySqlArguments, MySqlConnectOptions, MySqlConnection, MySqlDatabaseError, MySqlRow,
+};
 use sqlx::{
-    AssertSqlSafe, Column, Connection as _, Decode, Either, Executor, MySql, Row, SqlSafeStr,
-    Statement, TypeInfo, ValueRef,
+    Arguments, AssertSqlSafe, Column, Connection as _, Decode, Either, Executor, MySql, Row,
+    SqlSafeStr, Statement, TypeInfo, ValueRef,
 };
 use tokio::sync::Mutex;
 
@@ -324,45 +334,44 @@ struct PdoConnection {
     server_version: String,
 }
 
-/// A piece of a prepared statement's SQL.
-#[derive(Debug, Clone)]
-enum Piece {
-    Sql(Vec<u8>),
+/// A `?` of the SQL sent to the server: the parameter it binds.
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum Placeholder {
     /// A `?`, by its position (from 1).
-    Positional(usize),
-    /// A `:name` (with its colon).
+    Positional(i64),
+    /// A `:name` (with its colon), rewritten as `?`.
     Named(Vec<u8>),
 }
 
-/// The SQL cut at its placeholders, as PDO's emulation reads it.
+/// The SQL with its named placeholders rewritten as `?`, as PDO rewrites
+/// them for the server.
 #[derive(Default)]
 struct Placeholders {
-    pieces: Vec<Piece>,
-    positional: usize,
+    sql: Vec<u8>,
+    list: Vec<Placeholder>,
+    positional: i64,
     named: bool,
 }
 
 impl Visitor for Placeholders {
     type Error = std::convert::Infallible;
 
-    fn accept_positional_parameter(&mut self, _sql: &[u8]) -> Result<(), Self::Error> {
+    fn accept_positional_parameter(&mut self, sql: &[u8]) -> Result<(), Self::Error> {
         self.positional += 1;
-        self.pieces.push(Piece::Positional(self.positional));
+        self.list.push(Placeholder::Positional(self.positional));
+        self.sql.extend_from_slice(sql);
         Ok(())
     }
 
     fn accept_named_parameter(&mut self, sql: &[u8]) -> Result<(), Self::Error> {
         self.named = true;
-        self.pieces.push(Piece::Named(sql.to_vec()));
+        self.list.push(Placeholder::Named(sql.to_vec()));
+        self.sql.push(b'?');
         Ok(())
     }
 
     fn accept_other(&mut self, sql: &[u8]) -> Result<(), Self::Error> {
-        if let Some(Piece::Sql(last)) = self.pieces.last_mut() {
-            last.extend_from_slice(sql);
-        } else {
-            self.pieces.push(Piece::Sql(sql.to_vec()));
-        }
+        self.sql.extend_from_slice(sql);
         Ok(())
     }
 }
@@ -393,27 +402,6 @@ fn quote(value: &[u8]) -> Vec<u8> {
     quoted
 }
 
-/// A literal of a value that sqlx can send in UTF-8 SQL: the quoted
-/// string, or a hex literal when the bytes are not UTF-8.
-fn string_literal(value: &[u8], binary: bool) -> String {
-    if std::str::from_utf8(value).is_ok() {
-        let mut literal = if binary {
-            b"_binary".to_vec()
-        } else {
-            Vec::new()
-        };
-        literal.extend(quote(value));
-        String::from_utf8(literal).unwrap_or_default()
-    } else {
-        let mut hex = String::from("X'");
-        for byte in value {
-            let _ = write!(hex, "{byte:02X}");
-        }
-        hex.push('\'');
-        hex
-    }
-}
-
 /// `(string) $value` as PDO converts a bound value.
 fn bound_string(value: &Value) -> Result<Vec<u8>, Exception> {
     if let Value::Array(_) = value {
@@ -434,22 +422,35 @@ fn bound_string(value: &Value) -> Result<Vec<u8>, Exception> {
         })
 }
 
-/// The literal PDO's emulation writes for a bound value.
-fn literal(value: &Value, r#type: ParameterType) -> Result<String, Exception> {
-    if value.is_null() || r#type == ParameterType::Null {
-        return Ok("NULL".to_owned());
-    }
-    Ok(match (r#type, value) {
-        (ParameterType::Integer, Value::Int(i)) => i.to_string(),
-        (ParameterType::Integer | ParameterType::Boolean, Value::Bool(b)) => {
-            if *b { "1" } else { "0" }.to_owned()
+/// Adds a bound value to the arguments, converted as PDO converts it for
+/// its type.
+fn add_argument(
+    arguments: &mut MySqlArguments,
+    value: &Value,
+    r#type: ParameterType,
+) -> Result<(), Exception> {
+    let added = if value.is_null() || r#type == ParameterType::Null {
+        arguments.add(Option::<i64>::None)
+    } else {
+        match r#type {
+            ParameterType::Null => arguments.add(Option::<i64>::None),
+            ParameterType::Integer => arguments.add(php_value::numeric::int_cast(value)),
+            ParameterType::Boolean => arguments.add(match value {
+                Value::Int(i) => i64::from(*i != 0),
+                other => php_value::numeric::int_cast(other),
+            }),
+            ParameterType::String | ParameterType::Ascii => {
+                match String::from_utf8(bound_string(value)?) {
+                    Ok(text) => arguments.add(text),
+                    Err(bytes) => arguments.add(bytes.into_bytes()),
+                }
+            }
+            ParameterType::Binary | ParameterType::LargeObject => {
+                arguments.add(bound_string(value)?)
+            }
         }
-        (ParameterType::Boolean, Value::Int(i)) => if *i == 0 { "0" } else { "1" }.to_owned(),
-        (ParameterType::Binary | ParameterType::LargeObject, _) => {
-            string_literal(&bound_string(value)?, true)
-        }
-        _ => string_literal(&bound_string(value)?, false),
-    })
+    };
+    added.map_err(|e| Exception::driver(Exception::PDO_EXCEPTION, e.to_string(), None, 0))
 }
 
 /// What running a statement gives: the first result set (or none), the
@@ -460,19 +461,24 @@ struct Ran {
     affected_rows: u64,
 }
 
-/// A value read from `MySQL` over the text protocol, as mysqlnd gives it.
-fn column_value(row: &MySqlRow, index: usize, type_name: &str) -> Result<Value, Exception> {
+/// A value read from `MySQL`, as mysqlnd gives it: from the text protocol
+/// (`query()`, `exec()`) or the binary one (a prepared statement).
+fn column_value(
+    row: &MySqlRow,
+    index: usize,
+    type_name: &str,
+    binary: bool,
+) -> Result<Value, Exception> {
     let raw = row.try_get_raw(index).map_err(|e| pdo_exception(&e))?;
     if raw.is_null() {
         return Ok(Value::Null);
     }
     let bytes = <&[u8] as Decode<MySql>>::decode(raw)
         .map_err(|e| Exception::driver(Exception::PDO_EXCEPTION, e.to_string(), None, 0))?;
+    if binary {
+        return Ok(binary_value(bytes, type_name));
+    }
     let text = || String::from_utf8_lossy(bytes).into_owned();
-    let integer = |text: String| match text.parse::<i64>() {
-        Ok(i) => Value::Int(i),
-        Err(_) => Value::String(PhpString::from(text)),
-    };
     let base = type_name.trim_end_matches(" UNSIGNED");
     Ok(match base {
         "BOOLEAN" | "TINYINT" | "SMALLINT" | "MEDIUMINT" | "INT" | "BIGINT" | "YEAR" => {
@@ -482,12 +488,105 @@ fn column_value(row: &MySqlRow, index: usize, type_name: &str) -> Result<Value, 
             Ok(f) => Value::Float(f),
             Err(_) => Value::String(PhpString::from(bytes.to_vec())),
         },
-        "BIT" => {
-            let number = bytes.iter().fold(0u64, |n, &b| (n << 8) | u64::from(b));
-            integer(number.to_string())
-        }
+        "BIT" => integer(big_endian(bytes).to_string()),
         _ => Value::String(PhpString::from(bytes.to_vec())),
     })
+}
+
+/// An integer, or its text when it does not fit (an unsigned `BIGINT`).
+fn integer(text: String) -> Value {
+    match text.parse::<i64>() {
+        Ok(i) => Value::Int(i),
+        Err(_) => Value::String(PhpString::from(text)),
+    }
+}
+
+/// A `BIT` value's bytes as a number.
+fn big_endian(bytes: &[u8]) -> u64 {
+    bytes.iter().fold(0u64, |n, &b| (n << 8) | u64::from(b))
+}
+
+/// The little-endian integer of `bytes`.
+fn little_endian(bytes: &[u8]) -> u64 {
+    bytes
+        .iter()
+        .rev()
+        .fold(0u64, |n, &b| (n << 8) | u64::from(b))
+}
+
+/// A value of the binary protocol, as mysqlnd's `ps_fetch_*()` gives it.
+fn binary_value(bytes: &[u8], type_name: &str) -> Value {
+    let unsigned = type_name.ends_with(" UNSIGNED");
+    let base = type_name.trim_end_matches(" UNSIGNED");
+    let signed = |width: usize| {
+        let n = little_endian(bytes);
+        let shift = 64 - 8 * u32::try_from(width.clamp(1, 8)).unwrap_or(8);
+        // Sign extension from the column's width.
+        #[allow(clippy::cast_possible_wrap, reason = "two's complement of the width")]
+        let value = ((n << shift) as i64) >> shift;
+        Value::Int(value)
+    };
+    match base {
+        "BOOLEAN" | "TINYINT" | "SMALLINT" | "MEDIUMINT" | "INT" | "BIGINT" if unsigned => {
+            integer(little_endian(bytes).to_string())
+        }
+        "BOOLEAN" | "TINYINT" | "SMALLINT" | "MEDIUMINT" | "INT" | "BIGINT" => signed(bytes.len()),
+        "YEAR" => integer(little_endian(bytes).to_string()),
+        "FLOAT" => {
+            let value = bytes
+                .get(..4)
+                .and_then(|b| <[u8; 4]>::try_from(b).ok())
+                .map_or(0.0, f32::from_le_bytes);
+            // `mysql_float_to_double()` with `FLT_DIG` (6) digits.
+            Value::Float(format!("{value:.5e}").parse().unwrap_or(f64::from(value)))
+        }
+        "DOUBLE" => Value::Float(
+            bytes
+                .get(..8)
+                .and_then(|b| <[u8; 8]>::try_from(b).ok())
+                .map_or(0.0, f64::from_le_bytes),
+        ),
+        "BIT" => integer(big_endian(bytes).to_string()),
+        "DATE" | "DATETIME" | "TIMESTAMP" => Value::String(PhpString::from(date_time(bytes, base))),
+        "TIME" => Value::String(PhpString::from(time(bytes))),
+        _ => Value::String(PhpString::from(bytes.to_vec())),
+    }
+}
+
+/// A binary `DATE`, `DATETIME` or `TIMESTAMP` (its length byte first).
+fn date_time(bytes: &[u8], base: &str) -> String {
+    let at = |i: usize| bytes.get(i).copied().map_or(0, u32::from);
+    let year = at(1) | (at(2) << 8);
+    let date = format!("{year:04}-{:02}-{:02}", at(3), at(4));
+    if base == "DATE" {
+        return date;
+    }
+    let mut text = format!("{date} {:02}:{:02}:{:02}", at(5), at(6), at(7));
+    let micro = at(8) | (at(9) << 8) | (at(10) << 16) | (at(11) << 24);
+    if micro != 0 {
+        let _ = write!(text, ".{micro:06}");
+    }
+    text
+}
+
+/// A binary `TIME` (its length byte first): `[-]HH:MM:SS`, the days
+/// counted in the hours.
+fn time(bytes: &[u8]) -> String {
+    let at = |i: usize| bytes.get(i).copied().map_or(0, u32::from);
+    let negative = at(1) == 1;
+    let days = at(2) | (at(3) << 8) | (at(4) << 16) | (at(5) << 24);
+    let hours = days * 24 + at(6);
+    let mut text = format!(
+        "{}{hours:02}:{:02}:{:02}",
+        if negative { "-" } else { "" },
+        at(7),
+        at(8)
+    );
+    let micro = at(9) | (at(10) << 8) | (at(11) << 16) | (at(12) << 24);
+    if micro != 0 {
+        let _ = write!(text, ".{micro:06}");
+    }
+    text
 }
 
 /// Waits for the next item of a stream.
@@ -495,16 +594,29 @@ async fn next<S: Stream + Unpin>(stream: &mut S) -> Option<S::Item> {
     std::future::poll_fn(|cx| std::pin::Pin::new(&mut *stream).poll_next(cx)).await
 }
 
-/// Runs SQL over the text protocol and reads its first result set.
-async fn run(inner: &mut Inner, sql: String) -> Result<Ran, Exception> {
+/// Runs SQL and reads its first result set: over the text protocol, or
+/// as a prepared statement with `arguments` (whose `columns` it knows).
+async fn run(
+    inner: &mut Inner,
+    sql: String,
+    arguments: Option<(MySqlArguments, Vec<(PhpString, String)>)>,
+) -> Result<Ran, Exception> {
+    let binary = arguments.is_some();
+    let (arguments, known_columns) = match arguments {
+        Some((arguments, columns)) => (Some(arguments), Some(columns)),
+        None => (None, None),
+    };
     inner.last_insert_id = 0;
     let mut columns: Option<Vec<(PhpString, String)>> = None;
     let mut rows = VecDeque::new();
     let mut affected_rows = None;
     let mut last_insert_id = 0;
     {
-        let mut stream =
-            (&mut inner.connection).fetch_many(sqlx::raw_sql(AssertSqlSafe(sql.clone())));
+        let mut stream = match arguments {
+            Some(arguments) => (&mut inner.connection)
+                .fetch_many(sqlx::query_with(AssertSqlSafe(sql.clone()), arguments)),
+            None => (&mut inner.connection).fetch_many(sqlx::raw_sql(AssertSqlSafe(sql.clone()))),
+        };
         while let Some(item) = next(&mut stream).await {
             match item.map_err(|e| pdo_exception(&e))? {
                 Either::Left(done) => {
@@ -522,7 +634,7 @@ async fn run(inner: &mut Inner, sql: String) -> Result<Ran, Exception> {
                     });
                     let mut values = Vec::with_capacity(names.len());
                     for (index, (_, type_name)) in names.iter().enumerate() {
-                        values.push(column_value(&row, index, type_name)?);
+                        values.push(column_value(&row, index, type_name, binary)?);
                     }
                     rows.push_back(values);
                 }
@@ -532,7 +644,7 @@ async fn run(inner: &mut Inner, sql: String) -> Result<Ran, Exception> {
     }
     inner.last_insert_id = last_insert_id;
     let affected_rows = affected_rows.unwrap_or(0);
-    let columns = match columns {
+    let columns = match columns.or(known_columns) {
         Some(columns) => columns,
         // A result set without rows has its columns in the metadata sqlx
         // does not keep: prepare the statement for them (it does not run).
@@ -599,9 +711,22 @@ impl DriverConnection for PdoConnection {
             if placeholders.named && placeholders.positional > 0 {
                 return Err(pdo_error("HY093", "mixed named and positional parameters"));
             }
+            let server_sql = utf8(placeholders.sql)?;
+            let mut inner = self.inner.lock().await;
+            let statement = (&mut inner.connection)
+                .prepare(AssertSqlSafe(server_sql.clone()).into_sql_str())
+                .await
+                .map_err(|e| pdo_exception(&e))?;
+            let columns = statement
+                .columns()
+                .iter()
+                .map(|c| (PhpString::from(c.name()), c.type_info().name().to_owned()))
+                .collect();
             Ok(Box::new(PdoStatement {
                 inner: Arc::clone(&self.inner),
-                pieces: placeholders.pieces,
+                sql: server_sql,
+                placeholders: placeholders.list,
+                columns,
                 bound: BTreeMap::new(),
             }) as Box<dyn DriverStatement>)
         })
@@ -616,7 +741,7 @@ impl DriverConnection for PdoConnection {
                 return Err(empty_statement("query", "query"));
             }
             let mut inner = self.inner.lock().await;
-            Ok(result(run(&mut inner, sql.to_owned()).await?))
+            Ok(result(run(&mut inner, sql.to_owned(), None).await?))
         })
     }
 
@@ -630,7 +755,7 @@ impl DriverConnection for PdoConnection {
                 return Err(empty_statement("exec", "statement"));
             }
             let mut inner = self.inner.lock().await;
-            let ran = run(&mut inner, sql.to_owned()).await?;
+            let ran = run(&mut inner, sql.to_owned(), None).await?;
             Ok(if ran.columns.is_empty() {
                 i64::try_from(ran.affected_rows).unwrap_or(i64::MAX)
             } else {
@@ -658,7 +783,7 @@ impl DriverConnection for PdoConnection {
             if inner.in_transaction {
                 return Err(pdo_message("There is already an active transaction"));
             }
-            run(&mut inner, "START TRANSACTION".to_owned()).await?;
+            run(&mut inner, "START TRANSACTION".to_owned(), None).await?;
             inner.in_transaction = true;
             Ok(())
         })
@@ -670,7 +795,7 @@ impl DriverConnection for PdoConnection {
             if !inner.in_transaction {
                 return Err(pdo_message("There is no active transaction"));
             }
-            run(&mut inner, "COMMIT".to_owned()).await?;
+            run(&mut inner, "COMMIT".to_owned(), None).await?;
             inner.in_transaction = false;
             Ok(())
         })
@@ -683,7 +808,7 @@ impl DriverConnection for PdoConnection {
                 return Err(pdo_message("There is no active transaction"));
             }
             inner.in_transaction = false;
-            run(&mut inner, "ROLLBACK".to_owned()).await?;
+            run(&mut inner, "ROLLBACK".to_owned(), None).await?;
             Ok(())
         })
     }
@@ -699,12 +824,24 @@ impl DriverConnection for PdoConnection {
     }
 }
 
-/// `Doctrine\DBAL\Driver\PDO\Statement`, with emulated prepares.
+/// `Doctrine\DBAL\Driver\PDO\Statement`, prepared on the server.
 struct PdoStatement {
     inner: Arc<Mutex<Inner>>,
-    pieces: Vec<Piece>,
+    /// The SQL sent to the server (named placeholders as `?`).
+    sql: String,
+    placeholders: Vec<Placeholder>,
+    /// The result columns the server described.
+    columns: Vec<(PhpString, String)>,
     /// Bound values by parameter.
     bound: BTreeMap<Key, (Value, ParameterType)>,
+}
+
+/// PDO's error for parameters that do not match the placeholders.
+fn parameter_mismatch() -> Exception {
+    pdo_error(
+        "HY093",
+        "number of bound variables does not match number of tokens",
+    )
 }
 
 impl DriverStatement for PdoStatement {
@@ -729,11 +866,10 @@ impl DriverStatement for PdoStatement {
                 if name.first() != Some(&b':') {
                     name.insert(0, b':');
                 }
-                let known = self
-                    .pieces
-                    .iter()
-                    .any(|piece| matches!(piece, Piece::Named(n) if *n == name));
-                if !known {
+                if !self
+                    .placeholders
+                    .contains(&Placeholder::Named(name.clone()))
+                {
                     return Err(pdo_error("HY093", "parameter was not defined"));
                 }
                 Key::from(PhpString::from(name))
@@ -745,44 +881,37 @@ impl DriverStatement for PdoStatement {
 
     fn execute(&mut self) -> BoxFuture<'_, Result<Box<dyn DriverResult>, Exception>> {
         Box::pin(async move {
-            let mut sql = Vec::new();
-            for piece in &self.pieces {
-                let key = match piece {
-                    Piece::Sql(text) => {
-                        sql.extend_from_slice(text);
-                        continue;
-                    }
-                    Piece::Positional(position) => {
-                        Key::Int(i64::try_from(*position).unwrap_or(i64::MAX))
-                    }
-                    Piece::Named(name) => Key::from(PhpString::from(name.clone())),
+            let positional = self
+                .placeholders
+                .iter()
+                .filter(|p| matches!(p, Placeholder::Positional(_)))
+                .count();
+            let past_the_end = self.bound.keys().any(|key| {
+                matches!(key, Key::Int(i) if usize::try_from(*i).map_or(true, |i| i > positional))
+            });
+            if past_the_end {
+                return Err(parameter_mismatch());
+            }
+            let mut arguments = MySqlArguments::default();
+            for placeholder in &self.placeholders {
+                let key = match placeholder {
+                    Placeholder::Positional(position) => Key::Int(*position),
+                    Placeholder::Named(name) => Key::from(PhpString::from(name.clone())),
                 };
                 let Some((value, r#type)) = self.bound.get(&key) else {
-                    return Err(pdo_error(
-                        "HY093",
-                        "number of bound variables does not match number of tokens",
-                    ));
+                    return Err(parameter_mismatch());
                 };
-                sql.extend_from_slice(literal(value, *r#type)?.as_bytes());
+                add_argument(&mut arguments, value, *r#type)?;
             }
-            let positional = self
-                .pieces
-                .iter()
-                .filter(|piece| matches!(piece, Piece::Positional(_)))
-                .count();
-            if self
-                .bound
-                .keys()
-                .any(|key| matches!(key, Key::Int(i) if usize::try_from(*i).map_or(true, |i| i > positional)))
-            {
-                return Err(pdo_error(
-                    "HY093",
-                    "number of bound variables does not match number of tokens",
-                ));
-            }
-            let sql = utf8(sql)?;
             let mut inner = self.inner.lock().await;
-            Ok(result(run(&mut inner, sql).await?))
+            Ok(result(
+                run(
+                    &mut inner,
+                    self.sql.clone(),
+                    Some((arguments, self.columns.clone())),
+                )
+                .await?,
+            ))
         })
     }
 }
@@ -850,5 +979,56 @@ impl DriverResult for PdoResult {
 
     fn class(&self) -> &'static str {
         "Doctrine\\DBAL\\Driver\\PDO\\Result"
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn reads_binary_values_as_mysqlnd() {
+        assert!(Value::Int(-2).identical(&binary_value(&[0xfe], "TINYINT")));
+        assert!(Value::Int(254).identical(&binary_value(&[0xfe], "TINYINT UNSIGNED")));
+        assert!(Value::Int(-1).identical(&binary_value(&[0xff; 8], "BIGINT")));
+        assert!(
+            Value::string("18446744073709551615")
+                .identical(&binary_value(&[0xff; 8], "BIGINT UNSIGNED"))
+        );
+        assert!(Value::Int(2024).identical(&binary_value(&[0xe8, 0x07], "YEAR")));
+        assert!(Value::Float(1.1).identical(&binary_value(&1.1f32.to_le_bytes(), "FLOAT")));
+        assert!(Value::Int(5).identical(&binary_value(&[0, 5], "BIT")));
+        assert!(
+            Value::string("2012-12-12").identical(&binary_value(&[4, 0xdc, 0x07, 12, 12], "DATE"))
+        );
+        assert!(
+            Value::string("2012-12-12 01:02:03")
+                .identical(&binary_value(&[7, 0xdc, 0x07, 12, 12, 1, 2, 3], "DATETIME"))
+        );
+        assert!(Value::string("0000-00-00 00:00:00").identical(&binary_value(&[0], "TIMESTAMP")));
+        assert!(
+            Value::string("-25:02:03")
+                .identical(&binary_value(&[8, 1, 1, 0, 0, 0, 1, 2, 3], "TIME"))
+        );
+        assert!(Value::string("-2.300").identical(&binary_value(b"-2.300", "DECIMAL")));
+    }
+
+    #[test]
+    fn rewrites_named_placeholders() {
+        let mut placeholders = Placeholders::default();
+        let Ok(()) = Parser::new(true).parse(b"SELECT :a, ':b', :a", &mut placeholders);
+        assert_eq!(b"SELECT ?, ':b', ?".to_vec(), placeholders.sql);
+        assert_eq!(
+            vec![
+                Placeholder::Named(b":a".to_vec()),
+                Placeholder::Named(b":a".to_vec())
+            ],
+            placeholders.list
+        );
+    }
+
+    #[test]
+    fn quotes_as_mysql_real_escape_string() {
+        assert_eq!(b"'a\\'b\\\\c\\0\\n'".to_vec(), quote(b"a'b\\c\0\n"));
     }
 }
