@@ -220,6 +220,10 @@ def main() -> int:
                     "cargo", "metadata", "--locked", "--no-deps", "--format-version", "1"))),
                 ("cargo", "clippy", "--locked", "--workspace", "--all-targets", "--", "-D", "warnings"),
                 ("cargo", "test", "--locked", "--workspace", "--no-fail-fast"),
+                # The optional features (the pdo_mysql driver, ...), all in one run.
+                ("cargo", "clippy", "--locked", "--workspace", "--all-targets", "--all-features", "--",
+                 "-D", "warnings"),
+                ("cargo", "test", "--locked", "--workspace", "--all-features", "--no-fail-fast"),
             ])
         commands.extend([
             (bash, "scripts/sources.sh", "--check"),
