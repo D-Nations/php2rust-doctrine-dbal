@@ -2632,8 +2632,8 @@ tests/Schema/TableTest.php	TableTest::testOverrulingIndexDoesNotDropOverruledInd
 tests/Schema/TableTest.php	TableTest::testOverwritingForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testOverwritingForeignKeyConstraint
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyConstraintIsDerivedFromIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyConstraintIsDerivedFromIndex
 tests/Schema/TableTest.php	TableTest::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testPrimaryKeyOverrulingUniqueIndexDoesNotDropUniqueIndex
-tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	pending	needs the MySQL platform
-tests/Schema/TableTest.php	TableTest::testQuotedTableName	pending	needs the MySQL platform
+tests/Schema/TableTest.php	TableTest::testQuoteSchemaPrefixed	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testQuoteSchemaPrefixed
+tests/Schema/TableTest.php	TableTest::testQuotedTableName	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testQuotedTableName
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraint	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraint
 tests/Schema/TableTest.php	TableTest::testRemoveUniqueConstraintUnknownNameThrowsException	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRemoveUniqueConstraintUnknownNameThrowsException
 tests/Schema/TableTest.php	TableTest::testRenameColumn	ported	crates/php2rust-doctrine-dbal/tests/schema_table_test.rs::testRenameColumn
