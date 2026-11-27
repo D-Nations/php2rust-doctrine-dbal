@@ -90,6 +90,7 @@ crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql84_keywords.rs	doctrin
 crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql_keywords.rs	doctrine/dbal	src/Platforms/Keywords/MySQLKeywords.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/keywords/oracle_keywords.rs	doctrine/dbal	src/Platforms/Keywords/OracleKeywords.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/keywords/postgresql_keywords.rs	doctrine/dbal	src/Platforms/Keywords/PostgreSQLKeywords.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/keywords/sqlserver_keywords.rs	doctrine/dbal	src/Platforms/Keywords/SQLServerKeywords.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mariadb1010_platform.rs	doctrine/dbal	src/Platforms/MariaDB1010Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mariadb1052_platform.rs	doctrine/dbal	src/Platforms/MariaDB1052Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/mariadb1060_platform.rs	doctrine/dbal	src/Platforms/MariaDB1060Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -110,6 +111,9 @@ crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs	doctrine/dbal	s
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs	doctrine/dbal	src/Platforms/SQLite/SQLiteMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs	doctrine/dbal	src/Platforms/SQLite/SQLiteMetadataProvider/ForeignKeyConstraintDetails.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite_platform.rs	doctrine/dbal	src/Platforms/SQLitePlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/sqlserver/comparator.rs	doctrine/dbal	src/Platforms/SQLServer/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/sqlserver/sql/builder/sqlserver_select_sql_builder.rs	doctrine/dbal	src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/sqlserver_platform.rs	doctrine/dbal	src/Platforms/SQLServerPlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/query/common_table_expression.rs	doctrine/dbal	src/Query/CommonTableExpression.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/query/expression/composite_expression.rs	doctrine/dbal	src/Query/Expression/CompositeExpression.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/query/expression/expression_builder.rs	doctrine/dbal	src/Query/Expression/ExpressionBuilder.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -418,6 +422,10 @@ crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs	doctrine
 crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs	doctrine/dbal	tests/Schema/AbstractComparatorTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs	doctrine/dbal	tests/Platforms/SQLitePlatformTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_sqlite_platform_test.rs	doctrine/dbal	tests/Platforms/AbstractPlatformTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_sqlserver_comparator_test.rs	doctrine/dbal	tests/Platforms/SQLServer/ComparatorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_sqlserver_comparator_test.rs	doctrine/dbal	tests/Schema/AbstractComparatorTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_sqlserver_platform_test.rs	doctrine/dbal	tests/Platforms/SQLServerPlatformTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_sqlserver_platform_test.rs	doctrine/dbal	tests/Platforms/AbstractPlatformTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_support/mod.rs	doctrine/dbal	tests/Platforms/AbstractPlatformTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs	doctrine/dbal	tests/Query/QueryBuilderTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/query_builder_test.rs	doctrine/dbal	tests/Query/QueryBuilderTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
