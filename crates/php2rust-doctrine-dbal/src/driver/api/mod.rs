@@ -6,6 +6,7 @@
 
 use crate::{Exception, Query};
 
+pub mod postgresql;
 pub mod sqlite;
 
 /// Converts driver-level exceptions into DBAL exceptions.
