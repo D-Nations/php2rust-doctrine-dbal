@@ -1,7 +1,7 @@
 //! Port of Doctrine\DBAL\Platforms\PostgreSQL\Comparator.php: compares
-//! schemas in the context of PostgreSQL platform.
+//! schemas in the context of `PostgreSQL` platform.
 //!
-//! PostgreSQL treats "default" collation as implicit, so an explicit
+//! `PostgreSQL` treats "default" collation as implicit, so an explicit
 //! "default" value should be ignored when comparing schemas. PHP's
 //! subclass is a newtype over `schema::Comparator` (its methods by
 //! `Deref`) whose `compareTables()` normalizes both tables first.
@@ -17,7 +17,7 @@ use php_value::{Key, Value};
 use crate::platforms::PostgreSQLPlatform;
 use crate::schema::{Comparator as BaseComparator, ComparatorConfig, Table};
 
-/// Compares schemas in the context of PostgreSQL platform: an explicit
+/// Compares schemas in the context of `PostgreSQL` platform: an explicit
 /// "default" column collation is the same as none.
 #[derive(Debug)]
 pub struct Comparator<'a>(BaseComparator<'a>);

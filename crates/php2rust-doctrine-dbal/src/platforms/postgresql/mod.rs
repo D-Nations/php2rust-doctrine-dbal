@@ -1,4 +1,4 @@
-//! Doctrine\DBAL\Platforms\PostgreSQL: the PostgreSQL platform's helpers.
+//! Doctrine\DBAL\Platforms\PostgreSQL: the `PostgreSQL` platform's helpers.
 //!
 //! Upstream: none
 
