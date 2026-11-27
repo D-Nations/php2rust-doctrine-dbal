@@ -45,6 +45,8 @@ async fn testColumnPositionRetainedAfterAltering() {
     let sm = schema_manager(&connection).await;
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table_by_unquoted_name("test_alter", None)
                 .await

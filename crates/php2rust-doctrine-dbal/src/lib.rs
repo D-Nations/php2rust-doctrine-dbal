@@ -45,7 +45,7 @@ pub use column_case::ColumnCase;
 pub use configuration::{Configuration, SchemaAssetsFilter};
 pub use connection::Connection;
 pub use connection_stand_in::ConnectionStandIn;
-pub use driver_manager::{DriverClass, DriverManager, PDO_SQLITE_DRIVER};
+pub use driver_manager::{DriverClass, DriverManager, PDO_MYSQL_DRIVER, PDO_SQLITE_DRIVER};
 pub use exception::{Exception, InvalidArgumentException};
 pub use expand_array_parameters::{ArrayParametersException, ExpandArrayParameters};
 pub use parameter_type::{ParameterType, WrapperParameterType};

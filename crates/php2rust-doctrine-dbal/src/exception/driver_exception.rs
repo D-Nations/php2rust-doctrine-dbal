@@ -39,6 +39,7 @@
 //! Upstream: doctrine/dbal src/Exception/DatabaseRequired.php
 //! Upstream: doctrine/dbal src/Driver/Exception.php src/Driver/AbstractException.php
 //! Upstream: doctrine/dbal src/Driver/Exception/IdentityColumnsNotSupported.php src/Driver/Exception/NoIdentityValue.php
+//! Upstream: doctrine/dbal src/Platforms/Exception/InvalidPlatformVersion.php
 
 use php_value::PhpString;
 
@@ -82,6 +83,8 @@ pub(super) fn parents(class: &str) -> &'static [&'static str] {
         | Exception::COMMIT_FAILED_ROLLBACK_ONLY
         | Exception::SAVEPOINTS_NOT_SUPPORTED => &[Exception::CONNECTION_EXCEPTION],
         Exception::INVALID_COLUMN_INDEX => &[DBAL, "LogicException"],
+        Exception::INVALID_PLATFORM_VERSION => &[Exception::PLATFORM_EXCEPTION, "Exception"],
+        Exception::PLATFORM_EXCEPTION => &[DBAL],
         Exception::DRIVER_REQUIRED
         | Exception::UNKNOWN_DRIVER
         | Exception::INVALID_DRIVER_CLASS
@@ -206,6 +209,12 @@ impl Exception {
     /// `Doctrine\DBAL\Driver\PDO\Exception`, what the `SQLite` driver throws
     /// (it stands where the PDO `SQLite` driver stands).
     pub const PDO_EXCEPTION: &'static str = "Doctrine\\DBAL\\Driver\\PDO\\Exception";
+    /// `Doctrine\DBAL\Platforms\Exception\InvalidPlatformVersion`.
+    pub const INVALID_PLATFORM_VERSION: &'static str =
+        "Doctrine\\DBAL\\Platforms\\Exception\\InvalidPlatformVersion";
+    /// `Doctrine\DBAL\Platforms\Exception\PlatformException` (an interface).
+    pub const PLATFORM_EXCEPTION: &'static str =
+        "Doctrine\\DBAL\\Platforms\\Exception\\PlatformException";
     pub const PDO_INVALID_CONFIGURATION: &'static str =
         "Doctrine\\DBAL\\Driver\\PDO\\Exception\\InvalidConfiguration";
     pub const IDENTITY_COLUMNS_NOT_SUPPORTED: &'static str =
@@ -358,6 +367,16 @@ impl Exception {
         message.extend_from_slice(wrapper_class);
         message.extend_from_slice(b" has to be a subtype of Doctrine\\DBAL\\Connection.");
         Self::new(Self::INVALID_WRAPPER_CLASS, message)
+    }
+
+    /// `InvalidPlatformVersion::new($version, $expectedFormat)`.
+    pub fn invalid_platform_version(version: &str, expected_format: &str) -> Self {
+        Self::new(
+            Self::INVALID_PLATFORM_VERSION,
+            format!(
+                "Invalid platform version \"{version}\" specified. The platform version has to be specified in the format: \"{expected_format}\"."
+            ),
+        )
     }
 
     /// `MalformedDsnException::new()`.

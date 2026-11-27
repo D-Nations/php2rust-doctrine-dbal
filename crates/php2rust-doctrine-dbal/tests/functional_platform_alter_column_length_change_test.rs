@@ -50,6 +50,8 @@ async fn testColumnLengthIsChanged() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table_by_unquoted_name("test_alter_length", None)
                 .await

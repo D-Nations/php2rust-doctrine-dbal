@@ -85,6 +85,8 @@ async fn testCustomColumnIntrospection() {
         .unwrap();
     let diff = schema_manager
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&online_table, &table)
         .unwrap();
     assert!(

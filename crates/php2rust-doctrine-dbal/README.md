@@ -43,6 +43,7 @@ assert_eq!(visitor.get_parameters(), &[Value::Int(1), Value::Int(2)]);
 | `Result` and `Statement`: `fetchNumeric/Associative/One()`, `fetchAll*()`, `fetchAllKeyValue()` (`NoKeyValue`), `fetchAllAssociativeIndexed()`, `fetchFirstColumn()`, the `iterate*()` forms, `rowCount()`, `columnCount()`, `getColumnName()`, `bindValue()` with wrapper types, `executeQuery()`/`executeStatement()` | `Result.php`, `Statement.php`, `Driver/FetchUtils.php` | Functional ResultTest, StatementTest (11 of 12), Connection/FetchTest (16), Connection/FetchEmptyTest (6) |
 | Exceptions: the `SQLite` exception converter (`UniqueConstraintViolation`, `NotNullConstraintViolation`, `TableNotFound`, `TableExists`, `InvalidFieldName`, `NonUniqueFieldName`, `SyntaxError`, `ReadOnly`, `LockWaitTimeout`, `ConnectionException`, ...), `DriverException`'s message (`An exception occurred while executing a query: ...`), the `Exception/*` messages | `Driver/API/SQLite/ExceptionConverter.php`, `Exception/*.php` | Functional ExceptionTest (9 of 12); the recorded `pdo_sqlite` errors |
 | The `pdo_sqlite` driver on sqlx: value storage classes, PDO's binding conversions, `SQLSTATE` messages, `rowCount()`, `lastInsertId()` (`NoIdentityValue`), `quote()`, `getServerVersion()`, `path`/`memory` parameters | `Driver/PDO/SQLite/Driver.php`, `Driver/PDO/*.php`, `Driver/AbstractSQLiteDriver.php`, `Driver/*.php` interfaces | `tests/pdo_sqlite_vectors.rs` (recorded `pdo_sqlite` answers) |
+| The `pdo_mysql` driver on sqlx (the `pdo_mysql` cargo feature): server-side prepares with bound values, mysqlnd's native int and float values, `SQLSTATE` messages, `rowCount()`, `lastInsertId()`, `quote()`; `AbstractMySQLDriver`'s platform detection (`MySQL` 5.7/8.0/8.4, `MariaDB` up to 12.3, `InvalidPlatformVersion`, the deprecations), the `MySQL` exception converter | `Driver/PDO/MySQL/Driver.php`, `Driver/AbstractMySQLDriver.php`, `Driver/API/MySQL/ExceptionConverter.php`, `Platforms/Exception/InvalidPlatformVersion.php` | VersionAwarePlatformDriverTest (2 of 5: `testPDOMySQL`, `testMalformedMariaDBVersionThrows`), PDO/MySQL DriverTest (2); on a live server (pending here): Functional/Driver/PDO/MySQL/DriverTest (3), MySQLSchemaManagerTest's own tests (24) |
 | `DriverManager::getConnection()` (driver map, `driverClass`, `wrapperClass` checks, URL parameters through `DsnParser`), `getAvailableDrivers()`; `DsnParser::parse()`; the `Configuration` parts the connection reads (auto-commit, type comments) | `DriverManager.php`, `Tools/DsnParser.php`, `Configuration.php` | DriverManagerTest (7 of 8), DsnParserTest (2), ConfigurationTest (2) |
 | The driver middlewares `AbstractDriverMiddleware`, `AbstractConnectionMiddleware`, `AbstractStatementMiddleware` and `AbstractResultMiddleware`, delegating each method to the wrapped driver, connection, statement or result (a `LogicException` from `getColumnName()` of a result without it); the driver connection's `getNativeConnection()` (the `pdo_sqlite` connection gives its sqlx connection) | `Driver/Middleware/*.php`, `Driver/Connection.php` | AbstractConnectionMiddlewareTest (5), AbstractDriverMiddlewareTest (1), AbstractResultMiddlewareTest (1), AbstractStatementMiddlewareTest (1; `tests/driver_middleware_*_test.rs`) |
 | The portability middleware: `Portability\Middleware`, `Driver`, `Connection`, `Statement` and `Result` with `Converter` (empty strings to `null`, right-trimmed strings, column case through `ColumnCase`) and `OptimizeFlags` (the flags each platform does not need) | `Portability/*.php`, `ColumnCase.php`, `Driver/Middleware.php` | Portability ConnectionTest, ConverterTest, OptimizeFlagsTest, ResultTest, StatementTest (`tests/portability_*_test.rs`) |
@@ -223,9 +224,27 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   A custom `driverClass` is registered with `DriverManager::get_connection_with()`
   (a `DriverClass`), and a DSN's driver class must be declared to
   `DsnParser`.
-- The drivers of the driver map other than `pdo_sqlite` build a
-  connection, but `connect()` refuses with `Unsupported` until they are
-  ported.
+- The drivers of the driver map other than `pdo_sqlite` and `pdo_mysql`
+  build a connection, but `connect()` refuses with `Unsupported` until
+  they are ported; `pdo_mysql` does the same without the `pdo_mysql`
+  cargo feature.
+- `pdo_mysql` (sqlx's MySQL client, the `pdo_mysql` feature) prepares
+  statements on the server and binds the values through sqlx, as
+  `PDO::ATTR_EMULATE_PREPARES` off does (PDO's default for `pdo_mysql`
+  writes them into the SQL; this repository binds every value): a
+  syntax error comes from `prepare()`, and a named placeholder used twice
+  binds its value twice. A `FLOAT` read from a prepared statement is
+  rounded to 6 significant digits and a date or time shows a fraction of
+  a second with 6 digits (mysqlnd uses the column's precision, which
+  sqlx does not give). It ignores `driverOptions` and `persistent`;
+  without `host` (or with `localhost`) PDO uses the Unix socket, where
+  this driver connects over TCP unless `unix_socket` is given;
+  `inTransaction()` is PDO's flag, not the server's status (an implicit
+  commit is not seen); the column names of a `query()` result without
+  rows come from preparing the statement on the server; `quote()` does
+  not read `NO_BACKSLASH_ESCAPES`; the messages of network errors are the
+  operating system's. The driver's functional tests need a server
+  (README.md, Live MySQL tests).
 - Parameter types are a `BTreeMap` (integer keys first), so
   `is_string(key($types))` is true only when every key is a string; PHP
   looks at the first key in insertion order. Mixed keys do not occur in
@@ -245,7 +264,7 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
 - Not ported: `Configuration::setSchemaManagerFactory()`
   (`createSchemaManager()` uses the default factory; ConnectionTest's two
   factory tests stay pending, the other also needs the `sqlite3` driver),
-  the wrapper's `getNativeConnection()`, `Configuration::setMiddlewares()`,
+  `Configuration::setMiddlewares()`,
   the deprecation notices. A `BlobType` stream cannot be read
   (StatementTest `testFetchLongBlob` pending).
 - Pending because upstream skips or needs other platforms on `SQLite`:
@@ -284,12 +303,14 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   `AbstractMySQLPlatform` trait, which every `MySQL` and `MariaDB`
   platform implements; the schema manager and metadata provider hold a
   `&dyn AbstractMySQLPlatform`.
-- `AbstractMySQLPlatform::createSchemaManager()` is not ported: a
-  connection's schema manager is `SQLite`'s (the trait is not object
-  safe, so `createSchemaManager()` names that type). Make a
-  `MySQLSchemaManager` with `MySQLSchemaManager::new($connection,
-  $platform)`. `createMetadataProvider()` is `MySQLMetadataProvider::new()`,
-  which is `async`: its constructor reads the current database.
+- `createSchemaManager()` gives a `SchemaManager`, the enum of the ported
+  managers (`SQLite` and `MySQL`, the latter for every `MySQL` and
+  `MariaDB` platform), which forwards the `AbstractSchemaManager`
+  methods to its variant (the trait is not object safe). Its
+  `createComparator()` is `async` and gives a `SchemaComparator` that
+  dereferences to `Comparator`. `createMetadataProvider()` is
+  `MySQLMetadataProvider::new()`, which is `async`: its constructor reads
+  the current database.
 - `MySQLSchemaManager::createComparator()` is `async` (it reads the
   database's default character set and collation). The comparator calls
   its charset and collation providers synchronously, so the
@@ -297,8 +318,12 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   has to wait refuses with an "unsupported" exception. The caching
   providers do not cache a failed lookup, as PHP's exception leaves the
   cache unset.
-- Not ported: the `MySQL` drivers (`mysqli`, `pdo_mysql`), so the
-  functional `MySQL` tests stay pending.
+- `AbstractMySQLDriver` picks the platform from the server version with
+  a port of PHP's `version_compare()`; `MariaDB` versions are read as its
+  regular expression reads them, and a malformed one is
+  `InvalidPlatformVersion`. Not ported: the `mysqli` driver. The
+  functional `MySQL` tests are ported where noted and stay pending until
+  they are run on a live server.
 - Platform/ColumnTest on MySQL, PostgreSQL, Oracle, SQL Server and Db2
   stays pending (it needs a live server).
 
@@ -360,10 +385,11 @@ these cases. The owner decided not to copy these limits (PLAN.md, decision 21).
   `SchemaEditor::modifyTableByUnquotedName()` (testMigrateSchema edits the
   table and puts it back).
 - `AbstractSchemaManager` is a trait (its protected methods are public
-  trait methods) and is not object-safe: a connection hands out the
-  concrete `SQLiteSchemaManager`, whose own methods are
-  `createComparator()` (`create_comparator_with()` for a config) and
-  `migrateSchema()`. The current schema name is not cached (`SQLite` has
+  trait methods) and is not object-safe: a connection hands out a
+  `SchemaManager` enum, whose own methods are `createComparator()`
+  (`async`; `create_comparator_with()` for a config) and
+  `migrateSchema()`; `as_sqlite()` and `as_mysql()` give the concrete
+  manager. The current schema name is not cached (`SQLite` has
   none). The schema assets filter is a `Configuration` closure set
   before the connection is made. A PHP regular expression that fails to
   match (PHP's warning and `false`) is an exception. Unit

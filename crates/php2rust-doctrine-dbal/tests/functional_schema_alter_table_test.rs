@@ -37,6 +37,8 @@ async fn test_migration(
     let schema_manager = schema_manager(connection).await;
     let diff = schema_manager
         .create_comparator_with(config.unwrap_or_default())
+        .await
+        .unwrap()
         .compare_tables(old_table, &new_table)
         .unwrap();
 
@@ -51,6 +53,8 @@ async fn test_migration(
 
     let diff = schema_manager
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&new_table, &introspected_table)
         .unwrap();
 

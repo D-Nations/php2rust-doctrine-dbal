@@ -49,7 +49,7 @@ use crate::{LockMode, TransactionIsolationLevel};
 
 // Slice SchemaManager: imports.
 use crate::Connection;
-use crate::schema::{SQLiteSchemaManager, SchemaDiff, Sequence};
+use crate::schema::{SchemaDiff, SchemaManager, Sequence};
 
 /// `$this` as a `&dyn AbstractPlatform`, for the trait's default methods
 /// that pass the platform on (`Type::getSQLDeclaration($column, $this)`).
@@ -1554,12 +1554,12 @@ pub trait AbstractPlatform: AsDynPlatform {
     // Slice SchemaManager: the schema manager factory method and the SQL
     // of a schema diff and of sequences.
 
-    /// `createSchemaManager($connection)` (abstract). The only schema
-    /// manager ported is `SQLite`'s, so this names its type.
+    /// `createSchemaManager($connection)` (abstract): the platform's
+    /// manager, as a variant of [`SchemaManager`].
     fn create_schema_manager<'c>(
         &'c self,
         _connection: &'c Connection,
-    ) -> Result<SQLiteSchemaManager<'c>, Exception> {
+    ) -> Result<SchemaManager<'c>, Exception> {
         Err(not_supported("createSchemaManager"))
     }
 

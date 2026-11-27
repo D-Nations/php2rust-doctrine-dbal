@@ -22,6 +22,7 @@ use crate::Exception;
 use crate::ServerVersionProvider;
 use crate::platforms::AbstractPlatform;
 
+pub mod abstract_mysql_driver;
 pub mod abstract_oracle_driver;
 mod abstract_sqlite_driver;
 pub mod api;
@@ -30,10 +31,13 @@ mod fetch_utils;
 pub mod ibm_db2;
 pub mod middleware;
 pub mod oci8;
+#[cfg(feature = "pdo_mysql")]
+pub mod pdo_mysql;
 pub mod pdo_sqlite;
 mod result;
 mod statement;
 
+pub use abstract_mysql_driver::AbstractMySQLDriver;
 pub use abstract_sqlite_driver::AbstractSQLiteDriver;
 pub use connection::{Connection, NativeConnection};
 pub use fetch_utils::FetchUtils;

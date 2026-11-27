@@ -415,7 +415,7 @@ async fn testNonSimpleAlterTableCreatedFromDDL() {
         .create()
         .unwrap();
 
-    let comparator = schema_manager.create_comparator();
+    let comparator = schema_manager.create_comparator().await.unwrap();
     let diff = comparator.compare_tables(&table1, &table2).unwrap();
 
     schema_manager.alter_table(&diff).await.unwrap();
@@ -1451,6 +1451,8 @@ async fn testDiffListTableColumns() {
 
     assert!(
         sm.create_comparator()
+            .await
+            .unwrap()
             .compare_tables(&online_table, &offline_table)
             .unwrap()
             .is_empty()
@@ -1655,7 +1657,7 @@ async fn testAlterTableScenario() {
         .create()
         .unwrap();
 
-    let comparator = sm.create_comparator();
+    let comparator = sm.create_comparator().await.unwrap();
 
     let diff = comparator.compare_tables(&table, &new_table).unwrap();
 
@@ -1847,6 +1849,8 @@ async fn testAlterIntrospectedTablePreservesIndexesAndForeignKeys() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&old_table, &new_table)
         .unwrap();
     sm.alter_table(&diff).await.unwrap();
@@ -1957,6 +1961,8 @@ async fn testUpdateSchemaWithForeignKeyRenaming() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table(&table_fk.get_object_name().unwrap().to_string())
                 .await
@@ -2026,6 +2032,8 @@ async fn testRenameIndexUsedInForeignKeyConstraint() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&foreign_table, &foreign_table2)
         .unwrap();
 
@@ -2073,6 +2081,8 @@ async fn testChangeColumnsTypeWithDefaultValue() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table_by_unquoted_name("column_def_change_type", None)
                 .await
@@ -2214,6 +2224,8 @@ async fn testColumnDefaultLifecycle() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table_by_unquoted_name("col_def_lifecycle", None)
                 .await
@@ -2470,6 +2482,8 @@ async fn testChangeIndexWithForeignKeys() {
 
     let diff = schema_manager
         .create_comparator_with(ComparatorConfig::default().with_detect_renamed_indexes(false))
+        .await
+        .unwrap()
         .compare_tables(
             &schema_manager.introspect_table("child").await.unwrap(),
             &child,
@@ -2508,6 +2522,8 @@ async fn testSwitchPrimaryKeyOrder() {
     let schema_manager = connection.create_schema_manager().await.unwrap();
     let diff = schema_manager
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &schema_manager
                 .introspect_table("test_switch_pk_order")
@@ -2559,6 +2575,8 @@ async fn testDropColumnWithDefault() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &sm.introspect_table_by_unquoted_name("drop_column_with_default", None)
                 .await

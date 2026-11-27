@@ -15,7 +15,9 @@ history. PHP's own behaviour (values, arrays, dates) comes from
 **Status.** Work in progress: see the crate's contract table in
 [crates/php2rust-doctrine-dbal/README.md](crates/php2rust-doctrine-dbal/README.md)
 and the test manifest `parity/doctrine/dbal.tsv` (`ported`, `n/a` or
-`pending` for every upstream test). The SQLite driver runs on sqlx. Not
+`pending` for every upstream test). The SQLite driver runs on sqlx, and
+so does the MySQL driver (`pdo_mysql`, behind the `pdo_mysql` cargo
+feature, so that the default build has no MySQL client). Not
 published to crates.io (`publish = false`); use a git dependency pinned to
 a commit:
 
@@ -53,6 +55,36 @@ bash scripts/sources.sh --check      # parity/sources.tsv from `//! Upstream:` l
 bash scripts/parity-check.sh         # parity/doctrine/dbal.tsv against the tests
 python scripts/classes.py check      # parity/classes/ against parity/sources.tsv
 ```
+
+`full` also runs clippy and the tests with `--all-features` (the
+`pdo_mysql` driver and its tests).
+
+## Live MySQL tests
+
+The tests that need a MySQL server (functional MySQLSchemaManagerTest,
+Functional/Driver/PDO/MySQL, ...) read the server from
+`DBAL_TEST_MYSQL_URL` and pass with a note on stderr when it is not set,
+so their rows in `parity/doctrine/dbal.tsv` stay `pending` until they are
+run on a machine with a server. Start MySQL 8.4 in Docker and wait until
+it accepts TCP connections:
+
+```sh
+docker run -d --name dbal-mysql -p 3306:3306 \
+  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=doctrine_tests mysql:8.4
+until docker exec dbal-mysql mysql -h127.0.0.1 -uroot -proot -e 'SELECT 1' >/dev/null 2>&1; do sleep 1; done
+```
+
+Then run the tests with the feature and the URL:
+
+```sh
+DBAL_TEST_MYSQL_URL=mysql://root:root@127.0.0.1:3306/doctrine_tests \
+  cargo test -p php2rust-doctrine-dbal --features pdo_mysql
+```
+
+(PowerShell: `$env:DBAL_TEST_MYSQL_URL = "mysql://root:root@127.0.0.1:3306/doctrine_tests"`,
+then the same `cargo test` line.) The database is created when it is
+missing; the tests of one file run one after the other. Stop the server
+with `docker rm -f dbal-mysql`.
 
 ## Upstream and vectors
 

@@ -734,6 +734,14 @@ fn index_by_lower_case_name(indexes: &[Index], name: &str) -> Option<Index> {
 /// which each platform writes; `$platform` is the platform's type.
 macro_rules! impl_abstract_mysql_platform {
     () => {
+        /// `AbstractMySQLPlatform::createSchemaManager($connection)`.
+        fn create_schema_manager<'c>(
+            &'c self,
+            connection: &'c $crate::Connection,
+        ) -> Result<$crate::schema::SchemaManager<'c>, $crate::Exception> {
+            Ok($crate::schema::MySQLSchemaManager::new(connection, self).into())
+        }
+
         fn platform_state(&self) -> Option<&$crate::platforms::PlatformState> {
             Some(&self.state)
         }
