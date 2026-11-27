@@ -115,11 +115,19 @@ def check_parity(root: Path) -> int:
                 continue
             # Bash read with IFS=tab collapses adjacent/leading tabs.
             # Preserve that rule so malformed rows cannot bypass a check.
-            fields = re.split(r"\t+", line.strip("\t"), maxsplit=3)
-            fields += [""] * max(0, 4 - len(fields))
-            _, test, state, rust = fields[:4]
+            fields = re.split(r"\t+", line.strip("\t"), maxsplit=4)
+            fields += [""] * max(0, 5 - len(fields))
+            _, test, state, rust, written = fields[:5]
             if state == "pending":
-                pass
+                # A written test that is not run here (a live server).
+                if written:
+                    wfile, _, _ = written.partition("::")
+                    wfn = written.rsplit("::", 1)[-1]
+                    if (wfile == written or not (root / wfile).is_file()
+                            or not re.search(r"fn " + wfn + r"\s*(<|\()", read(wfile), re.ASCII)):
+                        errors.append(f"{name}: {test} names {written}, which does not exist")
+                    else:
+                        claims.add(written)
             elif state.startswith("n/a: ") and len(state) > len("n/a: "):
                 pass
             elif state == "ported":

@@ -103,6 +103,23 @@ class ReferenceParityTests(unittest.TestCase):
         self.write("crates/example/tests/test.rs", "//! Upstream: none\n")
         self.compare_parity(0)
 
+    def test_pending_row_claims_a_written_test(self):
+        self.write("parity/done.txt", "")
+        name = "parity/symfony/example.tsv"
+        claimed = self.files[name].replace(
+            "testTwo\tported\tcrates/example/tests/test.rs::testTwo",
+            "testTwo\tpending\tneeds a live server\tcrates/example/tests/test.rs::testTwo")
+        self.write(name, claimed)
+        self.compare_parity(0)
+        for broken in (
+            claimed.replace("test.rs::testTwo", "test.rs::missing"),
+            claimed.replace("test.rs::testTwo", "absent.rs::testTwo"),
+            claimed.replace("\tcrates/example/tests/test.rs::testTwo", ""),
+        ):
+            with self.subTest(broken=broken):
+                self.write(name, broken)
+                self.compare_parity(1)
+
     def test_unclaimed_context_and_generic_test(self):
         name = "crates/example/tests/test.rs"
         self.write(name, self.files[name] + "#[test]\n// comment\nfn testExtra<T>() {}\n")
