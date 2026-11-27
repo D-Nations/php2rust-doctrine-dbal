@@ -108,7 +108,7 @@ impl DriverResult for DriverResultMock {
         self.call("free");
     }
 
-    fn class(&self) -> &str {
+    fn class(&self) -> &'static str {
         "DriverResultMock"
     }
 }

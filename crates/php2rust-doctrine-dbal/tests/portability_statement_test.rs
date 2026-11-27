@@ -76,7 +76,7 @@ impl DriverResult for EmptyResult {
 
     fn free(&mut self) {}
 
-    fn class(&self) -> &str {
+    fn class(&self) -> &'static str {
         "ResultMock"
     }
 }

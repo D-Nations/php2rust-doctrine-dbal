@@ -63,12 +63,32 @@ fn create_converter(
 
 const LOWER: Option<i64> = Some(Converter::CASE_LOWER);
 
+/// A case of `convertNumericProvider()`: name, row, empty to null, rtrim,
+/// expected.
+type NumericCase = (&'static str, Option<PhpArray>, bool, bool, Option<PhpArray>);
+/// A case of `convertAssociativeProvider()`: name, row, empty to null,
+/// rtrim, case, expected.
+type AssociativeCase = (
+    &'static str,
+    Option<PhpArray>,
+    bool,
+    bool,
+    Option<i64>,
+    Option<PhpArray>,
+);
+/// A case of `convertOneProvider()`: name, value, empty to null, rtrim,
+/// expected.
+type OneCase = (&'static str, Option<Value>, bool, bool, Option<Value>);
+/// A case of `convertAllAssociativeProvider()`: name, empty to null, rtrim,
+/// case, expected.
+type AllAssociativeCase = (&'static str, bool, bool, Option<i64>, Vec<PhpArray>);
+
 #[test]
 fn testConvertNumeric() {
     let row = numeric(&[Some("X "), Some("")]);
 
     // convertNumericProvider()
-    let cases: Vec<(&str, Option<PhpArray>, bool, bool, Option<PhpArray>)> = vec![
+    let cases: Vec<NumericCase> = vec![
         (
             "None",
             Some(row.clone()),
@@ -112,14 +132,7 @@ fn testConvertAssociative() {
     let row = associative(&[("FOO", Some("")), ("BAR", Some("X "))]);
 
     // convertAssociativeProvider()
-    let cases: Vec<(
-        &str,
-        Option<PhpArray>,
-        bool,
-        bool,
-        Option<i64>,
-        Option<PhpArray>,
-    )> = vec![
+    let cases: Vec<AssociativeCase> = vec![
         (
             "None",
             Some(row.clone()),
@@ -198,7 +211,7 @@ fn testConvertAssociative() {
 #[test]
 fn testConvertOne() {
     // convertOneProvider()
-    let cases: [(&str, Option<Value>, bool, bool, Option<Value>); 9] = [
+    let cases: [OneCase; 9] = [
         (
             "None, trailing space",
             Some(v(Some("X "))),
@@ -327,7 +340,7 @@ fn testConvertAllAssociative() {
     ];
 
     // convertAllAssociativeProvider()
-    let cases: Vec<(&str, bool, bool, Option<i64>, Vec<PhpArray>)> = vec![
+    let cases: Vec<AllAssociativeCase> = vec![
         (
             "None",
             false,
