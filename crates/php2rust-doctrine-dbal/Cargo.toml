@@ -13,6 +13,12 @@ sqlx = { version = "0.9.0", default-features = false, features = ["runtime-tokio
 tokio = { version = "1.54.1", features = ["sync"] }
 sha1 = "0.10"
 sha2 = "0.10"
+symfony-console = { workspace = true, optional = true }
+
+[features]
+# The `Tools\Console` commands, on symfony-console (upstream suggests
+# symfony/console for them).
+console = ["dep:symfony-console", "tokio/rt", "tokio/rt-multi-thread"]
 
 [dev-dependencies]
 php-value = { workspace = true, features = ["vectors"] }

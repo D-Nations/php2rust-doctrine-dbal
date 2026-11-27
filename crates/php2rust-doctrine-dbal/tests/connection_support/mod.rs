@@ -66,6 +66,9 @@ pub struct Script {
     /// What every query gives instead of `rows`: an `ArrayResult` (a
     /// mock's `willReturnCallback(fn () => new ArrayResult(...))`).
     pub array_result: Option<ArrayResult>,
+    /// What `exec()` of the driver connection gives (a mock's
+    /// `executeStatement()->willReturn(...)`).
+    pub affected_rows: i64,
 }
 
 /// A driver whose connection, statements and results record their calls.
@@ -262,7 +265,7 @@ impl DriverConnection for TestConnection {
     fn exec<'a>(&'a self, sql: &'a str) -> BoxFuture<'a, Result<i64, Exception>> {
         Box::pin(async move {
             self.calls.push(format!("exec {sql}"));
-            Ok(0)
+            Ok(self.script.affected_rows)
         })
     }
 

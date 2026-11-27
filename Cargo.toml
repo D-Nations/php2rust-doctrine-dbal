@@ -11,6 +11,9 @@ php-value = { package = "php2rust-value", git = "https://github.com/php2rust/com
 # Slice SchemaManager: PHP's preg_* patterns (the SQLite schema manager
 # parses CREATE TABLE statements with them).
 php-regex = { package = "php2rust-regex", git = "https://github.com/php2rust/compatibility-tools", rev = "4585a15ed0263257317cdf818ebcad7ed7542db8" }
+# symfony/console for the `Tools\Console` commands (optional in upstream's
+# composer.json too: `console` feature). It uses the same php-value rev.
+symfony-console = { package = "php2rust-symfony-console", git = "https://github.com/php2rust/symfony-console-rs", rev = "8a0e6960e5fcc28f822ae9fd8131c5b8e5703085" }
 
 # Lints for every member (`[lints] workspace = true`), the same rule set as
 # symfony-rs and php2rust-compatibility-tools.

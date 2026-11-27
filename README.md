@@ -47,7 +47,8 @@ or one at a time:
 ```sh
 cargo fmt --check
 cargo clippy --workspace --all-targets -- -D warnings
-cargo test --workspace
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-features
 bash scripts/sources.sh --check      # parity/sources.tsv from `//! Upstream:` lines
 bash scripts/parity-check.sh         # parity/doctrine/dbal.tsv against the tests
 python scripts/classes.py check      # parity/classes/ against parity/sources.tsv
