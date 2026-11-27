@@ -2453,8 +2453,8 @@ tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testEqualsToSelf	
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testNotEqualsToOther	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testNotEqualsToOther
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testQuoted	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testQuoted
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testUnquoted	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testUnquoted
-tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testClobNoAlterTable	pending	
-tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testGenerateForeignKeySQL	pending	
+tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testClobNoAlterTable	ported	crates/php2rust-doctrine-dbal/tests/schema_platforms_mysql_schema_test.rs::testClobNoAlterTable
+tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testGenerateForeignKeySQL	ported	crates/php2rust-doctrine-dbal/tests/schema_platforms_mysql_schema_test.rs::testGenerateForeignKeySQL
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testAddColumnName	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testAddColumnName
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testColumnNamesNotSet	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testColumnNamesNotSet
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testSetIsClustered	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testSetIsClustered
