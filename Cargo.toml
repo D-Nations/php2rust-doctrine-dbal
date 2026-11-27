@@ -7,10 +7,10 @@ resolver = "3"
 # repositories, override the git source with a local path in an
 # uncommitted .cargo/config.toml (see README.md).
 [workspace.dependencies]
-php-value = { package = "php2rust-value", git = "https://github.com/php2rust/compatibility-tools-rs", rev = "4585a15ed0263257317cdf818ebcad7ed7542db8" }
+php-value = { package = "php2rust-value", git = "https://github.com/php2rust/compatibility-tools", rev = "4585a15ed0263257317cdf818ebcad7ed7542db8" }
 # Slice SchemaManager: PHP's preg_* patterns (the SQLite schema manager
 # parses CREATE TABLE statements with them).
-php-regex = { package = "php2rust-regex", git = "https://github.com/php2rust/compatibility-tools-rs", rev = "4585a15ed0263257317cdf818ebcad7ed7542db8" }
+php-regex = { package = "php2rust-regex", git = "https://github.com/php2rust/compatibility-tools", rev = "4585a15ed0263257317cdf818ebcad7ed7542db8" }
 
 # Lints for every member (`[lints] workspace = true`), the same rule set as
 # symfony-rs and php2rust-compatibility-tools.
