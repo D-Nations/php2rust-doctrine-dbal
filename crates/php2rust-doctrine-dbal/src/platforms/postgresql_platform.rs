@@ -831,3 +831,15 @@ impl AbstractPlatform for PostgreSQLPlatform {
         Ok(PhpString::from("JSONB"))
     }
 }
+
+// Slice SchemaManager.
+
+impl PostgreSQLPlatform {
+    /// `createMetadataProvider($connection)`.
+    pub fn create_metadata_provider<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> super::postgresql::PostgreSQLMetadataProvider<'c> {
+        super::postgresql::PostgreSQLMetadataProvider::new(connection, self)
+    }
+}

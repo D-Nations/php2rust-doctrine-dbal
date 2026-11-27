@@ -988,7 +988,10 @@ mod tests {
     /// query answered with a row, then a simple query answered with an
     /// error.
     #[tokio::test]
-    #[allow(clippy::too_many_lines, reason = "the mock's script and the client's calls")]
+    #[allow(
+        clippy::too_many_lines,
+        reason = "the mock's script and the client's calls"
+    )]
     async fn speaks_the_protocol_with_a_mock_backend() {
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let port = listener.local_addr().unwrap().port();
