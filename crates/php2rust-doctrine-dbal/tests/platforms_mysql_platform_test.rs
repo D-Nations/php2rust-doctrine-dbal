@@ -21,13 +21,15 @@ mod platforms_mysql_support;
 mod platforms_support;
 
 use php2rust_doctrine_dbal::platforms::MySQLPlatform;
-use platforms_mysql_support::MySQLPlatformTestCase;
+use platforms_mysql_support::{MySQLPlatformTestCase, RENAME_INDEX_IN_PLACE, RenameIndexSql};
 
 /// `MySQLPlatformTest`.
 struct Case;
 
 impl MySQLPlatformTestCase for Case {
     type Platform = MySQLPlatform;
+
+    const RENAME_INDEX_SQL: &'static RenameIndexSql = &RENAME_INDEX_IN_PLACE;
 
     const PROVIDERS: &'static str = "Platforms/MySQLPlatformTest";
 
