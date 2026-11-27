@@ -10,9 +10,11 @@ crates/php2rust-doctrine-dbal/src/configuration.rs	doctrine/dbal	src/Configurati
 crates/php2rust-doctrine-dbal/src/connection.rs	doctrine/dbal	src/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/abstract_mysql_driver.rs	doctrine/dbal	src/Driver/AbstractMySQLDriver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/abstract_oracle_driver/easy_connect_string.rs	doctrine/dbal	src/Driver/AbstractOracleDriver/EasyConnectString.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/abstract_postgresql_driver.rs	doctrine/dbal	src/Driver/AbstractPostgreSQLDriver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/abstract_sqlite_driver.rs	doctrine/dbal	src/Driver/AbstractSQLiteDriver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/api/mod.rs	doctrine/dbal	src/Driver/API/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/api/mysql.rs	doctrine/dbal	src/Driver/API/MySQL/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/api/postgresql.rs	doctrine/dbal	src/Driver/API/PostgreSQL/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/api/sqlite.rs	doctrine/dbal	src/Driver/API/SQLite/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/connection.rs	doctrine/dbal	src/Driver/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/fetch_utils.rs	doctrine/dbal	src/Driver/FetchUtils.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -30,6 +32,7 @@ crates/php2rust-doctrine-dbal/src/driver/mod.rs	doctrine/dbal	src/Driver.php	c43
 crates/php2rust-doctrine-dbal/src/driver/oci8/convert_positional_to_named_placeholders.rs	doctrine/dbal	src/Driver/OCI8/ConvertPositionalToNamedPlaceholders.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/oci8/execution_mode.rs	doctrine/dbal	src/Driver/OCI8/ExecutionMode.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_mysql.rs	doctrine/dbal	src/Driver/PDO/MySQL/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/pdo_pgsql/mod.rs	doctrine/dbal	src/Driver/PDO/PgSQL/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/SQLite/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/Statement.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -132,6 +135,8 @@ crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs	doctrine/dbal	src/
 crates/php2rust-doctrine-dbal/src/platforms/no_columns_specified_for_table.rs	doctrine/dbal	src/Platforms/Exception/NoColumnsSpecifiedForTable.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/oracle_platform.rs	doctrine/dbal	src/Platforms/OraclePlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/postgresql/comparator.rs	doctrine/dbal	src/Platforms/PostgreSQL/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/postgresql/postgresql_metadata_provider.rs	doctrine/dbal	src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/postgresql120_platform.rs	doctrine/dbal	src/Platforms/PostgreSQL120Platform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs	doctrine/dbal	src/Platforms/PostgreSQLPlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs	doctrine/dbal	src/Platforms/SQLite/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs	doctrine/dbal	src/Platforms/SQLite/SQLiteMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -268,6 +273,7 @@ crates/php2rust-doctrine-dbal/src/schema/name/parser.rs	doctrine/dbal	src/Schema
 crates/php2rust-doctrine-dbal/src/schema/name/parser.rs	doctrine/dbal	src/Schema/Name/Parser/GenericNameParser.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/name/parser.rs	doctrine/dbal	src/Schema/Name/Parser/UnqualifiedNameParser.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/name/parser.rs	doctrine/dbal	src/Schema/Name/Parser/OptionallyQualifiedNameParser.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/schema/postgresql_schema_manager.rs	doctrine/dbal	src/Schema/PostgreSQLSchemaManager.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs	doctrine/dbal	src/Schema/PrimaryKeyConstraint.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs	doctrine/dbal	src/Schema/PrimaryKeyConstraintEditor.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/schema/schema.rs	doctrine/dbal	src/Schema/Schema.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -383,6 +389,7 @@ crates/php2rust-doctrine-dbal/tests/driver_pdo_mysql_driver_test.rs	doctrine/dba
 crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/PDO/SQLite/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/AbstractSQLiteDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/AbstractDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_pgsql_test.rs	doctrine/dbal	tests/Driver/VersionAwarePlatformDriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs	doctrine/dbal	tests/Driver/VersionAwarePlatformDriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/exception_driver_required_test.rs	doctrine/dbal	tests/Exception/DriverRequiredTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/exception_test.rs	doctrine/dbal	tests/ExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -398,6 +405,10 @@ crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs	doctrine/dbal	
 crates/php2rust-doctrine-dbal/tests/functional_data_access_test.rs	doctrine/dbal	tests/Functional/DataAccessTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/PDO/MySQL/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/AbstractDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_connection_test.rs	doctrine/dbal	tests/Functional/Driver/PDO/PgSQL/ConnectionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/PDO/PgSQL/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/AbstractPostgreSQLDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/AbstractDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_exception_test.rs	doctrine/dbal	tests/Functional/ExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_foreign_key_constraint_violations_test.rs	doctrine/dbal	tests/Functional/ForeignKeyConstraintViolationsTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_foreign_key_exception_test.rs	doctrine/dbal	tests/Functional/ForeignKeyExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -434,6 +445,7 @@ crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_tes
 crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQLSchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQL/PointType.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQL/CustomType.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/SchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_sqlite_comparator_test.rs	doctrine/dbal	tests/Functional/Schema/SQLite/ComparatorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_sqlite_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/SQLiteSchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
