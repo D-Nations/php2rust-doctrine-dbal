@@ -206,7 +206,7 @@ src/Platforms/MySQL84Platform.php	MySQL84Platform	18	ported	crates/php2rust-doct
 src/Platforms/MySQLPlatform.php	MySQLPlatform	39	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs
 src/Platforms/Oracle/OracleMetadataProvider.php	OracleMetadataProvider	465	pending	
 src/Platforms/OraclePlatform.php	OraclePlatform	610	ported	crates/php2rust-doctrine-dbal/src/platforms/oracle_platform.rs
-src/Platforms/PostgreSQL/Comparator.php	Comparator	28	pending	
+src/Platforms/PostgreSQL/Comparator.php	Comparator	28	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql/comparator.rs
 src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	PostgreSQLMetadataProvider	594	pending	
 src/Platforms/PostgreSQL120Platform.php	PostgreSQL120Platform	18	pending	
 src/Platforms/PostgreSQLPlatform.php	PostgreSQLPlatform	588	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs

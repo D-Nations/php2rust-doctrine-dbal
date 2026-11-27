@@ -504,15 +504,15 @@ tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::t
 tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnDeleteIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testOnDeleteIntrospection
 tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testOnUpdateIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testOnUpdateIntrospection
 tests/Functional/Schema/ForeignKeyConstraintTest.php	ForeignKeyConstraintTest::testUnnamedForeignKeyConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs::testUnnamedForeignKeyConstraint
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCharsetAndCollation	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCollation	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testExplicitDefaultCollation	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testLobLengthIncrementOverLimit	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testLobLengthIncrementWithinLimit	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testMariaDb1043NativeJsonUpgradeDetected	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testSimpleArrayTypeNonChangeNotDetected	pending	
-tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testTableAndColumnOptions	pending	
-tests/Functional/Schema/MySQL/JsonCollationTest.php	JsonCollationTest::testJsonColumnComparison	pending	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCharsetAndCollation	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testChangeColumnCollation	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testExplicitDefaultCollation	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testLobLengthIncrementOverLimit	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testLobLengthIncrementWithinLimit	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testMariaDb1043NativeJsonUpgradeDetected	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testSimpleArrayTypeNonChangeNotDetected	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testTableAndColumnOptions	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
+tests/Functional/Schema/MySQL/JsonCollationTest.php	JsonCollationTest::testJsonColumnComparison	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is a MariaDBPlatform)	
 tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterColumnCharset	pending	
 tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	
 tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterTableScenario	pending	
@@ -1711,48 +1711,48 @@ tests/Platforms/OraclePlatformTest.php	OraclePlatformTest::testSupportsIdentityC
 tests/Platforms/OraclePlatformTest.php	OraclePlatformTest::testSupportsSavePoints	ported	crates/php2rust-doctrine-dbal/tests/platforms_oracle_platform_test.rs::testSupportsSavePoints
 tests/Platforms/OraclePlatformTest.php	OraclePlatformTest::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported	ported	crates/php2rust-doctrine-dbal/tests/platforms_oracle_platform_test.rs::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported
 tests/Platforms/OraclePlatformTest.php	OraclePlatformTest::testZeroOffsetWithoutLimitIsIgnored	ported	crates/php2rust-doctrine-dbal/tests/platforms_oracle_platform_test.rs::testZeroOffsetWithoutLimitIsIgnored
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAddedSequence	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAlteredSequence	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAutoIncrementSequences	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareAutoIncrementChanged	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareChangeColumnsMultipleNewColumnsRename	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareChangedColumnsChangeType	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareColumnComments	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareColumnCompareCaseInsensitive	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareForeignKeyBasedOnPropertiesNotName	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareIndexBasedOnPropertiesNotName	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareMissingTable	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareNewTable	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSame1	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSame2	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSequences	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testComparesNamespaces	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectChangeIdentifierType	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumn	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumnAmbiguous	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumnDisabled	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndex	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexAmbiguous	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexAmbiguousWithMultipleAddedIndexes	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexDisabled	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDiff	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testForeignKeyRemovalWithRenamedLocalColumn	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparison	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonNoSchemaSame	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testMovedForeignKeyForeignTable	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testNamespacesComparison	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testRemovedSequence	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesDisabled	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesEnabled	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testSameTypeNameIsNotAChange	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testSequencesCaseInsensitive	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableAddForeignKey	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableRemoveForeignKey	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableUpdateForeignKey	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTablesCaseInsensitive	pending	
-tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition	pending	
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAddedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testAddedSequence
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAlteredSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testAlteredSequence
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testAutoIncrementNoSequences
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testAutoIncrementSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testAutoIncrementSequences
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareAutoIncrementChanged	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareAutoIncrementChanged
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareChangeColumnsMultipleNewColumnsRename	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareChangeColumnsMultipleNewColumnsRename
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareChangedColumnsChangeType	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareChangedColumnsChangeType
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareColumnComments	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareColumnComments
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareColumnCompareCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareColumnCompareCaseInsensitive
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareForeignKeyBasedOnPropertiesNotName	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareForeignKeyBasedOnPropertiesNotName
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareIndexBasedOnPropertiesNotName	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareIndexBasedOnPropertiesNotName
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareMissingTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareMissingTable
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareNewTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareNewTable
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSame1	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareSame1
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSame2	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareSame2
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testCompareSequences
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testComparesNamespaces	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testComparesNamespaces
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectChangeIdentifierType	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectChangeIdentifierType
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumn	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameColumn
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumnAmbiguous	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameColumnAmbiguous
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameColumnDisabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameColumnDisabled
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndex	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameIndex
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexAmbiguous	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameIndexAmbiguous
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexAmbiguousWithMultipleAddedIndexes	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameIndexAmbiguousWithMultipleAddedIndexes
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDetectRenameIndexDisabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDetectRenameIndexDisabled
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testDiff	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testDiff
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testForeignKeyRemovalWithRenamedLocalColumn	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testForeignKeyRemovalWithRenamedLocalColumn
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparison	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testFqnSchemaComparison
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testFqnSchemaComparisonNoSchemaSame	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testFqnSchemaComparisonNoSchemaSame
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testMovedForeignKeyForeignTable	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testMovedForeignKeyForeignTable
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testNamespacesComparison	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testNamespacesComparison
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testRemovedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testRemovedSequence
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesDisabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testReportModifiedIndexesDisabled
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testReportModifiedIndexesEnabled	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testReportModifiedIndexesEnabled
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testSameTypeNameIsNotAChange	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testSameTypeNameIsNotAChange
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testSequencesCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testSequencesCaseInsensitive
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableAddForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testTableAddForeignKey
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableRemoveForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testTableRemoveForeignKey
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTableUpdateForeignKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testTableUpdateForeignKey
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testTablesCaseInsensitive	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testTablesCaseInsensitive
+tests/Platforms/PostgreSQL/ComparatorTest.php	ComparatorTest::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs::testWillNotProduceSchemaDiffOnTableWithAddedCustomSchemaDefinition
 tests/Platforms/PostgreSQLPlatformTest.php	PostgreSQLPlatformTest::testAlterColumnCollation	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_platform_test.rs::testAlterColumnCollation
 tests/Platforms/PostgreSQLPlatformTest.php	PostgreSQLPlatformTest::testAlterStringToFixedString	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_platform_test.rs::testAlterStringToFixedString
 tests/Platforms/PostgreSQLPlatformTest.php	PostgreSQLPlatformTest::testAlterTableChangeJsonToJsonb	ported	crates/php2rust-doctrine-dbal/tests/platforms_postgresql_platform_test.rs::testAlterTableChangeJsonToJsonb
@@ -2431,8 +2431,8 @@ tests/Schema/Introspection/IntrospectingSchemaProviderTest.php	IntrospectingSche
 tests/Schema/Introspection/IntrospectingSchemaProviderTest.php	IntrospectingSchemaProviderTest::testGetUniqueConstraintsForTableWithoutMetadataSupport	ported	crates/php2rust-doctrine-dbal/tests/schema_introspection_introspecting_schema_provider_test.rs::testGetUniqueConstraintsForTableWithoutMetadataSupport
 tests/Schema/Metadata/ForeignKeyConstraintColumnMetadataRowTest.php	ForeignKeyConstraintColumnMetadataRowTest::testNeitherIdNorName	ported	crates/php2rust-doctrine-dbal/tests/schema_metadata_foreign_key_constraint_column_metadata_row_test.rs::testNeitherIdNorName
 tests/Schema/Metadata/UniqueConstraintColumnMetadataRowTest.php	UniqueConstraintColumnMetadataRowTest::testNeitherIdNorName	ported	crates/php2rust-doctrine-dbal/tests/schema_metadata_unique_constraint_column_metadata_row_test.rs::testNeitherIdNorName
-tests/Schema/MySQLInheritCharsetTest.php	MySQLInheritCharsetTest::testInheritTableOptionsFromDatabase	pending	
-tests/Schema/MySQLInheritCharsetTest.php	MySQLInheritCharsetTest::testTableOptions	pending	
+tests/Schema/MySQLInheritCharsetTest.php	MySQLInheritCharsetTest::testInheritTableOptionsFromDatabase	pending	MySQLSchemaManager (and its MySQLMetadataProvider) is not ported
+tests/Schema/MySQLInheritCharsetTest.php	MySQLInheritCharsetTest::testTableOptions	ported	crates/php2rust-doctrine-dbal/tests/schema_mysql_inherit_charset_test.rs::testTableOptions
 tests/Schema/Name/IdentifierTest.php	IdentifierTest::testEqualsToOther	ported	crates/php2rust-doctrine-dbal/tests/schema_name_identifier_test.rs::testEqualsToOther
 tests/Schema/Name/IdentifierTest.php	IdentifierTest::testEqualsToSelf	ported	crates/php2rust-doctrine-dbal/tests/schema_name_identifier_test.rs::testEqualsToSelf
 tests/Schema/Name/IdentifierTest.php	IdentifierTest::testIdentifierCannotBeEmpty	ported	crates/php2rust-doctrine-dbal/tests/schema_name_identifier_test.rs::testIdentifierCannotBeEmpty
@@ -2453,8 +2453,8 @@ tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testEqualsToSelf	
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testNotEqualsToOther	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testNotEqualsToOther
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testQuoted	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testQuoted
 tests/Schema/Name/UnqualifiedNameTest.php	UnqualifiedNameTest::testUnquoted	ported	crates/php2rust-doctrine-dbal/tests/schema_name_unqualified_name_test.rs::testUnquoted
-tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testClobNoAlterTable	pending	
-tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testGenerateForeignKeySQL	pending	
+tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testClobNoAlterTable	ported	crates/php2rust-doctrine-dbal/tests/schema_platforms_mysql_schema_test.rs::testClobNoAlterTable
+tests/Schema/Platforms/MySQLSchemaTest.php	MySQLSchemaTest::testGenerateForeignKeySQL	ported	crates/php2rust-doctrine-dbal/tests/schema_platforms_mysql_schema_test.rs::testGenerateForeignKeySQL
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testAddColumnName	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testAddColumnName
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testColumnNamesNotSet	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testColumnNamesNotSet
 tests/Schema/PrimaryKeyConstraintEditorTest.php	PrimaryKeyConstraintEditorTest::testSetIsClustered	ported	crates/php2rust-doctrine-dbal/tests/schema_primary_key_constraint_editor_test.rs::testSetIsClustered

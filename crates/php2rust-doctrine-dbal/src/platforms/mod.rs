@@ -46,6 +46,8 @@ mod sqlserver_platform;
 // Slice SQL Server platform.
 pub mod sqlserver;
 
+pub mod postgresql;
+
 pub use abstract_mysql_platform::{
     LENGTH_LIMIT_BLOB, LENGTH_LIMIT_MEDIUMBLOB, LENGTH_LIMIT_MEDIUMTEXT, LENGTH_LIMIT_TEXT,
     LENGTH_LIMIT_TINYBLOB, LENGTH_LIMIT_TINYTEXT,
