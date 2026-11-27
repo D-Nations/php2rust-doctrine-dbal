@@ -94,8 +94,10 @@ pub trait AbstractSchemaManager<'c> {
     /// `$this->platform`.
     fn platform(&self) -> &'c dyn AbstractPlatform;
 
-    /// `$this->platform->createMetadataProvider($this->connection)`.
-    fn create_metadata_provider(&self) -> Self::MetadataProvider;
+    /// `$this->platform->createMetadataProvider($this->connection)`. A
+    /// provider may query the database when it is made (`MySQL`'s reads
+    /// the current database name).
+    async fn create_metadata_provider(&self) -> R<Self::MetadataProvider>;
 
     // The abstract (protected) methods.
 
@@ -800,7 +802,7 @@ pub trait AbstractSchemaManager<'c> {
         let current_schema_name = self.get_current_schema_name().await?;
         let configuration = self.create_schema_config().await?.to_table_configuration();
         Ok(IntrospectingSchemaProvider::new(
-            self.create_metadata_provider(),
+            self.create_metadata_provider().await?,
             current_schema_name.as_deref(),
             configuration,
         ))
@@ -981,77 +983,7 @@ pub trait AbstractSchemaManager<'c> {
         rows: &[Row],
         _table_name: &str,
     ) -> R<ArrayMap<Index>> {
-        struct Data {
-            name: String,
-            columns: Vec<String>,
-            unique: bool,
-            primary: bool,
-            flags: Vec<String>,
-            where_: Option<Value>,
-            lengths: Vec<Value>,
-        }
-
-        let mut result: ArrayMap<Data> = ArrayMap::new();
-        for row in rows {
-            let index_name = field_text(row, "key_name")?;
-            let primary = field(row, "primary").is_some_and(Value::is_truthy);
-            let key_name = lower(if primary { "primary" } else { &index_name });
-
-            if !result.contains_key(&key_name) {
-                let flags = match field(row, "flags") {
-                    Some(Value::Array(flags)) => flags
-                        .values()
-                        .map(|flag| crate::platforms::sqlite::text_value(Some(flag)))
-                        .collect::<R<Vec<_>>>()?,
-                    _ => Vec::new(),
-                };
-                result.insert(
-                    key_name.clone(),
-                    Data {
-                        name: index_name,
-                        columns: Vec::new(),
-                        unique: !field(row, "non_unique").is_some_and(Value::is_truthy),
-                        primary,
-                        flags,
-                        where_: isset(row, "where")
-                            .then(|| field(row, "where").cloned())
-                            .flatten(),
-                        lengths: Vec::new(),
-                    },
-                );
-            }
-
-            if let Some(data) = result.get_mut(&key_name) {
-                data.columns.push(field_text(row, "column_name")?);
-                data.lengths
-                    .push(field(row, "length").cloned().unwrap_or(Value::Null));
-            }
-        }
-
-        let mut indexes = ArrayMap::new();
-        for (index_key, data) in result.iter() {
-            let mut options = PhpArray::new();
-            options.insert(
-                "lengths",
-                Value::Array(PhpArray::list(data.lengths.clone())),
-            );
-            if let Some(where_) = &data.where_ {
-                options.insert("where", where_.clone());
-            }
-            indexes.insert(
-                index_key,
-                Index::new(
-                    Some(&data.name),
-                    data.columns.clone(),
-                    data.unique,
-                    data.primary,
-                    data.flags.clone(),
-                    options,
-                )?,
-            );
-        }
-
-        Ok(indexes)
+        portable_table_indexes_list(rows)
     }
 
     /// `_getPortableTableForeignKeysList($rows)`.
@@ -1162,6 +1094,82 @@ pub trait AbstractSchemaManager<'c> {
         }
         Ok(data)
     }
+}
+
+/// `AbstractSchemaManager::_getPortableTableIndexesList()`, for a manager
+/// that overrides it and calls `parent::`.
+pub(crate) fn portable_table_indexes_list(rows: &[Row]) -> R<ArrayMap<Index>> {
+    struct Data {
+        name: String,
+        columns: Vec<String>,
+        unique: bool,
+        primary: bool,
+        flags: Vec<String>,
+        where_: Option<Value>,
+        lengths: Vec<Value>,
+    }
+
+    let mut result: ArrayMap<Data> = ArrayMap::new();
+    for row in rows {
+        let index_name = field_text(row, "key_name")?;
+        let primary = field(row, "primary").is_some_and(Value::is_truthy);
+        let key_name = lower(if primary { "primary" } else { &index_name });
+
+        if !result.contains_key(&key_name) {
+            let flags = match field(row, "flags") {
+                Some(Value::Array(flags)) => flags
+                    .values()
+                    .map(|flag| crate::platforms::sqlite::text_value(Some(flag)))
+                    .collect::<R<Vec<_>>>()?,
+                _ => Vec::new(),
+            };
+            result.insert(
+                key_name.clone(),
+                Data {
+                    name: index_name,
+                    columns: Vec::new(),
+                    unique: !field(row, "non_unique").is_some_and(Value::is_truthy),
+                    primary,
+                    flags,
+                    where_: isset(row, "where")
+                        .then(|| field(row, "where").cloned())
+                        .flatten(),
+                    lengths: Vec::new(),
+                },
+            );
+        }
+
+        if let Some(data) = result.get_mut(&key_name) {
+            data.columns.push(field_text(row, "column_name")?);
+            data.lengths
+                .push(field(row, "length").cloned().unwrap_or(Value::Null));
+        }
+    }
+
+    let mut indexes = ArrayMap::new();
+    for (index_key, data) in result.iter() {
+        let mut options = PhpArray::new();
+        options.insert(
+            "lengths",
+            Value::Array(PhpArray::list(data.lengths.clone())),
+        );
+        if let Some(where_) = &data.where_ {
+            options.insert("where", where_.clone());
+        }
+        indexes.insert(
+            index_key,
+            Index::new(
+                Some(&data.name),
+                data.columns.clone(),
+                data.unique,
+                data.primary,
+                data.flags.clone(),
+                options,
+            )?,
+        );
+    }
+
+    Ok(indexes)
 }
 
 /// `testTableName()`'s formatted name: `schema.table` or `table`.

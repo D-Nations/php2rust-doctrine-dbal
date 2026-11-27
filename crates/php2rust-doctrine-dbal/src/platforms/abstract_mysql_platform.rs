@@ -14,10 +14,14 @@
 //! it was. The deprecations that `createReservedKeywordsList()` and
 //! `supportsColumnLengthIndexes()` raise when called from outside the
 //! package are not raised: the trait method is the one the package calls.
-//! `createMetadataProvider()`, `createSchemaManager()` and the
-//! `MySQLSchemaManager` helpers that read a connection
-//! (`getColumnTypeSQLSnippet()`, `fetchTableOptionsByTable()`) are inherent
-//! methods of the platforms where ported, or not ported.
+//! The `MySQLSchemaManager` helpers (`getColumnTypeSQLSnippet()`,
+//! `fetchTableOptionsByTable()`) and `instanceof MariaDBPlatform` are the
+//! [`AbstractMySQLPlatform`] trait, which every `MySQL`-like platform
+//! implements; `createMetadataProvider()` is
+//! `MySQLMetadataProvider::new()`. `createSchemaManager()` is not ported:
+//! a connection's schema manager is `SQLite`'s (see
+//! `AbstractPlatform::create_schema_manager()`), and a `MySQLSchemaManager`
+//! is made with `MySQLSchemaManager::new()`.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!
@@ -1051,3 +1055,174 @@ macro_rules! impl_abstract_mysql_platform {
 }
 
 pub(crate) use impl_abstract_mysql_platform;
+
+// Slice SchemaManager.
+
+/// The `AbstractMySQLPlatform` methods that `MySQLSchemaManager` and
+/// `MySQLMetadataProvider` call on their platform (`@internal`), and
+/// `$platform instanceof MariaDBPlatform`. Every `MySQL` and `MariaDB`
+/// platform implements it; `MariaDBPlatform` and its subclasses override
+/// what their PHP classes do.
+pub trait AbstractMySQLPlatform: AbstractPlatform {
+    /// `getDoctrineTypeMapping($dbType)` through a trait object
+    /// (`AbstractPlatform`'s needs `Self: Sized`).
+    fn doctrine_type_mapping(&self, db_type: &str) -> Result<String, Exception>;
+
+    /// `$this instanceof MariaDBPlatform`.
+    fn is_mariadb(&self) -> bool {
+        false
+    }
+
+    /// `getColumnTypeSQLSnippet($tableAlias, $databaseName)`: the SQL
+    /// snippet that selects a column's data type.
+    fn get_column_type_sql_snippet(&self, table_alias: &str, _database_name: &str) -> String {
+        format!("{table_alias}.DATA_TYPE")
+    }
+
+    /// `fetchTableOptionsByTable($includeTableName)`: the SQL that selects
+    /// the table options of a database (and table).
+    fn fetch_table_options_by_table(&self, include_table_name: bool) -> String {
+        fetch_table_options_by_table(
+            "ccsa.COLLATION_NAME = t.TABLE_COLLATION",
+            include_table_name,
+        )
+    }
+}
+
+/// `fetchTableOptionsByTable()` of `AbstractMySQLPlatform` (and of
+/// `MariaDB1010Platform`, which joins on `FULL_COLLATION_NAME`).
+pub(crate) fn fetch_table_options_by_table(
+    join_condition: &str,
+    include_table_name: bool,
+) -> String {
+    let sql = format!(
+        "    SELECT t.TABLE_NAME,
+           t.ENGINE,
+           t.AUTO_INCREMENT,
+           t.TABLE_COMMENT,
+           t.CREATE_OPTIONS,
+           t.TABLE_COLLATION,
+           ccsa.CHARACTER_SET_NAME
+      FROM information_schema.TABLES t
+        INNER JOIN information_schema.COLLATION_CHARACTER_SET_APPLICABILITY ccsa
+          ON {join_condition}"
+    );
+
+    let mut conditions = vec!["t.TABLE_SCHEMA = ?"];
+
+    if include_table_name {
+        conditions.push("t.TABLE_NAME = ?");
+    }
+
+    conditions.push("t.TABLE_TYPE = 'BASE TABLE'");
+
+    format!("{sql} WHERE {}", conditions.join(" AND "))
+}
+
+/// `MariaDBPlatform::getColumnTypeSQLSnippet()`: `MariaDB` stores a
+/// `JSON` column as `LONGTEXT` with a `json_valid()` check constraint,
+/// which the snippet reverses.
+pub(crate) fn mariadb_column_type_sql_snippet<P: AbstractPlatform + ?Sized>(
+    platform: &P,
+    table_alias: &str,
+    database_name: &str,
+) -> String {
+    let sub_query_alias = format!("i_{table_alias}");
+
+    let database_name = platform.quote_string_literal(database_name);
+
+    // The check for `CONSTRAINT_SCHEMA = $databaseName` is mandatory here to prevent performance issues
+    format!(
+        "    IF(
+        {table_alias}.DATA_TYPE = 'longtext'
+        AND EXISTS(
+            SELECT * FROM information_schema.CHECK_CONSTRAINTS {sub_query_alias}
+            WHERE {sub_query_alias}.CONSTRAINT_SCHEMA = {database_name}
+            AND {sub_query_alias}.TABLE_NAME = {table_alias}.TABLE_NAME
+            AND {sub_query_alias}.CHECK_CLAUSE = CONCAT(
+                'json_valid(`',
+                    {table_alias}.COLUMN_NAME,
+                '`)'
+            )
+        ),
+        'json',
+        {table_alias}.DATA_TYPE
+    )"
+    )
+}
+
+macro_rules! impl_mysql {
+    ($platform:ty) => {
+        impl AbstractMySQLPlatform for $platform {
+            fn doctrine_type_mapping(&self, db_type: &str) -> Result<String, Exception> {
+                self.get_doctrine_type_mapping(db_type)
+            }
+        }
+    };
+}
+
+impl_mysql!(super::MySQLPlatform);
+impl_mysql!(super::MySQL80Platform);
+impl_mysql!(super::MySQL84Platform);
+
+/// `MariaDBPlatform`'s overrides, and `MariaDB1010Platform`'s
+/// `fetchTableOptionsByTable()` for it and its subclasses.
+macro_rules! impl_mariadb {
+    ($platform:ty) => {
+        impl AbstractMySQLPlatform for $platform {
+            fn doctrine_type_mapping(&self, db_type: &str) -> Result<String, Exception> {
+                self.get_doctrine_type_mapping(db_type)
+            }
+
+            fn is_mariadb(&self) -> bool {
+                true
+            }
+
+            fn get_column_type_sql_snippet(
+                &self,
+                table_alias: &str,
+                database_name: &str,
+            ) -> String {
+                mariadb_column_type_sql_snippet(self, table_alias, database_name)
+            }
+        }
+    };
+    ($platform:ty, full_collation_name) => {
+        impl AbstractMySQLPlatform for $platform {
+            fn doctrine_type_mapping(&self, db_type: &str) -> Result<String, Exception> {
+                self.get_doctrine_type_mapping(db_type)
+            }
+
+            fn is_mariadb(&self) -> bool {
+                true
+            }
+
+            fn get_column_type_sql_snippet(
+                &self,
+                table_alias: &str,
+                database_name: &str,
+            ) -> String {
+                mariadb_column_type_sql_snippet(self, table_alias, database_name)
+            }
+
+            // MariaDB-10.10.1 added FULL_COLLATION_NAME to the
+            // information_schema.COLLATION_CHARACTER_SET_APPLICABILITY. A base
+            // collation like uca1400_ai_ci can refer to multiple character
+            // sets. The value in the information_schema.TABLES.TABLE_COLLATION
+            // corresponds to the full collation name.
+            fn fetch_table_options_by_table(&self, include_table_name: bool) -> String {
+                fetch_table_options_by_table(
+                    "ccsa.FULL_COLLATION_NAME = t.TABLE_COLLATION",
+                    include_table_name,
+                )
+            }
+        }
+    };
+}
+
+impl_mariadb!(super::MariaDBPlatform);
+impl_mariadb!(super::MariaDB1052Platform);
+impl_mariadb!(super::MariaDB1060Platform);
+impl_mariadb!(super::MariaDB1010Platform, full_collation_name);
+impl_mariadb!(super::MariaDB110700Platform, full_collation_name);
+impl_mariadb!(super::MariaDB120300Platform, full_collation_name);
