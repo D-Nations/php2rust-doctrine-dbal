@@ -21,7 +21,7 @@
 //! caches the rows in the profile's or the configuration's PSR-6 pool.
 //!
 //! What is not ported: a configured schema manager factory
-//! (`createSchemaManager()` uses the default one), `getNativeConnection()`, middlewares and the deprecation notices.
+//! (`createSchemaManager()` uses the default one), `getNativeConnection()`, the configured middlewares and the deprecation notices.
 //!
 //! Doctrine source copyright (c) Doctrine Project; distributed under MIT.
 //!

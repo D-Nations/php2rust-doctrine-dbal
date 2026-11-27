@@ -55,7 +55,7 @@ use tokio::sync::Mutex;
 use super::api::ExceptionConverter;
 use super::{
     AbstractSQLiteDriver, BoxFuture, Connection as DriverConnection, Driver as DriverInterface,
-    PlatformBox, Result as DriverResult, Statement as DriverStatement,
+    NativeConnection, PlatformBox, Result as DriverResult, Statement as DriverStatement,
 };
 use crate::sql::{Parser, Visitor};
 use crate::{Exception, ParameterType, ServerVersionProvider};
@@ -512,6 +512,12 @@ impl DriverConnection for PdoConnection {
                 .await
                 .map_err(|e| pdo_exception(&e))
         })
+    }
+
+    /// The `SQLite` connection (PHP's `PDO` object): the mutex that holds
+    /// the sqlx connection and PDO's transaction flag.
+    fn get_native_connection(&self) -> NativeConnection {
+        Arc::clone(&self.inner) as NativeConnection
     }
 }
 

@@ -26,12 +26,13 @@ mod abstract_sqlite_driver;
 pub mod api;
 mod connection;
 mod fetch_utils;
+pub mod middleware;
 pub mod pdo_sqlite;
 mod result;
 mod statement;
 
 pub use abstract_sqlite_driver::AbstractSQLiteDriver;
-pub use connection::Connection;
+pub use connection::{Connection, NativeConnection};
 pub use fetch_utils::FetchUtils;
 pub use result::Result;
 pub use statement::Statement;
