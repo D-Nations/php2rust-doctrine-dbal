@@ -2,7 +2,7 @@
 //! c435cd7ea33e17d2a89288caf994cf3d4549b879. Names and assertions are
 //! PHPUnit's; the data provider's rows are written in place.
 //! `assertSame()` on objects compares them by value (and a registered
-//! type by its instance). Tests that need the `MySQL` platform are pending.
+//! type by its instance).
 //! `TableEditor` returns the first error of a modification from
 //! `create()` (PHP throws from the modifying call).
 //!
@@ -20,6 +20,7 @@ mod schema_support;
 use std::sync::Arc;
 
 use php_value::{PhpArray, Value, php_array};
+use php2rust_doctrine_dbal::platforms::{MySQLPlatform, SQLitePlatform};
 use php2rust_doctrine_dbal::schema::name::{Identifier, OptionallyQualifiedName, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{
     Column, ForeignKeyConstraint, Index, IndexType, PrimaryKeyConstraint, Table, TableEditor,
@@ -971,7 +972,28 @@ fn testAddingFulfillingPrimaryKeyOverridesImplicitForeignKeyConstraintIndex() {
 // the explicit index from the implicit one by object identity; here the
 // two are equal values.
 
-// testQuotedTableName: pending (needs the `MySQL` platform).
+#[test]
+fn testQuotedTableName() {
+    let table = Table::editor()
+        .set_quoted_name("bar", None)
+        .set_columns(vec![col("id", Types::INTEGER)])
+        .create()
+        .unwrap();
+
+    let mysql_platform = MySQLPlatform::new();
+    let sqlite_platform = SQLitePlatform::new();
+
+    assert_eq!(
+        "bar",
+        table
+            .get_object_name()
+            .unwrap()
+            .get_unqualified_name()
+            .get_value()
+    );
+    assert_eq!("`bar`", table.get_quoted_name(&mysql_platform));
+    assert_eq!("\"bar\"", table.get_quoted_name(&sqlite_platform));
+}
 
 #[test]
 fn testTableHasPrimaryKey() {
@@ -1026,7 +1048,23 @@ fn testAddForeignKeyWithQuotedColumnsAndTable() {
     assert_eq!(table.get_foreign_keys().len(), 1);
 }
 
-// testQuoteSchemaPrefixed: pending (needs the `MySQL` platform).
+#[test]
+fn testQuoteSchemaPrefixed() {
+    let table = Table::editor()
+        .set_quoted_name("test", Some("test"))
+        .set_columns(vec![col("id", Types::INTEGER)])
+        .create()
+        .unwrap();
+
+    assert_eq!(
+        "\"test\".\"test\"",
+        table.get_object_name().unwrap().to_string()
+    );
+    assert_eq!(
+        "`test`.`test`",
+        table.get_quoted_name(&MySQLPlatform::new())
+    );
+}
 
 #[test]
 fn testDropIndex() {
