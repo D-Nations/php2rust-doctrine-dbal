@@ -253,6 +253,12 @@ impl Connection {
         Ok(self.platform.get_or_init(|| platform).as_ref())
     }
 
+    /// `getNativeConnection()`: the driver's own connection object (PHP's
+    /// `PDO`, for example), after connecting.
+    pub async fn get_native_connection(&self) -> StdResult<crate::driver::NativeConnection> {
+        Ok(self.connect().await?.get_native_connection())
+    }
+
     /// Establishes the connection with the database and returns the
     /// underlying connection. PHP's is protected; here it is how a caller
     /// opens the connection before the synchronous `quote()` of the query
