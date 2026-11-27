@@ -43,7 +43,7 @@ tests/ConnectionTest.php	ConnectionTest::testGetDriver	ported	crates/php2rust-do
 tests/ConnectionTest.php	ConnectionTest::testIsAutoCommit	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testIsAutoCommit
 tests/ConnectionTest.php	ConnectionTest::testIsConnected	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testIsConnected
 tests/ConnectionTest.php	ConnectionTest::testIsRollbackOnlyNoActiveTransactionThrowsException	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testIsRollbackOnlyNoActiveTransactionThrowsException
-tests/ConnectionTest.php	ConnectionTest::testItFailsDuringCommitBeforeTouchingDb	pending	
+tests/ConnectionTest.php	ConnectionTest::testItFailsDuringCommitBeforeTouchingDb	pending	the sqlite3 driver is not ported
 tests/ConnectionTest.php	ConnectionTest::testItPreservesTheOriginalExceptionOnRollbackFailure	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testItPreservesTheOriginalExceptionOnRollbackFailure
 tests/ConnectionTest.php	ConnectionTest::testNoTransactionActiveByDefault	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testNoTransactionActiveByDefault
 tests/ConnectionTest.php	ConnectionTest::testPlatformDetectionDoesNotTriggerConnectionIfNotRequiredByTheDriver	ported	crates/php2rust-doctrine-dbal/tests/connection_test.rs::testPlatformDetectionDoesNotTriggerConnectionIfNotRequiredByTheDriver
@@ -72,51 +72,51 @@ tests/Driver/Middleware/AbstractConnectionMiddlewareTest.php	AbstractConnectionM
 tests/Driver/Middleware/AbstractDriverMiddlewareTest.php	AbstractDriverMiddlewareTest::testConnect	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_driver_middleware_test.rs::testConnect
 tests/Driver/Middleware/AbstractResultMiddlewareTest.php	AbstractResultMiddlewareTest::testFetchAssociative	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_result_middleware_test.rs::testFetchAssociative
 tests/Driver/Middleware/AbstractStatementMiddlewareTest.php	AbstractStatementMiddlewareTest::testExecute	ported	crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_statement_middleware_test.rs::testExecute
-tests/Driver/Mysqli/ConnectionTest.php	ConnectionTest::testHostnameIsRequiredForPersistentConnection	pending	
+tests/Driver/Mysqli/ConnectionTest.php	ConnectionTest::testHostnameIsRequiredForPersistentConnection	pending	needs the mysqli extension (RequiresPhpExtension); the Mysqli driver is not ported
 tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php	ConvertPositionalToNamedPlaceholdersTest::testConvertPositionalToNamedParameters	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_convert_positional_to_named_placeholders_test.rs::testConvertPositionalToNamedParameters
-tests/Driver/OCI8/DriverTest.php	DriverTest::testPersistentAndExclusiveAreMutuallyExclusive	pending	
-tests/Driver/OCI8/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
+tests/Driver/OCI8/DriverTest.php	DriverTest::testPersistentAndExclusiveAreMutuallyExclusive	pending	needs the oci8 extension (RequiresPhpExtension); the OCI8 driver is not ported
+tests/Driver/OCI8/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	n/a: upstream always skips it (markTestSkipped: Oracle drivers do not use server version to instantiate platform)	
 tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testChangeAutoCommitStatus	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_execution_mode_test.rs::testChangeAutoCommitStatus
 tests/Driver/OCI8/ExecutionModeTest.php	ExecutionModeTest::testDefaultAutoCommitStatus	ported	crates/php2rust-doctrine-dbal/tests/driver_oci8_execution_mode_test.rs::testDefaultAutoCommitStatus
-tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testOriginalExceptionIsInChain	pending	
-tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsCode	pending	
-tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsMessage	pending	
-tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsSQLState	pending	
-tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testUserIsFalse	pending	
-tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testUserIsFalse	pending	
-tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDisablePreparesWhenDisablePreparesIsExplicitlyDefined	pending	
-tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDisablesPrepares	pending	
-tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDoesNotDisablePreparesWhenAttributeDefined	pending	
-tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testUserIsFalse	pending	
-tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testPortWithoutHost	pending	
-tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testUserIsFalse	pending	
-tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testUserIsFalse	pending	
-tests/Driver/PgSQL/DriverTest.php	DriverTest::testConnectionIPv6	pending	
-tests/Driver/SQLSrv/DriverTest.php	DriverTest::testPortWithoutHost	pending	
-tests/Driver/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMalformedMariaDBVersionThrows	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMySQLi	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOMySQL	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOPgSQL	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPgSQL	pending	
+tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testOriginalExceptionIsInChain	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_exception_test.rs::testOriginalExceptionIsInChain
+tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsCode	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_exception_test.rs::testReturnsCode
+tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsMessage	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_exception_test.rs::testReturnsMessage
+tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsSQLState	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_exception_test.rs::testReturnsSQLState
+tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testPasswordIsFalse	pending	the PDO\MySQL driver is not ported
+tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testUserIsFalse	pending	the PDO\MySQL driver is not ported
+tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testPasswordIsFalse	pending	the PDO\OCI driver is not ported
+tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	n/a: upstream always skips it (markTestSkipped: Oracle drivers do not use server version to instantiate platform)	
+tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testUserIsFalse	pending	the PDO\OCI driver is not ported
+tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDisablePreparesWhenDisablePreparesIsExplicitlyDefined	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pdo_pgsql specific phpunit.xml)	
+tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDisablesPrepares	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pdo_pgsql specific phpunit.xml)	
+tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectionDoesNotDisablePreparesWhenAttributeDefined	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pdo_pgsql specific phpunit.xml)	
+tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testPasswordIsFalse	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pdo_pgsql specific phpunit.xml)	
+tests/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testUserIsFalse	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pdo_pgsql specific phpunit.xml)	
+tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testPasswordIsFalse	pending	the PDO\SQLSrv driver is not ported
+tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testPortWithoutHost	pending	the PDO\SQLSrv driver is not ported
+tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	n/a: upstream always skips it (markTestSkipped: SQL Server drivers do not use server version to instantiate platform)	
+tests/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testUserIsFalse	pending	the PDO\SQLSrv driver is not ported
+tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testPasswordIsFalse	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs::testPasswordIsFalse
+tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	n/a: upstream always skips it (markTestSkipped: SQLite drivers do not use server version to instantiate platform)	
+tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testUserIsFalse	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs::testUserIsFalse
+tests/Driver/PgSQL/DriverTest.php	DriverTest::testConnectionIPv6	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: Test enabled only when using pgsql specific phpunit.xml)	
+tests/Driver/SQLSrv/DriverTest.php	DriverTest::testPortWithoutHost	pending	the SQLSrv driver is not ported
+tests/Driver/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	n/a: upstream always skips it (markTestSkipped: SQL Server drivers do not use server version to instantiate platform)	
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMalformedMariaDBVersionThrows	pending	the Mysqli driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMySQLi	pending	the Mysqli driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOMySQL	pending	the PDO\MySQL driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOPgSQL	pending	the PDO\PgSQL driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPgSQL	pending	the PgSQL driver is not ported
 tests/DriverManagerTest.php	DriverManagerTest::testCheckParams	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testCheckParams
-tests/DriverManagerTest.php	DriverManagerTest::testCustomWrapper	pending	
+tests/DriverManagerTest.php	DriverManagerTest::testCustomWrapper	pending	the sqlite3 driver is not ported
 tests/DriverManagerTest.php	DriverManagerTest::testDatabaseUrl	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testDatabaseUrl
 tests/DriverManagerTest.php	DriverManagerTest::testDefaultWrapper	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testDefaultWrapper
 tests/DriverManagerTest.php	DriverManagerTest::testInvalidDriver	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testInvalidDriver
 tests/DriverManagerTest.php	DriverManagerTest::testInvalidDriverClass	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testInvalidDriverClass
 tests/DriverManagerTest.php	DriverManagerTest::testInvalidWrapperClass	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testInvalidWrapperClass
 tests/DriverManagerTest.php	DriverManagerTest::testValidDriverClass	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testValidDriverClass
-tests/Exception/DriverRequiredTest.php	DriverRequiredTest::testDriverRequiredWithUrl	pending	
-tests/ExceptionTest.php	ExceptionTest::testDriverRequiredWithUrl	pending	
+tests/Exception/DriverRequiredTest.php	DriverRequiredTest::testDriverRequiredWithUrl	ported	crates/php2rust-doctrine-dbal/tests/exception_driver_required_test.rs::testDriverRequiredWithUrl
+tests/ExceptionTest.php	ExceptionTest::testDriverRequiredWithUrl	ported	crates/php2rust-doctrine-dbal/tests/exception_test.rs::testDriverRequiredWithUrl
 tests/Functional/AutoIncrementColumnTest.php	AutoIncrementColumnTest::testInsertAutoGeneratesValue	ported	crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs::testInsertAutoGeneratesValue
 tests/Functional/AutoIncrementColumnTest.php	AutoIncrementColumnTest::testInsertIdentityValue	ported	crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs::testInsertIdentityValue
 tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchAllAssociative
@@ -911,12 +911,12 @@ tests/Functional/WriteTest.php	WriteTest::testUpdate	ported	crates/php2rust-doct
 tests/Functional/WriteTest.php	WriteTest::testUpdateAll	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testUpdateAll
 tests/Functional/WriteTest.php	WriteTest::testUpdateWhereIsNull	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testUpdateWhereIsNull
 tests/Functional/WriteTest.php	WriteTest::testUpdateWithKeyValueTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testUpdateWithKeyValueTypes
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testBeginCommitRollback	pending	
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testConnectAndDisconnect	pending	
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testExec	pending	
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testExecuteStatementWithNamedParameters	pending	
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testExecuteStatementWithParameters	pending	
-tests/Logging/MiddlewareTest.php	MiddlewareTest::testQuery	pending	
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testBeginCommitRollback	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testConnectAndDisconnect	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testExec	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testExecuteStatementWithNamedParameters	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testExecuteStatementWithParameters	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
+tests/Logging/MiddlewareTest.php	MiddlewareTest::testQuery	pending	Logging\Middleware logs to a psr/log LoggerInterface; its only Rust port is in symfony-rs, which DBAL does not depend on
 tests/Platforms/DB2PlatformTest.php	DB2PlatformTest::testAlterStringToFixedString	ported	crates/php2rust-doctrine-dbal/tests/platforms_db2_platform_test.rs::testAlterStringToFixedString
 tests/Platforms/DB2PlatformTest.php	DB2PlatformTest::testAlterTableChangeQuotedColumn	ported	crates/php2rust-doctrine-dbal/tests/platforms_db2_platform_test.rs::testAlterTableChangeQuotedColumn
 tests/Platforms/DB2PlatformTest.php	DB2PlatformTest::testAlterTableRenameIndex	ported	crates/php2rust-doctrine-dbal/tests/platforms_db2_platform_test.rs::testAlterTableRenameIndex
@@ -2217,7 +2217,7 @@ tests/Query/QueryBuilderTest.php	QueryBuilderTest::testDeleteWhere	ported	crates
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testEmptySelect	ported	crates/php2rust-doctrine-dbal/tests/query_builder_test.rs::testEmptySelect
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteQuery	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testExecuteQuery
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteQueryWithResultCaching	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testExecuteQueryWithResultCaching
-tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteStatement	pending	
+tests/Query/QueryBuilderTest.php	QueryBuilderTest::testExecuteStatement	pending	mocks Connection::executeStatement() with named parameters on positional SQL; a real Connection rejects them (MissingPositionalParameter)
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testFetchAllAssociative
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testFetchAllAssociativeIndexed	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testFetchAllAssociativeIndexed
 tests/Query/QueryBuilderTest.php	QueryBuilderTest::testFetchAllKeyValue	ported	crates/php2rust-doctrine-dbal/tests/query_builder_execution_test.rs::testFetchAllKeyValue
@@ -2675,17 +2675,17 @@ tests/Schema/ViewEditorTest.php	ViewEditorTest::testSqlNotSet	ported	crates/php2
 tests/Schema/ViewTest.php	ViewTest::testEmptyName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testEmptyName
 tests/Schema/ViewTest.php	ViewTest::testGetQualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testGetQualifiedObjectName
 tests/Schema/ViewTest.php	ViewTest::testGetUnqualifiedObjectName	ported	crates/php2rust-doctrine-dbal/tests/schema_view_test.rs::testGetUnqualifiedObjectName
-tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testMissingSqlArgument	pending	
-tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectStatementsPrintsResult	pending	
-tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectWithEmptyResultSet	pending	
-tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testStatementsWithFetchResultPrintsResult	pending	
-tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testUpdateStatementsPrintsAffectedLines	pending	
+tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testMissingSqlArgument	ported	crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs::testMissingSqlArgument
+tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectStatementsPrintsResult	ported	crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs::testSelectStatementsPrintsResult
+tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testSelectWithEmptyResultSet	ported	crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs::testSelectWithEmptyResultSet
+tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testStatementsWithFetchResultPrintsResult	ported	crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs::testStatementsWithFetchResultPrintsResult
+tests/Tools/Console/RunSqlCommandTest.php	RunSqlCommandTest::testUpdateStatementsPrintsAffectedLines	ported	crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs::testUpdateStatementsPrintsAffectedLines
 tests/Tools/DsnParserTest.php	DsnParserTest::testDatabaseUrl	ported	crates/php2rust-doctrine-dbal/tests/tools_dsn_parser_test.rs::testDatabaseUrl
 tests/Tools/DsnParserTest.php	DsnParserTest::testDriverClassScheme	ported	crates/php2rust-doctrine-dbal/tests/tools_dsn_parser_test.rs::testDriverClassScheme
 tests/Types/AsciiStringTest.php	AsciiStringTest::testDelegateToPlatformForSqlDeclaration	ported	crates/php2rust-doctrine-dbal/tests/types_ascii_string_test.rs::testDelegateToPlatformForSqlDeclaration
 tests/Types/AsciiStringTest.php	AsciiStringTest::testReturnCorrectBindingType	ported	crates/php2rust-doctrine-dbal/tests/types_ascii_string_test.rs::testReturnCorrectBindingType
 tests/Types/BinaryTest.php	BinaryTest::testBinaryNullConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_binary_test.rs::testBinaryNullConvertsToPHPValue
-tests/Types/BinaryTest.php	BinaryTest::testBinaryResourceConvertsToPHPValue	pending	
+tests/Types/BinaryTest.php	BinaryTest::testBinaryResourceConvertsToPHPValue	pending	php_value::Value has no resources
 tests/Types/BinaryTest.php	BinaryTest::testBinaryStringConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_binary_test.rs::testBinaryStringConvertsToPHPValue
 tests/Types/BinaryTest.php	BinaryTest::testReturnsBindingType	ported	crates/php2rust-doctrine-dbal/tests/types_binary_test.rs::testReturnsBindingType
 tests/Types/BinaryTest.php	BinaryTest::testThrowsConversionExceptionOnInvalidDatabaseValue	ported	crates/php2rust-doctrine-dbal/tests/types_binary_test.rs::testThrowsConversionExceptionOnInvalidDatabaseValue
@@ -2695,7 +2695,7 @@ tests/Types/BooleanTest.php	BooleanTest::testBooleanConvertsToPHPValue	ported	cr
 tests/Types/BooleanTest.php	BooleanTest::testBooleanNullConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_boolean_test.rs::testBooleanNullConvertsToPHPValue
 tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedFormatPreservesPreviousException	ported	crates/php2rust-doctrine-dbal/tests/types_conversion_exception_test.rs::testConversionFailedFormatPreservesPreviousException
 tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedInvalidTypePreviousException	ported	crates/php2rust-doctrine-dbal/tests/types_conversion_exception_test.rs::testConversionFailedInvalidTypePreviousException
-tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedInvalidTypeWithNonScalar	pending	
+tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedInvalidTypeWithNonScalar	pending	its provider includes a tmpfile() resource, which php_value::Value cannot hold
 tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedInvalidTypeWithScalar	ported	crates/php2rust-doctrine-dbal/tests/types_conversion_exception_test.rs::testConversionFailedInvalidTypeWithScalar
 tests/Types/ConversionExceptionTest.php	ConversionExceptionTest::testConversionFailedPreviousException	ported	crates/php2rust-doctrine-dbal/tests/types_conversion_exception_test.rs::testConversionFailedPreviousException
 tests/Types/DateImmutableTypeTest.php	DateImmutableTypeTest::testConvertsDateStringToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_date_immutable_type_test.rs::testConvertsDateStringToPHPValue
@@ -2721,7 +2721,7 @@ tests/Types/DateTest.php	DateTest::testConvertDateTimeToPHPValue	ported	crates/p
 tests/Types/DateTest.php	DateTest::testDateConvertsToDatabaseValue	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testDateConvertsToDatabaseValue
 tests/Types/DateTest.php	DateTest::testDateConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testDateConvertsToPHPValue
 tests/Types/DateTest.php	DateTest::testDateResetsNonDatePartsToZeroUnixTimeValues	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testDateResetsNonDatePartsToZeroUnixTimeValues
-tests/Types/DateTest.php	DateTest::testDateRestsSummerTimeAffection	pending	
+tests/Types/DateTest.php	DateTest::testDateRestsSummerTimeAffection	pending	php_value has no settable default timezone (createFromFormat() uses UTC)
 tests/Types/DateTest.php	DateTest::testInvalidDateFormatConversion	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testInvalidDateFormatConversion
 tests/Types/DateTest.php	DateTest::testInvalidTypeConversionToDatabaseValue	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testInvalidTypeConversionToDatabaseValue
 tests/Types/DateTest.php	DateTest::testNullConversion	ported	crates/php2rust-doctrine-dbal/tests/types_date_test.rs::testNullConversion
@@ -2794,25 +2794,25 @@ tests/Types/IntegerTest.php	IntegerTest::testIntegerNullConvertsToPHPValue	porte
 tests/Types/JsonObjectTest.php	JsonObjectTest::testConversionFailure	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testConversionFailure
 tests/Types/JsonObjectTest.php	JsonObjectTest::testJsonEmptyStringConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testJsonEmptyStringConvertsToPHPValue
 tests/Types/JsonObjectTest.php	JsonObjectTest::testJsonNullConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testJsonNullConvertsToPHPValue
-tests/Types/JsonObjectTest.php	JsonObjectTest::testJsonResourceConvertsToPHPValue	pending	
+tests/Types/JsonObjectTest.php	JsonObjectTest::testJsonResourceConvertsToPHPValue	pending	php_value::Value has no resources
 tests/Types/JsonObjectTest.php	JsonObjectTest::testJsonStringConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testJsonStringConvertsToPHPValue
 tests/Types/JsonObjectTest.php	JsonObjectTest::testPHPFloatValueConvertsToJsonString	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testPHPFloatValueConvertsToJsonString
 tests/Types/JsonObjectTest.php	JsonObjectTest::testPHPNullValueConvertsToJsonNull	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testPHPNullValueConvertsToJsonNull
 tests/Types/JsonObjectTest.php	JsonObjectTest::testPHPValueConvertsToJsonString	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testPHPValueConvertsToJsonString
 tests/Types/JsonObjectTest.php	JsonObjectTest::testReturnsBindingType	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testReturnsBindingType
 tests/Types/JsonObjectTest.php	JsonObjectTest::testReturnsSQLDeclaration	ported	crates/php2rust-doctrine-dbal/tests/types_json_object_test.rs::testReturnsSQLDeclaration
-tests/Types/JsonObjectTest.php	JsonObjectTest::testSerializationFailure	pending	
+tests/Types/JsonObjectTest.php	JsonObjectTest::testSerializationFailure	pending	a php_value::Value cannot hold a reference cycle
 tests/Types/JsonTest.php	JsonTest::testConversionFailure	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testConversionFailure
 tests/Types/JsonTest.php	JsonTest::testJsonEmptyStringConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testJsonEmptyStringConvertsToPHPValue
 tests/Types/JsonTest.php	JsonTest::testJsonNullConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testJsonNullConvertsToPHPValue
-tests/Types/JsonTest.php	JsonTest::testJsonResourceConvertsToPHPValue	pending	
+tests/Types/JsonTest.php	JsonTest::testJsonResourceConvertsToPHPValue	pending	php_value::Value has no resources
 tests/Types/JsonTest.php	JsonTest::testJsonStringConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testJsonStringConvertsToPHPValue
 tests/Types/JsonTest.php	JsonTest::testPHPFloatValueConvertsToJsonString	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testPHPFloatValueConvertsToJsonString
 tests/Types/JsonTest.php	JsonTest::testPHPNullValueConvertsToJsonNull	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testPHPNullValueConvertsToJsonNull
 tests/Types/JsonTest.php	JsonTest::testPHPValueConvertsToJsonString	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testPHPValueConvertsToJsonString
 tests/Types/JsonTest.php	JsonTest::testReturnsBindingType	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testReturnsBindingType
 tests/Types/JsonTest.php	JsonTest::testReturnsSQLDeclaration	ported	crates/php2rust-doctrine-dbal/tests/types_json_test.rs::testReturnsSQLDeclaration
-tests/Types/JsonTest.php	JsonTest::testSerializationFailure	pending	
+tests/Types/JsonTest.php	JsonTest::testSerializationFailure	pending	a php_value::Value cannot hold a reference cycle
 tests/Types/NumberTest.php	NumberTest::testDecimalConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_number_test.rs::testDecimalConvertsToPHPValue
 tests/Types/NumberTest.php	NumberTest::testDecimalNullConvertsToPHPValue	ported	crates/php2rust-doctrine-dbal/tests/types_number_test.rs::testDecimalNullConvertsToPHPValue
 tests/Types/NumberTest.php	NumberTest::testInvalidPhpValuesTriggerException	ported	crates/php2rust-doctrine-dbal/tests/types_number_test.rs::testInvalidPhpValuesTriggerException

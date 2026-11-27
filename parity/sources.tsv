@@ -297,6 +297,10 @@ crates/php2rust-doctrine-dbal/src/sql/parser.rs	doctrine/dbal	src/SQL/Parser.php
 crates/php2rust-doctrine-dbal/src/sql/parser.rs	doctrine/dbal	src/SQL/Parser/Visitor.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/sql_query.rs	doctrine/dbal	src/Query.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/statement.rs	doctrine/dbal	src/Statement.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/tools/console/command/run_sql_command.rs	doctrine/dbal	src/Tools/Console/Command/RunSqlCommand.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/tools/console/connection_not_found.rs	doctrine/dbal	src/Tools/Console/ConnectionNotFound.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/tools/console/connection_provider.rs	doctrine/dbal	src/Tools/Console/ConnectionProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/tools/console/connection_provider/single_connection_provider.rs	doctrine/dbal	src/Tools/Console/ConnectionProvider/SingleConnectionProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/tools/dsn_parser.rs	doctrine/dbal	src/Tools/DsnParser.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/transaction_isolation_level.rs	doctrine/dbal	src/TransactionIsolationLevel.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/transaction_isolation_level.rs	doctrine/dbal	src/LockMode.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -370,6 +374,12 @@ crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_result_middleware
 crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_statement_middleware_test.rs	doctrine/dbal	tests/Driver/Middleware/AbstractStatementMiddlewareTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_oci8_convert_positional_to_named_placeholders_test.rs	doctrine/dbal	tests/Driver/OCI8/ConvertPositionalToNamedPlaceholdersTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_oci8_execution_mode_test.rs	doctrine/dbal	tests/Driver/OCI8/ExecutionModeTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_pdo_exception_test.rs	doctrine/dbal	tests/Driver/PDO/ExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/PDO/SQLite/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/AbstractSQLiteDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_pdo_sqlite_driver_test.rs	doctrine/dbal	tests/Driver/AbstractDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/exception_driver_required_test.rs	doctrine/dbal	tests/Exception/DriverRequiredTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/exception_test.rs	doctrine/dbal	tests/ExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/expand_array_parameters_test.rs	doctrine/dbal	tests/Connection/ExpandArrayParametersTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/expression_builder_test.rs	doctrine/dbal	tests/Query/Expression/ExpressionBuilderTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs	doctrine/dbal	tests/Functional/AutoIncrementColumnTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -527,6 +537,7 @@ crates/php2rust-doctrine-dbal/tests/schema_unique_constraint_editor_test.rs	doct
 crates/php2rust-doctrine-dbal/tests/schema_unique_constraint_test.rs	doctrine/dbal	tests/Schema/UniqueConstraintTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/schema_view_editor_test.rs	doctrine/dbal	tests/Schema/ViewEditorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/schema_view_test.rs	doctrine/dbal	tests/Schema/ViewTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/tools_console_run_sql_command_test.rs	doctrine/dbal	tests/Tools/Console/RunSqlCommandTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/tools_dsn_parser_test.rs	doctrine/dbal	tests/Tools/DsnParserTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/types_ascii_string_test.rs	doctrine/dbal	tests/Types/AsciiStringTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/types_binary_test.rs	doctrine/dbal	tests/Types/BinaryTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879

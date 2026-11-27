@@ -383,10 +383,10 @@ src/Schema/View.php	View	30	ported	crates/php2rust-doctrine-dbal/src/schema/view
 src/Schema/ViewEditor.php	ViewEditor	45	ported	crates/php2rust-doctrine-dbal/src/schema/view_editor.rs
 src/ServerVersionProvider.php	ServerVersionProvider	6	ported	crates/php2rust-doctrine-dbal/src/server_version_provider.rs
 src/Statement.php	Statement	63	ported	crates/php2rust-doctrine-dbal/src/statement.rs
-src/Tools/Console/Command/RunSqlCommand.php	RunSqlCommand	86	pending	
-src/Tools/Console/ConnectionNotFound.php	ConnectionNotFound	6	pending	
-src/Tools/Console/ConnectionProvider.php	ConnectionProvider	8	pending	
-src/Tools/Console/ConnectionProvider/SingleConnectionProvider.php	SingleConnectionProvider	25	pending	
+src/Tools/Console/Command/RunSqlCommand.php	RunSqlCommand	86	ported	crates/php2rust-doctrine-dbal/src/tools/console/command/run_sql_command.rs
+src/Tools/Console/ConnectionNotFound.php	ConnectionNotFound	6	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_not_found.rs
+src/Tools/Console/ConnectionProvider.php	ConnectionProvider	8	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_provider.rs
+src/Tools/Console/ConnectionProvider/SingleConnectionProvider.php	SingleConnectionProvider	25	ported	crates/php2rust-doctrine-dbal/src/tools/console/connection_provider/single_connection_provider.rs
 src/Tools/DsnParser.php	DsnParser	112	ported	crates/php2rust-doctrine-dbal/src/tools/dsn_parser.rs
 src/TransactionIsolationLevel.php	TransactionIsolationLevel	9	ported	crates/php2rust-doctrine-dbal/src/transaction_isolation_level.rs
 src/Types/AsciiStringType.php	AsciiStringType	15	ported	crates/php2rust-doctrine-dbal/src/types/string_type.rs
