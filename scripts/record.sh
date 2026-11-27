@@ -5,7 +5,8 @@
 #   scripts/record.sh dbal             tests/data/php.json (providers, SQL\Parser, ExpandArrayParameters, Query\QueryBuilder, date vectors)
 #   scripts/record.sh dbal-connection  tests/data/connection.json (pdo_sqlite behaviour, SQLitePlatform SQL and DDL, DsnParser/DriverManager providers)
 #   scripts/record.sh dbal-mysql-schema tests/data/mysql_schema.json (MySQLSchemaManager and MySQLMetadataProvider over a scripted driver)
-#   scripts/record.sh all              all three
+#   scripts/record.sh dbal-pgsql-schema tests/data/postgresql_schema.json (PostgreSQLSchemaManager and PostgreSQLMetadataProvider over a scripted driver)
+#   scripts/record.sh all              all of them
 #
 # Run scripts/fetch-upstream.sh first: the recorders load doctrine/dbal and
 # its tests from upstream/doctrine/dbal.
@@ -38,6 +39,7 @@ case "${1:-}" in
     dbal) record doctrine_dbal.php "$data/php.json" ;;
     dbal-connection) record doctrine_dbal_connection.php "$data/connection.json" ;;
     dbal-mysql-schema) record doctrine_dbal_mysql_schema.php "$data/mysql_schema.json" ;;
-    all) record doctrine_dbal.php "$data/php.json"; record doctrine_dbal_connection.php "$data/connection.json"; record doctrine_dbal_mysql_schema.php "$data/mysql_schema.json" ;;
-    *) echo "usage: scripts/record.sh dbal|dbal-connection|dbal-mysql-schema|all" >&2; exit 2 ;;
+    dbal-pgsql-schema) record doctrine_dbal_postgresql_schema.php "$data/postgresql_schema.json" ;;
+    all) record doctrine_dbal.php "$data/php.json"; record doctrine_dbal_connection.php "$data/connection.json"; record doctrine_dbal_mysql_schema.php "$data/mysql_schema.json"; record doctrine_dbal_postgresql_schema.php "$data/postgresql_schema.json" ;;
+    *) echo "usage: scripts/record.sh dbal|dbal-connection|dbal-mysql-schema|dbal-pgsql-schema|all" >&2; exit 2 ;;
 esac

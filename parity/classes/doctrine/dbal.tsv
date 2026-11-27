@@ -19,7 +19,7 @@ src/Driver/API/ExceptionConverter.php	ExceptionConverter	9	ported	crates/php2rus
 src/Driver/API/IBMDB2/ExceptionConverter.php	ExceptionConverter	37	pending	
 src/Driver/API/MySQL/ExceptionConverter.php	ExceptionConverter	91	ported	crates/php2rust-doctrine-dbal/src/driver/api/mysql.rs
 src/Driver/API/OCI/ExceptionConverter.php	ExceptionConverter	66	pending	
-src/Driver/API/PostgreSQL/ExceptionConverter.php	ExceptionConverter	65	pending	
+src/Driver/API/PostgreSQL/ExceptionConverter.php	ExceptionConverter	65	ported	crates/php2rust-doctrine-dbal/src/driver/api/postgresql.rs
 src/Driver/API/SQLSrv/ExceptionConverter.php	ExceptionConverter	39	pending	
 src/Driver/API/SQLite/ExceptionConverter.php	ExceptionConverter	66	ported	crates/php2rust-doctrine-dbal/src/driver/api/sqlite.rs
 src/Driver/AbstractDB2Driver.php	AbstractDB2Driver	18	pending	
@@ -27,7 +27,7 @@ src/Driver/AbstractException.php	AbstractException	19	ported	crates/php2rust-doc
 src/Driver/AbstractMySQLDriver.php	AbstractMySQLDriver	84	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_mysql_driver.rs
 src/Driver/AbstractOracleDriver.php	AbstractOracleDriver	23	pending	
 src/Driver/AbstractOracleDriver/EasyConnectString.php	EasyConnectString	96	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_oracle_driver/easy_connect_string.rs
-src/Driver/AbstractPostgreSQLDriver.php	AbstractPostgreSQLDriver	42	pending	
+src/Driver/AbstractPostgreSQLDriver.php	AbstractPostgreSQLDriver	42	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_postgresql_driver.rs
 src/Driver/AbstractSQLServerDriver.php	AbstractSQLServerDriver	18	pending	
 src/Driver/AbstractSQLServerDriver/Exception/PortWithoutHost.php	PortWithoutHost	10	pending	
 src/Driver/AbstractSQLiteDriver.php	AbstractSQLiteDriver	18	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_sqlite_driver.rs
@@ -88,7 +88,7 @@ src/Driver/PDO/Exception/InvalidConfiguration.php	InvalidConfiguration	16	ported
 src/Driver/PDO/MySQL/Driver.php	Driver	62	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_mysql.rs
 src/Driver/PDO/OCI/Driver.php	Driver	50	pending	
 src/Driver/PDO/PDOConnect.php	PDOConnect	21	pending	
-src/Driver/PDO/PgSQL/Driver.php	Driver	92	pending	
+src/Driver/PDO/PgSQL/Driver.php	Driver	92	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_pgsql/mod.rs
 src/Driver/PDO/Result.php	Result	88	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs
 src/Driver/PDO/SQLSrv/Connection.php	Connection	22	pending	
 src/Driver/PDO/SQLSrv/Driver.php	Driver	81	pending	
@@ -207,8 +207,8 @@ src/Platforms/MySQLPlatform.php	MySQLPlatform	39	ported	crates/php2rust-doctrine
 src/Platforms/Oracle/OracleMetadataProvider.php	OracleMetadataProvider	465	pending	
 src/Platforms/OraclePlatform.php	OraclePlatform	610	ported	crates/php2rust-doctrine-dbal/src/platforms/oracle_platform.rs
 src/Platforms/PostgreSQL/Comparator.php	Comparator	28	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql/comparator.rs
-src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	PostgreSQLMetadataProvider	594	pending	
-src/Platforms/PostgreSQL120Platform.php	PostgreSQL120Platform	18	pending	
+src/Platforms/PostgreSQL/PostgreSQLMetadataProvider.php	PostgreSQLMetadataProvider	594	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql/postgresql_metadata_provider.rs
+src/Platforms/PostgreSQL120Platform.php	PostgreSQL120Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql120_platform.rs
 src/Platforms/PostgreSQLPlatform.php	PostgreSQLPlatform	588	ported	crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs
 src/Platforms/SQLServer/Comparator.php	Comparator	37	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlserver/comparator.rs
 src/Platforms/SQLServer/SQL/Builder/SQLServerSelectSQLBuilder.php	SQLServerSelectSQLBuilder	57	ported	crates/php2rust-doctrine-dbal/src/platforms/sqlserver/sql/builder/sqlserver_select_sql_builder.rs
@@ -359,7 +359,7 @@ src/Schema/Name/UnquotedIdentifierFolding.php	UnquotedIdentifierFolding	18	porte
 src/Schema/NamedObject.php	NamedObject	6	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_asset.rs
 src/Schema/OptionallyNamedObject.php	OptionallyNamedObject	6	ported	crates/php2rust-doctrine-dbal/src/schema/abstract_asset.rs
 src/Schema/OracleSchemaManager.php	OracleSchemaManager	363	pending	
-src/Schema/PostgreSQLSchemaManager.php	PostgreSQLSchemaManager	413	pending	
+src/Schema/PostgreSQLSchemaManager.php	PostgreSQLSchemaManager	413	ported	crates/php2rust-doctrine-dbal/src/schema/postgresql_schema_manager.rs
 src/Schema/PrimaryKeyConstraint.php	PrimaryKeyConstraint	40	ported	crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs
 src/Schema/PrimaryKeyConstraintEditor.php	PrimaryKeyConstraintEditor	81	ported	crates/php2rust-doctrine-dbal/src/schema/primary_key_constraint.rs
 src/Schema/SQLServerSchemaManager.php	SQLServerSchemaManager	381	pending	

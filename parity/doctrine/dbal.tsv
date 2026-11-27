@@ -105,7 +105,7 @@ tests/Driver/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingData
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMalformedMariaDBVersionThrows	ported	crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs::testMalformedMariaDBVersionThrows
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMySQLi	pending	the Mysqli driver is not ported
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOMySQL	ported	crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs::testPDOMySQL
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOPgSQL	pending	the PDO\PgSQL driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOPgSQL	ported	crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_pgsql_test.rs::testPDOPgSQL
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPgSQL	pending	the PgSQL driver is not ported
 tests/DriverManagerTest.php	DriverManagerTest::testCheckParams	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testCheckParams
 tests/DriverManagerTest.php	DriverManagerTest::testCustomWrapper	pending	the sqlite3 driver is not ported
@@ -248,13 +248,13 @@ tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testConnectsWithoutDa
 tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
 tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
 tests/Functional/Driver/PDO/PDOSubclassTest.php	PDOSubclassTest::testMySQLSubclass	pending	
-tests/Functional/Driver/PDO/PDOSubclassTest.php	PDOSubclassTest::testPgSQLSubclass	pending	
+tests/Functional/Driver/PDO/PDOSubclassTest.php	PDOSubclassTest::testPgSQLSubclass	pending	needs a live PostgreSQL server; run on Daniel's computer
 tests/Functional/Driver/PDO/PDOSubclassTest.php	PDOSubclassTest::testSQLiteSubclass	pending	
-tests/Functional/Driver/PDO/PgSQL/ConnectionTest.php	ConnectionTest::testConnectsWithValidCharsetOption	pending	
-tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectsWithApplicationNameParameter	pending	
-tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
-tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
-tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
+tests/Functional/Driver/PDO/PgSQL/ConnectionTest.php	ConnectionTest::testConnectsWithValidCharsetOption	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_connection_test.rs::testConnectsWithValidCharsetOption
+tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectsWithApplicationNameParameter	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs::testConnectsWithApplicationNameParameter
+tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs::testConnectsWithoutDatabaseNameParameter
+tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs::testProvidesAccessToTheNativeConnection
+tests/Functional/Driver/PDO/PgSQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_pgsql_driver_test.rs::testReturnsDatabaseNameWithoutDatabaseNameParameter
 tests/Functional/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testConnectionOptions	pending	
 tests/Functional/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
 tests/Functional/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testDriverOptions	pending	
@@ -263,19 +263,19 @@ tests/Functional/Driver/PDO/SQLSrv/DriverTest.php	DriverTest::testReturnsDatabas
 tests/Functional/Driver/PDO/SQLite/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
 tests/Functional/Driver/PDO/SQLite/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
 tests/Functional/Driver/PDO/SQLite/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
-tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testConnectsWithApplicationNameParameter	pending	
-tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
-tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
-tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testResultIsFreedOnDestruct	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAllAssociative	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAllNumeric	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAssociative	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchFirstColumn	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchNumeric	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchOne	pending	
-tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionWithDuplicateFieldNames	pending	
-tests/Functional/Driver/PgSQL/StatementTest.php	StatementTest::testStatementsAreDeallocatedProperly	pending	
+tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testConnectsWithApplicationNameParameter	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testResultIsFreedOnDestruct	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAllAssociative	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAllNumeric	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchAssociative	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchFirstColumn	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchNumeric	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionFetchOne	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/ResultTest.php	ResultTest::testTypeConversionWithDuplicateFieldNames	pending	the PgSQL driver is not ported
+tests/Functional/Driver/PgSQL/StatementTest.php	StatementTest::testStatementsAreDeallocatedProperly	pending	the PgSQL driver is not ported
 tests/Functional/Driver/SQLSrv/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
 tests/Functional/Driver/SQLSrv/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
 tests/Functional/Driver/SQLSrv/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
@@ -355,14 +355,14 @@ tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinary
 tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthBinaryWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
 tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringNoLength	n/a: upstream does not run it on Oracle (markTestSkipped)	
 tests/Functional/Platform/ColumnTest/Oracle.php	Oracle::testVariableLengthStringWithLength	pending	needs a live Oracle server (requirePlatform(OraclePlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringNoLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
-tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringWithLength	pending	needs a live PostgreSQL server (requirePlatform(PostgreSQLPlatform))
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryNoLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthBinaryWithLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringNoLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testFixedLengthStringWithLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryNoLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthBinaryWithLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringNoLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Platform/ColumnTest/PostgreSQL.php	PostgreSQL::testVariableLengthStringWithLength	pending	needs a live PostgreSQL server; run on Daniel's computer
 tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryNoLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
 tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthBinaryWithLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
 tests/Functional/Platform/ColumnTest/SQLServer.php	SQLServer::testFixedLengthStringNoLength	pending	needs a live SQL Server server (requirePlatform(SQLServerPlatform))
@@ -436,7 +436,7 @@ tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithou
 tests/Functional/ResultTest.php	ResultTest::testExceptionHandling	ported	crates/php2rust-doctrine-dbal/tests/functional_result_test.rs::testExceptionHandling
 tests/Functional/SQL/Builder/CreateAndDropSchemaObjectsSQLBuilderTest.php	CreateAndDropSchemaObjectsSQLBuilderTest::testCreateAndDropTablesWithCircularForeignKeys	pending	
 tests/Functional/SQL/ParserTest.php	ParserTest::testMySQLEscaping	pending	
-tests/Functional/SQL/ParserTest.php	ParserTest::testPostgreSQLJSONBQuestionOperator	pending	
+tests/Functional/SQL/ParserTest.php	ParserTest::testPostgreSQLJSONBQuestionOperator	pending	needs a live PostgreSQL server; run on Daniel's computer
 tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNewColumnToPrimaryKey	ported	crates/php2rust-doctrine-dbal/tests/functional_schema_alter_table_test.rs::testAddNewColumnToPrimaryKey
 tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddNonAutoincrementColumnToPrimaryKeyWithAutoincrementColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite does not support auto-increment columns as part of composite primary key constraint)	
 tests/Functional/Schema/AlterTableTest.php	AlterTableTest::testAddPrimaryKeyOnExistingColumn	n/a: upstream does not run it on SQLite (markTestSkipped: SQLite will automatically set up auto-increment behavior on the primary key column, which this test does not expect.)	
@@ -629,76 +629,76 @@ tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::tes
 tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::testTableInNamespace	pending	
 tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::testTableWithSchema	pending	
 tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	
-tests/Functional/Schema/PostgreSQL/AlterColumnCollationTest.php	AlterColumnCollationTest::testAlterColumnCollation	pending	
-tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinariesOfDifferentLength	pending	
-tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinaryAndBlob	pending	
-tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinaryAndVarbinary	pending	
-tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testPlatformOptionsChangedColumnComparison	pending	
-tests/Functional/Schema/PostgreSQL/SchemaTest.php	SchemaTest::testCreateTableWithSequenceInColumnDefinition	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementAdd	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementDrop	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementIntToBigInt	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableScenario	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAutoIncrementCreatesSerialDataTypesWithoutADefaultValue	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAutoIncrementCreatesSerialDataTypesWithoutADefaultValueEvenWhenDefaultIsSet	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testBooleanDefault	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testChangeIndexWithForeignKeys	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testColumnDefaultLifecycle	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCommentInTable	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testComparisonWithAutoDetectedSequenceDefinition	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateAndListSequences	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateAndListViews	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateSequence	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDefaultSchemaName	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDefaultValueCharacterVarying	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDiffListTableColumns	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDoesNotListIndexesImplicitlyCreatedByForeignKeys	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropAndCreateIndex	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropAndCreateUniqueConstraint	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropColumnWithDefault	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropWithAutoincrement	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGenerateAnIndexWithPartialColumnLength	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGeneratedColumn	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGetNonExistingTable	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGetSchemaNames	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectDatabaseNames	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTableDetails	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTables	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testJsonDefaultValue	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testJsonbColumn	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListNegativeColumnDefaultValue	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSameTableNameColumnsWithDifferentSchema	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSchemaNames	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSequences	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumns	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumnsOidConflictWithNonTableObject	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumnsWithFixedStringColumn	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableDetailsWhenCurrentSchemaNameQuoted	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableDetailsWithFullQualifiedTableName	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableFloatTypeColumns	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableIndexes	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableWithBinary	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableWithBlob	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTables	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesDoesNotIncludeViews	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesExcludesViews	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesWithFilter	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testMigrateSchema	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPartialIndexes	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPartitionTable	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPrimaryKeyAutoIncrement	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testQuotedIdentifiers	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testRenameIndexUsedInForeignKeyConstraint	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testRenameTable	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testReturnQuotedAssets	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSchemaIntrospection	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSupportDomainTypeFallback	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSwitchPrimaryKeyOrder	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testTableInNamespace	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testTableWithSchema	pending	
-tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	
+tests/Functional/Schema/PostgreSQL/AlterColumnCollationTest.php	AlterColumnCollationTest::testAlterColumnCollation	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinariesOfDifferentLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinaryAndBlob	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testCompareBinaryAndVarbinary	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQL/ComparatorTest.php	ComparatorTest::testPlatformOptionsChangedColumnComparison	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQL/SchemaTest.php	SchemaTest::testCreateTableWithSequenceInColumnDefinition	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementAdd	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testAlterTableAutoIncrementAdd
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementDrop	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testAlterTableAutoIncrementDrop
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableAutoIncrementIntToBigInt	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAlterTableScenario	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAutoIncrementCreatesSerialDataTypesWithoutADefaultValue	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testAutoIncrementCreatesSerialDataTypesWithoutADefaultValueEvenWhenDefaultIsSet	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testBooleanDefault	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testBooleanDefault
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testChangeIndexWithForeignKeys	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testColumnDefaultLifecycle	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCommentInTable	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testComparisonWithAutoDetectedSequenceDefinition	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateAndListSequences	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateAndListViews	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testCreateSequence	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDefaultSchemaName	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDefaultValueCharacterVarying	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testDefaultValueCharacterVarying
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDiffListTableColumns	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDoesNotListIndexesImplicitlyCreatedByForeignKeys	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropAndCreateIndex	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropAndCreateUniqueConstraint	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropColumnWithDefault	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testDropWithAutoincrement	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGenerateAnIndexWithPartialColumnLength	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGeneratedColumn	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGetNonExistingTable	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testGetSchemaNames	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testGetSchemaNames
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectDatabaseNames	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTableDetails	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTables	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testJsonDefaultValue	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testJsonDefaultValue
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testJsonbColumn	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testJsonbColumn
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListNegativeColumnDefaultValue	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSameTableNameColumnsWithDifferentSchema	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testListSameTableNameColumnsWithDifferentSchema
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSchemaNames	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListSequences	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumns	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumnsOidConflictWithNonTableObject	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableColumnsWithFixedStringColumn	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableDetailsWhenCurrentSchemaNameQuoted	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableDetailsWithFullQualifiedTableName	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableFloatTypeColumns	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableIndexes	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableWithBinary	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTableWithBlob	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTables	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesDoesNotIncludeViews	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesExcludesViews	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testListTablesExcludesViews
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testListTablesWithFilter	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testMigrateSchema	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPartialIndexes	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testPartialIndexes
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPartitionTable	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testPrimaryKeyAutoIncrement	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testQuotedIdentifiers	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testRenameIndexUsedInForeignKeyConstraint	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testRenameTable	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testReturnQuotedAssets	pending	needs a live PostgreSQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_postgresql_schema_manager_test.rs::testReturnQuotedAssets
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSchemaIntrospection	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSupportDomainTypeFallback	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testSwitchPrimaryKeyOrder	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testTableInNamespace	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testTableWithSchema	pending	needs a live PostgreSQL server; run on Daniel's computer
+tests/Functional/Schema/PostgreSQLSchemaManagerTest.php	PostgreSQLSchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	needs a live PostgreSQL server; run on Daniel's computer
 tests/Functional/Schema/SQLServerSchemaManagerTest.php	SQLServerSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	
 tests/Functional/Schema/SQLServerSchemaManagerTest.php	SQLServerSchemaManagerTest::testAlterTableScenario	pending	
 tests/Functional/Schema/SQLServerSchemaManagerTest.php	SQLServerSchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	

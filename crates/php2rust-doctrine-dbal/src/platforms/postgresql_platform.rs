@@ -43,10 +43,16 @@ pub const UNEXPECTED_VALUE_EXCEPTION: &str = "UnexpectedValueException";
 
 /// Provides the behavior, features and SQL dialect of the `PostgreSQL`
 /// database platform of the oldest supported version.
+///
+/// [`PostgreSQL120Platform`](super::PostgreSQL120Platform), PHP's
+/// subclass, is this type made with `PostgreSQL120Platform::new()`: its
+/// class name and its default value snippet are the 12.0 ones.
 #[derive(Debug)]
 pub struct PostgreSQLPlatform {
     state: PlatformState,
     use_boolean_true_false_strings: AtomicBool,
+    /// `$this instanceof PostgreSQL120Platform`.
+    version_120: bool,
 }
 
 impl Default for PostgreSQLPlatform {
@@ -54,6 +60,7 @@ impl Default for PostgreSQLPlatform {
         Self {
             state: PlatformState::default(),
             use_boolean_true_false_strings: AtomicBool::new(true),
+            version_120: false,
         }
     }
 }
@@ -78,6 +85,19 @@ impl PostgreSQLPlatform {
 
     pub fn new() -> Self {
         Self::default()
+    }
+
+    /// `new PostgreSQL120Platform()`.
+    pub(super) fn new_120() -> Self {
+        Self {
+            version_120: true,
+            ..Self::default()
+        }
+    }
+
+    /// `$this instanceof PostgreSQL120Platform`.
+    pub fn is_postgresql120(&self) -> bool {
+        self.version_120
     }
 
     /// `PostgreSQL` has different behavior with some drivers with regard to
@@ -162,6 +182,10 @@ impl PostgreSQLPlatform {
     /// `getDefaultColumnValueSQLSnippet()` (`@internal`, for the schema
     /// manager): the SQL that reads a column's default.
     pub fn get_default_column_value_sql_snippet(&self) -> String {
+        if self.version_120 {
+            return super::postgresql120_platform::DEFAULT_COLUMN_VALUE_SQL_SNIPPET.to_owned();
+        }
+
         [
             "     SELECT pg_get_expr(adbin, adrelid)",
             "     FROM pg_attrdef",
@@ -173,7 +197,18 @@ impl PostgreSQLPlatform {
 }
 
 impl AbstractPlatform for PostgreSQLPlatform {
+    /// `createSchemaManager($connection)`.
+    fn create_schema_manager<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> Result<crate::schema::SchemaManager<'c>, Exception> {
+        Ok(crate::schema::PostgreSQLSchemaManager::new(connection, self).into())
+    }
+
     fn class(&self) -> &str {
+        if self.version_120 {
+            return super::PostgreSQL120Platform::CLASS;
+        }
         Self::CLASS
     }
 
@@ -802,5 +837,17 @@ impl AbstractPlatform for PostgreSQLPlatform {
 
     fn get_jsonb_type_declaration_sql(&self, _column: &PhpArray) -> Result<PhpString, Exception> {
         Ok(PhpString::from("JSONB"))
+    }
+}
+
+// Slice SchemaManager.
+
+impl PostgreSQLPlatform {
+    /// `createMetadataProvider($connection)`.
+    pub fn create_metadata_provider<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> super::postgresql::PostgreSQLMetadataProvider<'c> {
+        super::postgresql::PostgreSQLMetadataProvider::new(connection, self)
     }
 }

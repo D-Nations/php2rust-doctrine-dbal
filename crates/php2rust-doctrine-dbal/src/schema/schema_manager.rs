@@ -16,6 +16,9 @@ use crate::Connection;
 use crate::exception::Exception;
 use crate::platforms::AbstractPlatform;
 use crate::platforms::mysql::{Comparator as MySQLComparator, MySQLMetadataProvider};
+use crate::platforms::postgresql::{
+    Comparator as PostgreSQLComparator, PostgreSQLMetadataProvider,
+};
 use crate::platforms::sqlite::{Comparator as SQLiteComparator, SQLiteMetadataProvider};
 
 use super::abstract_schema_manager::{AbstractSchemaManager, Row};
@@ -32,6 +35,7 @@ use super::metadata::{
 };
 use super::mysql_schema_manager::MySQLSchemaManager;
 use super::name::{OptionallyQualifiedName, UnqualifiedName};
+use super::postgresql_schema_manager::PostgreSQLSchemaManager;
 use super::primary_key_constraint::PrimaryKeyConstraint;
 use super::schema::Schema;
 use super::schema_config::SchemaConfig;
@@ -53,6 +57,8 @@ pub enum SchemaManager<'c> {
     SQLite(SQLiteSchemaManager<'c>),
     /// `MySQLSchemaManager`, for the `MySQL` and `MariaDB` platforms.
     MySQL(MySQLSchemaManager<'c>),
+    /// `PostgreSQLSchemaManager`.
+    PostgreSQL(PostgreSQLSchemaManager<'c>),
 }
 
 impl<'c> SchemaManager<'c> {
@@ -71,6 +77,7 @@ impl<'c> SchemaManager<'c> {
         Ok(match self {
             Self::SQLite(m) => SchemaComparator::SQLite(m.create_comparator_with(config)),
             Self::MySQL(m) => SchemaComparator::MySQL(m.create_comparator_with(config).await?),
+            Self::PostgreSQL(m) => SchemaComparator::PostgreSQL(m.create_comparator_with(config)),
         })
     }
 
@@ -79,6 +86,7 @@ impl<'c> SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.migrate_schema(new_schema).await,
             Self::MySQL(m) => m.migrate_schema(new_schema).await,
+            Self::PostgreSQL(m) => m.migrate_schema(new_schema).await,
         }
     }
 
@@ -86,7 +94,7 @@ impl<'c> SchemaManager<'c> {
     pub fn as_sqlite(&self) -> Option<&SQLiteSchemaManager<'c>> {
         match self {
             Self::SQLite(m) => Some(m),
-            Self::MySQL(_) => None,
+            Self::MySQL(_) | Self::PostgreSQL(_) => None,
         }
     }
 
@@ -94,7 +102,15 @@ impl<'c> SchemaManager<'c> {
     pub fn as_mysql(&self) -> Option<&MySQLSchemaManager<'c>> {
         match self {
             Self::MySQL(m) => Some(m),
-            Self::SQLite(_) => None,
+            Self::SQLite(_) | Self::PostgreSQL(_) => None,
+        }
+    }
+
+    /// The `PostgreSQL` manager, if it is one.
+    pub fn as_postgresql(&self) -> Option<&PostgreSQLSchemaManager<'c>> {
+        match self {
+            Self::PostgreSQL(m) => Some(m),
+            Self::SQLite(_) | Self::MySQL(_) => None,
         }
     }
 }
@@ -111,12 +127,19 @@ impl<'c> From<MySQLSchemaManager<'c>> for SchemaManager<'c> {
     }
 }
 
+impl<'c> From<PostgreSQLSchemaManager<'c>> for SchemaManager<'c> {
+    fn from(manager: PostgreSQLSchemaManager<'c>) -> Self {
+        Self::PostgreSQL(manager)
+    }
+}
+
 /// The comparator of a [`SchemaManager`]: it dereferences to the
 /// `Comparator` it customizes.
 #[derive(Debug)]
 pub enum SchemaComparator<'c> {
     SQLite(SQLiteComparator<'c>),
     MySQL(MySQLComparator<'c>),
+    PostgreSQL(PostgreSQLComparator<'c>),
 }
 
 impl<'c> Deref for SchemaComparator<'c> {
@@ -126,6 +149,7 @@ impl<'c> Deref for SchemaComparator<'c> {
         match self {
             Self::SQLite(c) => c,
             Self::MySQL(c) => c,
+            Self::PostgreSQL(c) => c,
         }
     }
 }
@@ -135,6 +159,7 @@ impl<'c> Deref for SchemaComparator<'c> {
 pub enum SchemaMetadataProvider<'c> {
     SQLite(SQLiteMetadataProvider<'c>),
     MySQL(MySQLMetadataProvider<'c>),
+    PostgreSQL(PostgreSQLMetadataProvider<'c>),
 }
 
 impl MetadataProvider for SchemaMetadataProvider<'_> {
@@ -142,6 +167,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_all_database_names().await,
             Self::MySQL(m) => m.get_all_database_names().await,
+            Self::PostgreSQL(m) => m.get_all_database_names().await,
         }
     }
 
@@ -149,6 +175,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_all_schema_names().await,
             Self::MySQL(m) => m.get_all_schema_names().await,
+            Self::PostgreSQL(m) => m.get_all_schema_names().await,
         }
     }
 
@@ -156,6 +183,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_all_table_names().await,
             Self::MySQL(m) => m.get_all_table_names().await,
+            Self::PostgreSQL(m) => m.get_all_table_names().await,
         }
     }
 
@@ -163,6 +191,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_table_columns_for_all_tables().await,
             Self::MySQL(m) => m.get_table_columns_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_table_columns_for_all_tables().await,
         }
     }
 
@@ -174,6 +203,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_table_columns_for_table(schema_name, table_name).await,
             Self::MySQL(m) => m.get_table_columns_for_table(schema_name, table_name).await,
+            Self::PostgreSQL(m) => m.get_table_columns_for_table(schema_name, table_name).await,
         }
     }
 
@@ -181,6 +211,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_index_columns_for_all_tables().await,
             Self::MySQL(m) => m.get_index_columns_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_index_columns_for_all_tables().await,
         }
     }
 
@@ -192,6 +223,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_index_columns_for_table(schema_name, table_name).await,
             Self::MySQL(m) => m.get_index_columns_for_table(schema_name, table_name).await,
+            Self::PostgreSQL(m) => m.get_index_columns_for_table(schema_name, table_name).await,
         }
     }
 
@@ -201,6 +233,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_primary_key_constraint_columns_for_all_tables().await,
             Self::MySQL(m) => m.get_primary_key_constraint_columns_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_primary_key_constraint_columns_for_all_tables().await,
         }
     }
 
@@ -218,6 +251,10 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
                 m.get_primary_key_constraint_columns_for_table(schema_name, table_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.get_primary_key_constraint_columns_for_table(schema_name, table_name)
+                    .await
+            }
         }
     }
 
@@ -227,6 +264,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_unique_constraint_columns_for_all_tables().await,
             Self::MySQL(m) => m.get_unique_constraint_columns_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_unique_constraint_columns_for_all_tables().await,
         }
     }
 
@@ -244,6 +282,10 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
                 m.get_unique_constraint_columns_for_table(schema_name, table_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.get_unique_constraint_columns_for_table(schema_name, table_name)
+                    .await
+            }
         }
     }
 
@@ -253,6 +295,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_foreign_key_constraint_columns_for_all_tables().await,
             Self::MySQL(m) => m.get_foreign_key_constraint_columns_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_foreign_key_constraint_columns_for_all_tables().await,
         }
     }
 
@@ -270,6 +313,10 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
                 m.get_foreign_key_constraint_columns_for_table(schema_name, table_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.get_foreign_key_constraint_columns_for_table(schema_name, table_name)
+                    .await
+            }
         }
     }
 
@@ -277,6 +324,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_table_options_for_all_tables().await,
             Self::MySQL(m) => m.get_table_options_for_all_tables().await,
+            Self::PostgreSQL(m) => m.get_table_options_for_all_tables().await,
         }
     }
 
@@ -288,6 +336,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_table_options_for_table(schema_name, table_name).await,
             Self::MySQL(m) => m.get_table_options_for_table(schema_name, table_name).await,
+            Self::PostgreSQL(m) => m.get_table_options_for_table(schema_name, table_name).await,
         }
     }
 
@@ -295,6 +344,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_all_views().await,
             Self::MySQL(m) => m.get_all_views().await,
+            Self::PostgreSQL(m) => m.get_all_views().await,
         }
     }
 
@@ -302,6 +352,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.get_all_sequences().await,
             Self::MySQL(m) => m.get_all_sequences().await,
+            Self::PostgreSQL(m) => m.get_all_sequences().await,
         }
     }
 
@@ -309,6 +360,7 @@ impl MetadataProvider for SchemaMetadataProvider<'_> {
         match self {
             Self::SQLite(m) => m.class(),
             Self::MySQL(m) => m.class(),
+            Self::PostgreSQL(m) => m.class(),
         }
     }
 }
@@ -320,6 +372,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.connection(),
             Self::MySQL(m) => m.connection(),
+            Self::PostgreSQL(m) => m.connection(),
         }
     }
 
@@ -327,6 +380,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.platform(),
             Self::MySQL(m) => m.platform(),
+            Self::PostgreSQL(m) => m.platform(),
         }
     }
 
@@ -334,6 +388,9 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         Ok(match self {
             Self::SQLite(m) => SchemaMetadataProvider::SQLite(m.create_metadata_provider().await?),
             Self::MySQL(m) => SchemaMetadataProvider::MySQL(m.create_metadata_provider().await?),
+            Self::PostgreSQL(m) => {
+                SchemaMetadataProvider::PostgreSQL(m.create_metadata_provider().await?)
+            }
         })
     }
 
@@ -341,6 +398,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.select_table_names(database_name).await,
             Self::MySQL(m) => m.select_table_names(database_name).await,
+            Self::PostgreSQL(m) => m.select_table_names(database_name).await,
         }
     }
 
@@ -352,6 +410,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.select_table_columns(database_name, table_name).await,
             Self::MySQL(m) => m.select_table_columns(database_name, table_name).await,
+            Self::PostgreSQL(m) => m.select_table_columns(database_name, table_name).await,
         }
     }
 
@@ -363,6 +422,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.select_index_columns(database_name, table_name).await,
             Self::MySQL(m) => m.select_index_columns(database_name, table_name).await,
+            Self::PostgreSQL(m) => m.select_index_columns(database_name, table_name).await,
         }
     }
 
@@ -377,6 +437,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.select_foreign_key_columns(database_name, table_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.select_foreign_key_columns(database_name, table_name)
                     .await
             }
@@ -397,6 +461,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.fetch_table_options_by_table(database_name, table_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.fetch_table_options_by_table(database_name, table_name)
+                    .await
+            }
         }
     }
 
@@ -404,6 +472,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_column_definition(table_column),
             Self::MySQL(m) => m.get_portable_table_column_definition(table_column),
+            Self::PostgreSQL(m) => m.get_portable_table_column_definition(table_column),
         }
     }
 
@@ -411,6 +480,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_definition(table),
             Self::MySQL(m) => m.get_portable_table_definition(table),
+            Self::PostgreSQL(m) => m.get_portable_table_definition(table),
         }
     }
 
@@ -418,6 +488,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_view_definition(view),
             Self::MySQL(m) => m.get_portable_view_definition(view),
+            Self::PostgreSQL(m) => m.get_portable_view_definition(view),
         }
     }
 
@@ -428,6 +499,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_foreign_key_definition(table_foreign_key),
             Self::MySQL(m) => m.get_portable_table_foreign_key_definition(table_foreign_key),
+            Self::PostgreSQL(m) => m.get_portable_table_foreign_key_definition(table_foreign_key),
         }
     }
 
@@ -435,6 +507,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_databases().await,
             Self::MySQL(m) => m.list_databases().await,
+            Self::PostgreSQL(m) => m.list_databases().await,
         }
     }
 
@@ -442,6 +515,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_schema_names().await,
             Self::MySQL(m) => m.list_schema_names().await,
+            Self::PostgreSQL(m) => m.list_schema_names().await,
         }
     }
 
@@ -449,6 +523,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_sequences().await,
             Self::MySQL(m) => m.list_sequences().await,
+            Self::PostgreSQL(m) => m.list_sequences().await,
         }
     }
 
@@ -456,6 +531,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_table_columns(table).await,
             Self::MySQL(m) => m.list_table_columns(table).await,
+            Self::PostgreSQL(m) => m.list_table_columns(table).await,
         }
     }
 
@@ -463,6 +539,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_table_indexes(table).await,
             Self::MySQL(m) => m.list_table_indexes(table).await,
+            Self::PostgreSQL(m) => m.list_table_indexes(table).await,
         }
     }
 
@@ -470,6 +547,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.tables_exist(names).await,
             Self::MySQL(m) => m.tables_exist(names).await,
+            Self::PostgreSQL(m) => m.tables_exist(names).await,
         }
     }
 
@@ -477,6 +555,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.table_exists(table_name).await,
             Self::MySQL(m) => m.table_exists(table_name).await,
+            Self::PostgreSQL(m) => m.table_exists(table_name).await,
         }
     }
 
@@ -484,6 +563,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_table_names().await,
             Self::MySQL(m) => m.list_table_names().await,
+            Self::PostgreSQL(m) => m.list_table_names().await,
         }
     }
 
@@ -491,6 +571,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_tables().await,
             Self::MySQL(m) => m.list_tables().await,
+            Self::PostgreSQL(m) => m.list_tables().await,
         }
     }
 
@@ -498,6 +579,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_current_schema_name().await,
             Self::MySQL(m) => m.get_current_schema_name().await,
+            Self::PostgreSQL(m) => m.get_current_schema_name().await,
         }
     }
 
@@ -505,6 +587,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.determine_current_schema_name().await,
             Self::MySQL(m) => m.determine_current_schema_name().await,
+            Self::PostgreSQL(m) => m.determine_current_schema_name().await,
         }
     }
 
@@ -512,6 +595,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.normalize_name(name),
             Self::MySQL(m) => m.normalize_name(name),
+            Self::PostgreSQL(m) => m.normalize_name(name),
         }
     }
 
@@ -519,6 +603,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.validate_table_name(input, method_name),
             Self::MySQL(m) => m.validate_table_name(input, method_name),
+            Self::PostgreSQL(m) => m.validate_table_name(input, method_name),
         }
     }
 
@@ -530,6 +615,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_table_columns(database_name, table_name).await,
             Self::MySQL(m) => m.fetch_table_columns(database_name, table_name).await,
+            Self::PostgreSQL(m) => m.fetch_table_columns(database_name, table_name).await,
         }
     }
 
@@ -541,6 +627,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_index_columns(database_name, table_name).await,
             Self::MySQL(m) => m.fetch_index_columns(database_name, table_name).await,
+            Self::PostgreSQL(m) => m.fetch_index_columns(database_name, table_name).await,
         }
     }
 
@@ -552,6 +639,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_foreign_key_columns(database_name, table_name).await,
             Self::MySQL(m) => m.fetch_foreign_key_columns(database_name, table_name).await,
+            Self::PostgreSQL(m) => m.fetch_foreign_key_columns(database_name, table_name).await,
         }
     }
 
@@ -559,6 +647,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_table_columns_by_table(database_name).await,
             Self::MySQL(m) => m.fetch_table_columns_by_table(database_name).await,
+            Self::PostgreSQL(m) => m.fetch_table_columns_by_table(database_name).await,
         }
     }
 
@@ -566,6 +655,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_index_columns_by_table(database_name).await,
             Self::MySQL(m) => m.fetch_index_columns_by_table(database_name).await,
+            Self::PostgreSQL(m) => m.fetch_index_columns_by_table(database_name).await,
         }
     }
 
@@ -576,6 +666,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.fetch_foreign_key_columns_by_table(database_name).await,
             Self::MySQL(m) => m.fetch_foreign_key_columns_by_table(database_name).await,
+            Self::PostgreSQL(m) => m.fetch_foreign_key_columns_by_table(database_name).await,
         }
     }
 
@@ -583,6 +674,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table(name).await,
             Self::MySQL(m) => m.introspect_table(name).await,
+            Self::PostgreSQL(m) => m.introspect_table(name).await,
         }
     }
 
@@ -590,6 +682,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_views().await,
             Self::MySQL(m) => m.list_views().await,
+            Self::PostgreSQL(m) => m.list_views().await,
         }
     }
 
@@ -597,6 +690,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.list_table_foreign_keys(table).await,
             Self::MySQL(m) => m.list_table_foreign_keys(table).await,
+            Self::PostgreSQL(m) => m.list_table_foreign_keys(table).await,
         }
     }
 
@@ -604,6 +698,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_table_options(name).await,
             Self::MySQL(m) => m.get_table_options(name).await,
+            Self::PostgreSQL(m) => m.get_table_options(name).await,
         }
     }
 
@@ -611,6 +706,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_database_names().await,
             Self::MySQL(m) => m.introspect_database_names().await,
+            Self::PostgreSQL(m) => m.introspect_database_names().await,
         }
     }
 
@@ -618,6 +714,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_schema_names().await,
             Self::MySQL(m) => m.introspect_schema_names().await,
+            Self::PostgreSQL(m) => m.introspect_schema_names().await,
         }
     }
 
@@ -625,6 +722,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_names().await,
             Self::MySQL(m) => m.introspect_table_names().await,
+            Self::PostgreSQL(m) => m.introspect_table_names().await,
         }
     }
 
@@ -632,6 +730,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_tables().await,
             Self::MySQL(m) => m.introspect_tables().await,
+            Self::PostgreSQL(m) => m.introspect_tables().await,
         }
     }
 
@@ -639,6 +738,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table0(table_name).await,
             Self::MySQL(m) => m.introspect_table0(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table0(table_name).await,
         }
     }
 
@@ -653,6 +753,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.introspect_table_by_unquoted_name(table_name, schema_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.introspect_table_by_unquoted_name(table_name, schema_name)
                     .await
             }
@@ -673,6 +777,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.introspect_table_by_quoted_name(table_name, schema_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.introspect_table_by_quoted_name(table_name, schema_name)
+                    .await
+            }
         }
     }
 
@@ -683,6 +791,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_columns(table_name).await,
             Self::MySQL(m) => m.introspect_table_columns(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_columns(table_name).await,
         }
     }
 
@@ -697,6 +806,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.introspect_table_columns_by_unquoted_name(table_name, schema_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.introspect_table_columns_by_unquoted_name(table_name, schema_name)
                     .await
             }
@@ -717,6 +830,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.introspect_table_columns_by_quoted_name(table_name, schema_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.introspect_table_columns_by_quoted_name(table_name, schema_name)
+                    .await
+            }
         }
     }
 
@@ -727,6 +844,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_indexes(table_name).await,
             Self::MySQL(m) => m.introspect_table_indexes(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_indexes(table_name).await,
         }
     }
 
@@ -741,6 +859,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.introspect_table_indexes_by_unquoted_name(table_name, schema_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.introspect_table_indexes_by_unquoted_name(table_name, schema_name)
                     .await
             }
@@ -761,6 +883,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.introspect_table_indexes_by_quoted_name(table_name, schema_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.introspect_table_indexes_by_quoted_name(table_name, schema_name)
+                    .await
+            }
         }
     }
 
@@ -771,6 +897,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_primary_key_constraint(table_name).await,
             Self::MySQL(m) => m.introspect_table_primary_key_constraint(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_primary_key_constraint(table_name).await,
         }
     }
 
@@ -781,6 +908,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_unique_constraints(table_name).await,
             Self::MySQL(m) => m.introspect_table_unique_constraints(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_unique_constraints(table_name).await,
         }
     }
 
@@ -795,6 +923,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.introspect_table_unique_constraints_by_unquoted_name(table_name, schema_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.introspect_table_unique_constraints_by_unquoted_name(table_name, schema_name)
                     .await
             }
@@ -815,6 +947,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.introspect_table_unique_constraints_by_quoted_name(table_name, schema_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.introspect_table_unique_constraints_by_quoted_name(table_name, schema_name)
+                    .await
+            }
         }
     }
 
@@ -825,6 +961,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_foreign_key_constraints(table_name).await,
             Self::MySQL(m) => m.introspect_table_foreign_key_constraints(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_foreign_key_constraints(table_name).await,
         }
     }
 
@@ -839,6 +976,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                     .await
             }
             Self::MySQL(m) => {
+                m.introspect_table_foreign_key_constraints_by_unquoted_name(table_name, schema_name)
+                    .await
+            }
+            Self::PostgreSQL(m) => {
                 m.introspect_table_foreign_key_constraints_by_unquoted_name(table_name, schema_name)
                     .await
             }
@@ -859,6 +1000,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.introspect_table_foreign_key_constraints_by_quoted_name(table_name, schema_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.introspect_table_foreign_key_constraints_by_quoted_name(table_name, schema_name)
+                    .await
+            }
         }
     }
 
@@ -869,6 +1014,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspected_names(table_name).await,
             Self::MySQL(m) => m.introspected_names(table_name).await,
+            Self::PostgreSQL(m) => m.introspected_names(table_name).await,
         }
     }
 
@@ -879,6 +1025,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_table_options(table_name).await,
             Self::MySQL(m) => m.introspect_table_options(table_name).await,
+            Self::PostgreSQL(m) => m.introspect_table_options(table_name).await,
         }
     }
 
@@ -886,6 +1033,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_views().await,
             Self::MySQL(m) => m.introspect_views().await,
+            Self::PostgreSQL(m) => m.introspect_views().await,
         }
     }
 
@@ -893,6 +1041,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_sequences().await,
             Self::MySQL(m) => m.introspect_sequences().await,
+            Self::PostgreSQL(m) => m.introspect_sequences().await,
         }
     }
 
@@ -900,6 +1049,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_database(database).await,
             Self::MySQL(m) => m.drop_database(database).await,
+            Self::PostgreSQL(m) => m.drop_database(database).await,
         }
     }
 
@@ -907,6 +1057,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_schema(schema_name).await,
             Self::MySQL(m) => m.drop_schema(schema_name).await,
+            Self::PostgreSQL(m) => m.drop_schema(schema_name).await,
         }
     }
 
@@ -914,6 +1065,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_table(name).await,
             Self::MySQL(m) => m.drop_table(name).await,
+            Self::PostgreSQL(m) => m.drop_table(name).await,
         }
     }
 
@@ -921,6 +1073,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_index(index, table).await,
             Self::MySQL(m) => m.drop_index(index, table).await,
+            Self::PostgreSQL(m) => m.drop_index(index, table).await,
         }
     }
 
@@ -928,6 +1081,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_foreign_key(name, table).await,
             Self::MySQL(m) => m.drop_foreign_key(name, table).await,
+            Self::PostgreSQL(m) => m.drop_foreign_key(name, table).await,
         }
     }
 
@@ -935,6 +1089,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_sequence(name).await,
             Self::MySQL(m) => m.drop_sequence(name).await,
+            Self::PostgreSQL(m) => m.drop_sequence(name).await,
         }
     }
 
@@ -942,6 +1097,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_unique_constraint(name, table_name).await,
             Self::MySQL(m) => m.drop_unique_constraint(name, table_name).await,
+            Self::PostgreSQL(m) => m.drop_unique_constraint(name, table_name).await,
         }
     }
 
@@ -949,6 +1105,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_view(name).await,
             Self::MySQL(m) => m.drop_view(name).await,
+            Self::PostgreSQL(m) => m.drop_view(name).await,
         }
     }
 
@@ -956,6 +1113,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_schema_objects(schema).await,
             Self::MySQL(m) => m.create_schema_objects(schema).await,
+            Self::PostgreSQL(m) => m.create_schema_objects(schema).await,
         }
     }
 
@@ -963,6 +1121,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_database(database).await,
             Self::MySQL(m) => m.create_database(database).await,
+            Self::PostgreSQL(m) => m.create_database(database).await,
         }
     }
 
@@ -970,6 +1129,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_table(table).await,
             Self::MySQL(m) => m.create_table(table).await,
+            Self::PostgreSQL(m) => m.create_table(table).await,
         }
     }
 
@@ -977,6 +1137,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_sequence(sequence).await,
             Self::MySQL(m) => m.create_sequence(sequence).await,
+            Self::PostgreSQL(m) => m.create_sequence(sequence).await,
         }
     }
 
@@ -984,6 +1145,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_index(index, table).await,
             Self::MySQL(m) => m.create_index(index, table).await,
+            Self::PostgreSQL(m) => m.create_index(index, table).await,
         }
     }
 
@@ -991,6 +1153,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_foreign_key(foreign_key, table).await,
             Self::MySQL(m) => m.create_foreign_key(foreign_key, table).await,
+            Self::PostgreSQL(m) => m.create_foreign_key(foreign_key, table).await,
         }
     }
 
@@ -1008,6 +1171,10 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
                 m.create_unique_constraint(unique_constraint, table_name)
                     .await
             }
+            Self::PostgreSQL(m) => {
+                m.create_unique_constraint(unique_constraint, table_name)
+                    .await
+            }
         }
     }
 
@@ -1015,6 +1182,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_view(view).await,
             Self::MySQL(m) => m.create_view(view).await,
+            Self::PostgreSQL(m) => m.create_view(view).await,
         }
     }
 
@@ -1022,6 +1190,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.drop_schema_objects(schema).await,
             Self::MySQL(m) => m.drop_schema_objects(schema).await,
+            Self::PostgreSQL(m) => m.drop_schema_objects(schema).await,
         }
     }
 
@@ -1029,6 +1198,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.alter_schema(schema_diff).await,
             Self::MySQL(m) => m.alter_schema(schema_diff).await,
+            Self::PostgreSQL(m) => m.alter_schema(schema_diff).await,
         }
     }
 
@@ -1036,6 +1206,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.alter_table(table_diff).await,
             Self::MySQL(m) => m.alter_table(table_diff).await,
+            Self::PostgreSQL(m) => m.alter_table(table_diff).await,
         }
     }
 
@@ -1043,6 +1214,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.rename_table(name, new_name).await,
             Self::MySQL(m) => m.rename_table(name, new_name).await,
+            Self::PostgreSQL(m) => m.rename_table(name, new_name).await,
         }
     }
 
@@ -1050,6 +1222,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_database_definition(database),
             Self::MySQL(m) => m.get_portable_database_definition(database),
+            Self::PostgreSQL(m) => m.get_portable_database_definition(database),
         }
     }
 
@@ -1057,6 +1230,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_sequence_definition(sequence),
             Self::MySQL(m) => m.get_portable_sequence_definition(sequence),
+            Self::PostgreSQL(m) => m.get_portable_sequence_definition(sequence),
         }
     }
 
@@ -1069,6 +1243,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_column_list(table, database, rows),
             Self::MySQL(m) => m.get_portable_table_column_list(table, database, rows),
+            Self::PostgreSQL(m) => m.get_portable_table_column_list(table, database, rows),
         }
     }
 
@@ -1080,6 +1255,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_indexes_list(rows, table_name),
             Self::MySQL(m) => m.get_portable_table_indexes_list(rows, table_name),
+            Self::PostgreSQL(m) => m.get_portable_table_indexes_list(rows, table_name),
         }
     }
 
@@ -1090,6 +1266,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_portable_table_foreign_keys_list(rows).await,
             Self::MySQL(m) => m.get_portable_table_foreign_keys_list(rows).await,
+            Self::PostgreSQL(m) => m.get_portable_table_foreign_keys_list(rows).await,
         }
     }
 
@@ -1097,6 +1274,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.execute_statements(sql).await,
             Self::MySQL(m) => m.execute_statements(sql).await,
+            Self::PostgreSQL(m) => m.execute_statements(sql).await,
         }
     }
 
@@ -1104,6 +1282,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.execute_statement(sql).await,
             Self::MySQL(m) => m.execute_statement(sql).await,
+            Self::PostgreSQL(m) => m.execute_statement(sql).await,
         }
     }
 
@@ -1111,6 +1290,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.introspect_schema().await,
             Self::MySQL(m) => m.introspect_schema().await,
+            Self::PostgreSQL(m) => m.introspect_schema().await,
         }
     }
 
@@ -1118,6 +1298,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.create_schema_config().await,
             Self::MySQL(m) => m.create_schema_config().await,
+            Self::PostgreSQL(m) => m.create_schema_config().await,
         }
     }
 
@@ -1125,6 +1306,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.get_database(method_name).await,
             Self::MySQL(m) => m.get_database(method_name).await,
+            Self::PostgreSQL(m) => m.get_database(method_name).await,
         }
     }
 
@@ -1132,6 +1314,7 @@ impl<'c> AbstractSchemaManager<'c> for SchemaManager<'c> {
         match self {
             Self::SQLite(m) => m.group_by_table(rows),
             Self::MySQL(m) => m.group_by_table(rows),
+            Self::PostgreSQL(m) => m.group_by_table(rows),
         }
     }
 }

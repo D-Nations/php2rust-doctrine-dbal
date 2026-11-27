@@ -15,6 +15,11 @@ sha1 = "0.10"
 sha2 = "0.10"
 futures-core = { version = "0.3.34", optional = true }
 symfony-console = { workspace = true, optional = true }
+# The pdo_pgsql driver: the PostgreSQL frontend/backend protocol messages
+# and SCRAM-SHA-256 (the libpq calls are ported on them).
+postgres-protocol = { version = "0.6.12", optional = true }
+bytes = { version = "1.11", optional = true }
+fallible-iterator = { version = "0.2", optional = true }
 
 [features]
 # The `Tools\Console` commands, on symfony-console (upstream suggests
@@ -23,6 +28,15 @@ console = ["dep:symfony-console", "tokio/rt", "tokio/rt-multi-thread"]
 # The pdo_mysql driver (sqlx's MySQL client; RSA for caching_sha2_password
 # without TLS, the default of MySQL 8.4).
 pdo_mysql = ["sqlx/mysql-rsa", "dep:futures-core"]
+# The pdo_pgsql driver (Driver\PDO\PgSQL\Driver) over TCP or a Unix socket.
+pdo_pgsql = [
+    "dep:postgres-protocol",
+    "dep:bytes",
+    "dep:fallible-iterator",
+    "tokio/net",
+    "tokio/io-util",
+    "tokio/time",
+]
 
 [dev-dependencies]
 php-value = { workspace = true, features = ["vectors"] }

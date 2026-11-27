@@ -40,6 +40,7 @@ mod mysql80_platform;
 mod mysql84_platform;
 mod mysql_platform;
 mod oracle_platform;
+mod postgresql120_platform;
 mod postgresql_platform;
 mod sqlserver_platform;
 
@@ -65,4 +66,5 @@ pub use mysql80_platform::MySQL80Platform;
 pub use mysql84_platform::MySQL84Platform;
 pub use oracle_platform::OraclePlatform;
 pub use postgresql_platform::PostgreSQLPlatform;
+pub use postgresql120_platform::PostgreSQL120Platform;
 pub use sqlserver_platform::SQLServerPlatform;
