@@ -1,7 +1,9 @@
 //! Port of tests/Platforms/AbstractMySQLPlatformTestCase.php and
 //! tests/Platforms/MySQLPlatformTest.php at doctrine/dbal
 //! c435cd7ea33e17d2a89288caf994cf3d4549b879, for `MySQLPlatformTest` and
-//! the test that extends it (`MySQL84PlatformTest`).
+//! the test that extends it (`MySQL84PlatformTest`), and for
+//! `MariaDBPlatformTest` and its subclasses, which extend
+//! `AbstractMySQLPlatformTestCase`.
 //!
 //! A concrete test case implements [`MySQLPlatformTestCase`] (its
 //! `createPlatform()`); the expectations of both abstract classes are the
@@ -40,7 +42,75 @@ pub trait MySQLPlatformTestCase {
 
     /// `createPlatform()`.
     fn create_platform() -> Self::Platform;
+
+    /// The expected SQL of the index renaming tests:
+    /// `AbstractMySQLPlatformTestCase`'s unless the test class overrides
+    /// them (`MySQLPlatformTest`, `MariaDB1052PlatformTest`:
+    /// [`RENAME_INDEX_IN_PLACE`]).
+    const RENAME_INDEX_SQL: &'static RenameIndexSql = &DROP_AND_CREATE_INDEX;
 }
+
+/// `getAlterTableRenameIndexSQL()`, `getQuotedAlterTableRenameIndexSQL()`,
+/// `getAlterTableRenameIndexInSchemaSQL()`,
+/// `getQuotedAlterTableRenameIndexInSchemaSQL()` and
+/// `getGeneratesAlterTableRenameIndexUsedByForeignKeySQL()`.
+pub struct RenameIndexSql {
+    pub alter_table_rename_index: &'static [&'static str],
+    pub quoted_alter_table_rename_index: &'static [&'static str],
+    pub alter_table_rename_index_in_schema: &'static [&'static str],
+    pub quoted_alter_table_rename_index_in_schema: &'static [&'static str],
+    pub generates_alter_table_rename_index_used_by_foreign_key: &'static [&'static str],
+}
+
+/// `AbstractMySQLPlatformTestCase`'s: the index is dropped and created.
+pub const DROP_AND_CREATE_INDEX: RenameIndexSql = RenameIndexSql {
+    alter_table_rename_index: &[
+        "DROP INDEX idx_foo ON mytable",
+        "CREATE INDEX idx_bar ON mytable (id)",
+    ],
+    quoted_alter_table_rename_index: &[
+        "DROP INDEX `create` ON `table`",
+        "CREATE INDEX `select` ON `table` (id)",
+        "DROP INDEX `foo` ON `table`",
+        "CREATE INDEX `bar` ON `table` (id)",
+    ],
+    alter_table_rename_index_in_schema: &[
+        "DROP INDEX idx_foo ON myschema.mytable",
+        "CREATE INDEX idx_bar ON myschema.mytable (id)",
+    ],
+    quoted_alter_table_rename_index_in_schema: &[
+        "DROP INDEX `create` ON `schema`.`table`",
+        "CREATE INDEX `select` ON `schema`.`table` (id)",
+        "DROP INDEX `foo` ON `schema`.`table`",
+        "CREATE INDEX `bar` ON `schema`.`table` (id)",
+    ],
+    generates_alter_table_rename_index_used_by_foreign_key: &[
+        "ALTER TABLE mytable DROP FOREIGN KEY fk_foo",
+        "DROP INDEX idx_foo ON mytable",
+        "CREATE INDEX idx_foo_renamed ON mytable (foo)",
+        "ALTER TABLE mytable ADD CONSTRAINT fk_foo FOREIGN KEY (foo) REFERENCES foreign_table (id)",
+    ],
+};
+
+/// `MySQLPlatformTest`'s and `MariaDB1052PlatformTest`'s overrides:
+/// `RENAME INDEX`.
+pub const RENAME_INDEX_IN_PLACE: RenameIndexSql = RenameIndexSql {
+    alter_table_rename_index: &["ALTER TABLE mytable RENAME INDEX idx_foo TO idx_bar"],
+    quoted_alter_table_rename_index: &[
+        "ALTER TABLE `table` RENAME INDEX `create` TO `select`",
+        "ALTER TABLE `table` RENAME INDEX `foo` TO `bar`",
+    ],
+    alter_table_rename_index_in_schema: &[
+        "ALTER TABLE myschema.mytable RENAME INDEX idx_foo TO idx_bar",
+    ],
+    quoted_alter_table_rename_index_in_schema: &[
+        "ALTER TABLE `schema`.`table` RENAME INDEX `create` TO `select`",
+        "ALTER TABLE `schema`.`table` RENAME INDEX `foo` TO `bar`",
+    ],
+    generates_alter_table_rename_index_used_by_foreign_key: &[
+        "ALTER TABLE mytable RENAME INDEX idx_foo TO idx_foo_renamed",
+    ],
+};
 
 impl<C: MySQLPlatformTestCase> AbstractPlatformTestCase for C {
     type Platform = C::Platform;
@@ -113,28 +183,20 @@ impl<C: MySQLPlatformTestCase> AbstractPlatformTestCase for C {
         "INDEX `select` (foo)"
     }
 
-    // MySQLPlatformTest's overrides of AbstractMySQLPlatformTestCase's.
-
     fn get_alter_table_rename_index_sql() -> &'static [&'static str] {
-        &["ALTER TABLE mytable RENAME INDEX idx_foo TO idx_bar"]
+        C::RENAME_INDEX_SQL.alter_table_rename_index
     }
 
     fn get_quoted_alter_table_rename_index_sql() -> &'static [&'static str] {
-        &[
-            "ALTER TABLE `table` RENAME INDEX `create` TO `select`",
-            "ALTER TABLE `table` RENAME INDEX `foo` TO `bar`",
-        ]
+        C::RENAME_INDEX_SQL.quoted_alter_table_rename_index
     }
 
     fn get_alter_table_rename_index_in_schema_sql() -> &'static [&'static str] {
-        &["ALTER TABLE myschema.mytable RENAME INDEX idx_foo TO idx_bar"]
+        C::RENAME_INDEX_SQL.alter_table_rename_index_in_schema
     }
 
     fn get_quoted_alter_table_rename_index_in_schema_sql() -> &'static [&'static str] {
-        &[
-            "ALTER TABLE `schema`.`table` RENAME INDEX `create` TO `select`",
-            "ALTER TABLE `schema`.`table` RENAME INDEX `foo` TO `bar`",
-        ]
+        C::RENAME_INDEX_SQL.quoted_alter_table_rename_index_in_schema
     }
 
     fn get_comment_on_column_sql() -> &'static [&'static str] {
@@ -150,7 +212,7 @@ impl<C: MySQLPlatformTestCase> AbstractPlatformTestCase for C {
     }
 
     fn get_generates_alter_table_rename_index_used_by_foreign_key_sql() -> &'static [&'static str] {
-        &["ALTER TABLE mytable RENAME INDEX idx_foo TO idx_foo_renamed"]
+        C::RENAME_INDEX_SQL.generates_alter_table_rename_index_used_by_foreign_key
     }
 }
 

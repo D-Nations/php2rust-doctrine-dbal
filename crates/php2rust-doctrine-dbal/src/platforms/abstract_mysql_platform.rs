@@ -443,7 +443,7 @@ fn pre_alter_table_index_foreign_key_sql<P: AbstractPlatform + ?Sized>(
     sql.extend(parent::get_pre_alter_table_index_foreign_key_sql(
         this, diff,
     )?);
-    // getPreAlterTableRenameIndexForeignKeySQL(): no statements.
+    sql.extend(this.get_pre_alter_table_rename_index_foreign_key_sql(diff)?);
     Ok(sql)
 }
 
