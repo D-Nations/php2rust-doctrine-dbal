@@ -6,6 +6,9 @@
 # Fails when:
 #   - a status is not `pending`, `ported` or `n/a: <reason>`;
 #   - a `ported` row does not name an existing Rust test (<file>::<fn>);
+#   - a `pending` row names, after its reason, a Rust test that is written
+#     but not run here (a test that needs a live server) and that does not
+#     exist;
 #   - a package listed in parity/done.txt still has `pending` rows;
 #   - a Rust test file that ports upstream tests (an `//! Upstream:` line
 #     naming a Tests/ or tests/ path) has a #[test] fn named test* that no
@@ -28,10 +31,21 @@ for manifest in parity/*/**/*.tsv; do
     [[ "$manifest" == parity/classes/* ]] && continue # scripts/classes.py checks these
     package=${manifest#parity/}
     package=${package%.tsv}
-    while IFS=$'\t' read -r file test state rust; do
+    while IFS=$'\t' read -r file test state rust written; do
         [[ -z "$file" || "$file" == \#* ]] && continue
         case "$state" in
-            pending) ;;
+            pending)
+                if [[ -n "$written" ]]; then
+                    wfile=${written%%::*}
+                    wfn=${written##*::}
+                    if [[ "$wfile" == "$written" || ! -f "$wfile" ]] \
+                        || ! grep -Eq "fn ${wfn}[[:space:]]*(<|\()" "$wfile"; then
+                        echo "$manifest: $test names $written, which does not exist" >&2; status=1
+                    else
+                        printf '%s\n' "$written" >> "$claims"
+                    fi
+                fi
+                ;;
             "n/a: "?*) ;;
             ported)
                 rfile=${rust%%::*}

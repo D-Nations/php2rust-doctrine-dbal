@@ -12,7 +12,7 @@ use php2rust_doctrine_dbal::platforms::AbstractPlatform;
 use php2rust_doctrine_dbal::schema::name::{OptionallyQualifiedName, UnqualifiedName};
 use php2rust_doctrine_dbal::schema::{
     AbstractSchemaManager, Column, ColumnEditor, ForeignKeyConstraint, Index, IndexedColumn,
-    PrimaryKeyConstraint, SQLiteSchemaManager, Table,
+    PrimaryKeyConstraint, SchemaManager, Table,
 };
 use php2rust_doctrine_dbal::types::Types;
 use php2rust_doctrine_dbal::{Configuration, Connection, DriverManager, Exception, ParameterTypes};
@@ -32,7 +32,7 @@ pub fn sqlite() -> Connection {
 }
 
 /// `$this->connection->createSchemaManager()`.
-pub async fn schema_manager(connection: &Connection) -> SQLiteSchemaManager<'_> {
+pub async fn schema_manager(connection: &Connection) -> SchemaManager<'_> {
     connection.create_schema_manager().await.unwrap()
 }
 
@@ -118,7 +118,7 @@ pub fn foreign_key(
 
 /// `getTestTable($unquotedName, $options)`.
 pub async fn get_test_table(
-    schema_manager: &SQLiteSchemaManager<'_>,
+    schema_manager: &SchemaManager<'_>,
     name: &str,
     options: PhpArray,
 ) -> Table {
@@ -156,10 +156,7 @@ pub async fn create_test_table(connection: &Connection, name: &str) -> Table {
 }
 
 /// `getTestCompositeTable($unquotedName)`.
-pub async fn get_test_composite_table(
-    schema_manager: &SQLiteSchemaManager<'_>,
-    name: &str,
-) -> Table {
+pub async fn get_test_composite_table(schema_manager: &SchemaManager<'_>, name: &str) -> Table {
     Table::editor()
         .set_unquoted_name(name, None)
         .set_columns(vec![

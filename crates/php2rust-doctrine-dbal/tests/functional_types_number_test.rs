@@ -89,6 +89,8 @@ async fn testCompareNumberTable() {
     assert!(
         schema_manager
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(
                 &schema_manager
                     .introspect_table_by_unquoted_name("number_table", None)

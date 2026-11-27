@@ -70,6 +70,8 @@ async fn testDefaultValueComparison() {
         assert!(
             schema_manager
                 .create_comparator()
+                .await
+                .unwrap()
                 .compare_tables(&online_table, &table)
                 .unwrap()
                 .is_empty(),
@@ -99,7 +101,7 @@ async fn testFloatDefaultValueComparisonConverges() {
 
         drop_and_create_table(&connection, &table).await;
 
-        let comparator = schema_manager.create_comparator();
+        let comparator = schema_manager.create_comparator().await.unwrap();
 
         assert!(
             diff_from_actual_to_desired_table(&schema_manager, &comparator, &table)

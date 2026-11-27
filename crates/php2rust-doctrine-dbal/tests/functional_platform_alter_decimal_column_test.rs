@@ -67,6 +67,8 @@ async fn testAlterPrecisionAndScale() {
 
         let diff = schema_manager
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(
                 &schema_manager
                     .introspect_table_by_unquoted_name("decimal_table", None)

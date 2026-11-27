@@ -253,6 +253,12 @@ impl Connection {
         Ok(self.platform.get_or_init(|| platform).as_ref())
     }
 
+    /// `getNativeConnection()`: the driver's own connection object (PHP's
+    /// `PDO`, for example), after connecting.
+    pub async fn get_native_connection(&self) -> StdResult<crate::driver::NativeConnection> {
+        Ok(self.connect().await?.get_native_connection())
+    }
+
     /// Establishes the connection with the database and returns the
     /// underlying connection. PHP's is protected; here it is how a caller
     /// opens the connection before the synchronous `quote()` of the query
@@ -1203,7 +1209,7 @@ impl Connection {
 impl Connection {
     /// Creates a `SchemaManager` that can be used to inspect or change the
     /// database schema through the connection.
-    pub async fn create_schema_manager(&self) -> StdResult<crate::schema::SQLiteSchemaManager<'_>> {
+    pub async fn create_schema_manager(&self) -> StdResult<crate::schema::SchemaManager<'_>> {
         use crate::schema::SchemaManagerFactory as _;
 
         crate::schema::DefaultSchemaManagerFactory

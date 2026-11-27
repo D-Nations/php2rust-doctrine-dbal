@@ -63,6 +63,8 @@ async fn testAddColumnWithDefault() {
 
     let diff = schema_manager
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(
             &schema_manager
                 .introspect_table_by_unquoted_name("add_default_test", None)
@@ -118,6 +120,8 @@ async fn testAddColumnWithCurrentTimestampDefaultToPopulatedTable() {
 
         let diff = schema_manager
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(
                 &schema_manager
                     .introspect_table_by_unquoted_name("add_default_test", None)

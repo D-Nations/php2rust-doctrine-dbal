@@ -102,6 +102,8 @@ async fn testColumnPositionRetainedAfterImplicitRenaming() {
         let sm = schema_manager(&connection).await;
         let diff = sm
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(
                 &sm.introspect_table_by_unquoted_name("test_rename", None)
                     .await
@@ -153,6 +155,8 @@ async fn testColumnPositionRetainedAfterExplicitRenaming() {
         let sm = schema_manager(&connection).await;
         let diff = sm
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(
                 &sm.introspect_table_by_unquoted_name("test_rename", None)
                     .await
@@ -202,7 +206,7 @@ async fn testRenameColumToQuoted() {
         .unwrap();
 
     let schema_manager = schema_manager(&connection).await;
-    let comparator = schema_manager.create_comparator();
+    let comparator = schema_manager.create_comparator().await.unwrap();
 
     let diff = comparator
         .compare_tables(

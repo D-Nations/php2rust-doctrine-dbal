@@ -29,7 +29,7 @@ async fn testJsonbColumnIntrospection() {
     drop_and_create_table(&connection, &table).await;
 
     let schema_manager = schema_manager(&connection).await;
-    let comparator = schema_manager.create_comparator();
+    let comparator = schema_manager.create_comparator().await.unwrap();
 
     assert!(
         diff_from_actual_to_desired_table(&schema_manager, &comparator, &table)

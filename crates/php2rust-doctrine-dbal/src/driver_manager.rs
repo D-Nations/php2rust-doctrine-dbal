@@ -4,7 +4,8 @@
 //! PHP instantiates the class names it is given. Here a driver class is a
 //! [`DriverClass`]: the name and how to build it. `pdo_sqlite` (and its
 //! class, `Doctrine\DBAL\Driver\PDO\SQLite\Driver`) builds the sqlx `SQLite`
-//! driver, and `pdo_pgsql` the `PostgreSQL` driver when the `pdo_pgsql`
+//! driver, `pdo_mysql` the sqlx `MySQL` driver when the `pdo_mysql`
+//! cargo feature is on, and `pdo_pgsql` the `PostgreSQL` driver when the `pdo_pgsql`
 //! cargo feature is on; the other drivers of the map are known by name but not ported:
 //! their connection can be built, as PHP builds it without connecting, and
 //! refuses to connect. A program's own driver class is given to
@@ -41,12 +42,14 @@ impl std::fmt::Debug for DriverClass {
 /// The class of the `SQLite` driver.
 pub const PDO_SQLITE_DRIVER: &str = "Doctrine\\DBAL\\Driver\\PDO\\SQLite\\Driver";
 
+/// The class of the `MySQL` driver.
+pub const PDO_MYSQL_DRIVER: &str = "Doctrine\\DBAL\\Driver\\PDO\\MySQL\\Driver";
 /// The class of the `PostgreSQL` driver.
 pub const PDO_PGSQL_DRIVER: &str = "Doctrine\\DBAL\\Driver\\PDO\\PgSQL\\Driver";
 
 /// List of supported drivers and their mappings to the driver classes.
 const DRIVER_MAP: [(&str, &str); 11] = [
-    ("pdo_mysql", "Doctrine\\DBAL\\Driver\\PDO\\MySQL\\Driver"),
+    ("pdo_mysql", PDO_MYSQL_DRIVER),
     ("pdo_sqlite", PDO_SQLITE_DRIVER),
     ("pdo_pgsql", PDO_PGSQL_DRIVER),
     ("pdo_oci", "Doctrine\\DBAL\\Driver\\PDO\\OCI\\Driver"),
@@ -164,6 +167,10 @@ impl DriverManager {
         if driver_class.as_bytes() == PDO_SQLITE_DRIVER.as_bytes() {
             return Ok(pdo_sqlite_driver());
         }
+        #[cfg(feature = "pdo_mysql")]
+        if driver_class.as_bytes() == PDO_MYSQL_DRIVER.as_bytes() {
+            return Ok(Arc::new(crate::driver::pdo_mysql::Driver::new()));
+        }
         #[cfg(feature = "pdo_pgsql")]
         if driver_class.as_bytes() == PDO_PGSQL_DRIVER.as_bytes() {
             return Ok(Arc::new(crate::driver::pdo_pgsql::Driver::new()));
@@ -192,7 +199,9 @@ struct NotPortedDriver {
 
 impl NotPortedDriver {
     fn refusal(&self) -> Exception {
-        let reason = if self.class == PDO_PGSQL_DRIVER {
+        let reason = if self.class == PDO_MYSQL_DRIVER {
+            "needs the pdo_mysql cargo feature"
+        } else if self.class == PDO_PGSQL_DRIVER {
             "needs the pdo_pgsql cargo feature"
         } else {
             "is not ported"

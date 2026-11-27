@@ -24,7 +24,7 @@ async fn test_rename_column(
     modifier: impl FnOnce(TableEditor) -> TableEditor,
 ) {
     let schema_manager = schema_manager(connection).await;
-    let comparator = schema_manager.create_comparator();
+    let comparator = schema_manager.create_comparator().await.unwrap();
 
     drop_table_if_exists(connection, "rename_column").await;
 
