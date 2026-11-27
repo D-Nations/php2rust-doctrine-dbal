@@ -197,6 +197,14 @@ impl PostgreSQLPlatform {
 }
 
 impl AbstractPlatform for PostgreSQLPlatform {
+    /// `createSchemaManager($connection)`.
+    fn create_schema_manager<'c>(
+        &'c self,
+        connection: &'c crate::Connection,
+    ) -> Result<crate::schema::SchemaManager<'c>, Exception> {
+        Ok(crate::schema::PostgreSQLSchemaManager::new(connection, self).into())
+    }
+
     fn class(&self) -> &str {
         if self.version_120 {
             return super::PostgreSQL120Platform::CLASS;
