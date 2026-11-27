@@ -116,6 +116,7 @@ crates/php2rust-doctrine-dbal/src/platforms/mysql84_platform.rs	doctrine/dbal	sr
 crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs	doctrine/dbal	src/Platforms/MySQLPlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/no_columns_specified_for_table.rs	doctrine/dbal	src/Platforms/Exception/NoColumnsSpecifiedForTable.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/oracle_platform.rs	doctrine/dbal	src/Platforms/OraclePlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/platforms/postgresql/comparator.rs	doctrine/dbal	src/Platforms/PostgreSQL/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/postgresql_platform.rs	doctrine/dbal	src/Platforms/PostgreSQLPlatform.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/comparator.rs	doctrine/dbal	src/Platforms/SQLite/Comparator.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/platforms/sqlite/sqlite_metadata_provider.rs	doctrine/dbal	src/Platforms/SQLite/SQLiteMetadataProvider.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -433,6 +434,8 @@ crates/php2rust-doctrine-dbal/tests/platforms_mysql_support/mod.rs	doctrine/dbal
 crates/php2rust-doctrine-dbal/tests/platforms_mysql_support/mod.rs	doctrine/dbal	tests/Platforms/MySQLPlatformTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_oracle_platform_test.rs	doctrine/dbal	tests/Platforms/OraclePlatformTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_oracle_platform_test.rs	doctrine/dbal	tests/Platforms/AbstractPlatformTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs	doctrine/dbal	tests/Platforms/PostgreSQL/ComparatorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/platforms_postgresql_comparator_test.rs	doctrine/dbal	tests/Schema/AbstractComparatorTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_postgresql_platform_test.rs	doctrine/dbal	tests/Platforms/PostgreSQLPlatformTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_postgresql_platform_test.rs	doctrine/dbal	tests/Platforms/AbstractPlatformTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/platforms_sqlite_comparator_test.rs	doctrine/dbal	tests/Platforms/SQLite/ComparatorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
