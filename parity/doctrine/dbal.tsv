@@ -1383,7 +1383,7 @@ tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testSupportsIdentit
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported	n/a: upstream does not run it on MariaDB (markTestSkipped: MariaDBPlatform supports inline column comments)	
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testUniquePrimaryKey	ported	crates/php2rust-doctrine-dbal/tests/platforms_mariadb_platform_test.rs::testUniquePrimaryKey
 tests/Platforms/MariaDBPlatformTest.php	MariaDBPlatformTest::testZeroOffsetWithoutLimitIsIgnored	ported	crates/php2rust-doctrine-dbal/tests/platforms_mariadb_platform_test.rs::testZeroOffsetWithoutLimitIsIgnored
-tests/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProviderTest.php	CachingCollationMetadataProviderTest::testCharsetCaching	pending	
+tests/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProviderTest.php	CachingCollationMetadataProviderTest::testCharsetCaching	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_caching_collation_metadata_provider_test.rs::testCharsetCaching
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAddedSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAddedSequence
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAlteredSequence	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAlteredSequence
 tests/Platforms/MySQL/ComparatorTest.php	ComparatorTest::testAutoIncrementNoSequences	ported	crates/php2rust-doctrine-dbal/tests/platforms_mysql_comparator_test.rs::testAutoIncrementNoSequences
