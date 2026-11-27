@@ -1,8 +1,8 @@
 //! Port of Doctrine\DBAL\Schema\SchemaManagerFactory.php and
 //! DefaultSchemaManagerFactory.php.
 //!
-//! The factory hands out the concrete [`SQLiteSchemaManager`] (the
-//! `AbstractSchemaManager` trait is not object-safe). A connection always
+//! The factory hands out a [`SchemaManager`], the enum of the ported
+//! managers (the `AbstractSchemaManager` trait is not object-safe). A connection always
 //! uses the default factory: `Configuration::setSchemaManagerFactory()`
 //! is not ported.
 //!
@@ -14,7 +14,7 @@
 use crate::Connection;
 use crate::exception::Exception;
 
-use super::sqlite_schema_manager::SQLiteSchemaManager;
+use super::schema_manager::SchemaManager;
 
 /// Creates a schema manager for the given connection.
 ///
@@ -28,7 +28,7 @@ pub trait SchemaManagerFactory {
     async fn create_schema_manager<'c>(
         &self,
         connection: &'c Connection,
-    ) -> Result<SQLiteSchemaManager<'c>, Exception>;
+    ) -> Result<SchemaManager<'c>, Exception>;
 }
 
 /// A schema manager factory that returns the default schema manager for
@@ -42,7 +42,7 @@ impl SchemaManagerFactory for DefaultSchemaManagerFactory {
     async fn create_schema_manager<'c>(
         &self,
         connection: &'c Connection,
-    ) -> Result<SQLiteSchemaManager<'c>, Exception> {
+    ) -> Result<SchemaManager<'c>, Exception> {
         connection
             .get_database_platform()
             .await?

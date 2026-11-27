@@ -52,6 +52,8 @@ async fn testDeployEnum() {
     assert!(
         schema_manager
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(&introspected_table, &table)
             .unwrap()
             .is_empty()

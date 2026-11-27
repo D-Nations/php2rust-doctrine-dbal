@@ -21,7 +21,7 @@ use schema_manager_support::{column, drop_and_create_table, schema_manager, sqli
 async fn testChangeTableCollation() {
     let connection = sqlite();
     let schema_manager = schema_manager(&connection).await;
-    let comparator = schema_manager.create_comparator();
+    let comparator = schema_manager.create_comparator().await.unwrap();
 
     let table = Table::editor()
         .set_unquoted_name("comparator_test", None)

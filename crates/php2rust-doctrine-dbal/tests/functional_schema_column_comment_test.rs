@@ -109,6 +109,8 @@ async fn testAlterColumnComment() {
         let schema_manager = schema_manager(&connection).await;
         let diff = schema_manager
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(&table1, &table2)
             .unwrap();
 
@@ -144,6 +146,8 @@ async fn testAddColumnWithComment() {
     let schema_manager = schema_manager(&connection).await;
     let diff = schema_manager
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&table1, &table2)
         .unwrap();
 

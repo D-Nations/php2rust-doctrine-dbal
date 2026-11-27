@@ -6,14 +6,14 @@
 #![allow(dead_code)]
 
 use php2rust_doctrine_dbal::schema::{
-    AbstractSchemaManager, Comparator, SQLiteSchemaManager, Table, TableDiff,
+    AbstractSchemaManager, Comparator, SchemaManager, Table, TableDiff,
 };
 use php2rust_doctrine_dbal::{Connection, Exception};
 
 use crate::schema_manager_support::schema_manager;
 
 async fn introspect(
-    schema_manager: &SQLiteSchemaManager<'_>,
+    schema_manager: &SchemaManager<'_>,
     desired_table: &Table,
 ) -> Result<Table, Exception> {
     schema_manager
@@ -24,7 +24,7 @@ async fn introspect(
 /// `diffFromActualToDesiredTable($schemaManager, $comparator,
 /// $desiredTable)`.
 pub async fn diff_from_actual_to_desired_table(
-    schema_manager: &SQLiteSchemaManager<'_>,
+    schema_manager: &SchemaManager<'_>,
     comparator: &Comparator<'_>,
     desired_table: &Table,
 ) -> Result<TableDiff, Exception> {
@@ -37,7 +37,7 @@ pub async fn diff_from_actual_to_desired_table(
 /// `diffFromDesiredToActualTable($schemaManager, $comparator,
 /// $desiredTable)`.
 pub async fn diff_from_desired_to_actual_table(
-    schema_manager: &SQLiteSchemaManager<'_>,
+    schema_manager: &SchemaManager<'_>,
     comparator: &Comparator<'_>,
     desired_table: &Table,
 ) -> Result<TableDiff, Exception> {

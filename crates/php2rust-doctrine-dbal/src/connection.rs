@@ -1203,7 +1203,7 @@ impl Connection {
 impl Connection {
     /// Creates a `SchemaManager` that can be used to inspect or change the
     /// database schema through the connection.
-    pub async fn create_schema_manager(&self) -> StdResult<crate::schema::SQLiteSchemaManager<'_>> {
+    pub async fn create_schema_manager(&self) -> StdResult<crate::schema::SchemaManager<'_>> {
         use crate::schema::SchemaManagerFactory as _;
 
         crate::schema::DefaultSchemaManagerFactory

@@ -965,8 +965,8 @@ impl AbstractPlatform for SQLitePlatform {
     fn create_schema_manager<'c>(
         &'c self,
         connection: &'c crate::Connection,
-    ) -> Result<crate::schema::SQLiteSchemaManager<'c>, Exception> {
-        Ok(crate::schema::SQLiteSchemaManager::new(connection, self))
+    ) -> Result<crate::schema::SchemaManager<'c>, Exception> {
+        Ok(crate::schema::SQLiteSchemaManager::new(connection, self).into())
     }
 }
 

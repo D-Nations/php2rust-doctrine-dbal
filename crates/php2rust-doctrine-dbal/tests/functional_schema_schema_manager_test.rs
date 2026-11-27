@@ -195,6 +195,8 @@ async fn testChangeColumnNullability() {
 
         let diff = sm
             .create_comparator()
+            .await
+            .unwrap()
             .compare_tables(&table, &new_table)
             .unwrap();
         assert!(!diff.is_empty());
@@ -317,6 +319,8 @@ async fn testReplaceIndexBackingForeignKey() {
 
     let diff = sm
         .create_comparator()
+        .await
+        .unwrap()
         .compare_tables(&old_table, &new_table)
         .unwrap();
     sm.alter_table(&diff).await.unwrap();
