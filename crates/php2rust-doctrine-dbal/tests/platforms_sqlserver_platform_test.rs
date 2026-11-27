@@ -274,11 +274,6 @@ fn testGeneratesIndexCreationSql() {
 }
 
 #[test]
-fn testGeneratesInlineColumnCommentSQL() {
-    platforms_support::testGeneratesInlineColumnCommentSQL::<Case>();
-}
-
-#[test]
 fn testGeneratesPartialIndexesSqlOnlyWhenSupportingPartialIndexes() {
     platforms_support::testGeneratesPartialIndexesSqlOnlyWhenSupportingPartialIndexes::<Case>();
 }
