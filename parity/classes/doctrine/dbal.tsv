@@ -193,14 +193,14 @@ src/Platforms/MariaDB110700Platform.php	MariaDB110700Platform	18	ported	crates/p
 src/Platforms/MariaDB120300Platform.php	MariaDB120300Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb120300_platform.rs
 src/Platforms/MariaDBPlatform.php	MariaDBPlatform	110	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb_platform.rs
 src/Platforms/MySQL/CharsetMetadataProvider.php	CharsetMetadataProvider	6	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/charset_metadata_provider.rs
-src/Platforms/MySQL/CharsetMetadataProvider/CachingCharsetMetadataProvider.php	CachingCharsetMetadataProvider	18	pending	
-src/Platforms/MySQL/CharsetMetadataProvider/ConnectionCharsetMetadataProvider.php	ConnectionCharsetMetadataProvider	27	pending	
+src/Platforms/MySQL/CharsetMetadataProvider/CachingCharsetMetadataProvider.php	CachingCharsetMetadataProvider	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/caching_charset_metadata_provider.rs
+src/Platforms/MySQL/CharsetMetadataProvider/ConnectionCharsetMetadataProvider.php	ConnectionCharsetMetadataProvider	27	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/connection_charset_metadata_provider.rs
 src/Platforms/MySQL/CollationMetadataProvider.php	CollationMetadataProvider	6	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/collation_metadata_provider.rs
-src/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProvider.php	CachingCollationMetadataProvider	18	pending	
-src/Platforms/MySQL/CollationMetadataProvider/ConnectionCollationMetadataProvider.php	ConnectionCollationMetadataProvider	27	pending	
+src/Platforms/MySQL/CollationMetadataProvider/CachingCollationMetadataProvider.php	CachingCollationMetadataProvider	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/caching_collation_metadata_provider.rs
+src/Platforms/MySQL/CollationMetadataProvider/ConnectionCollationMetadataProvider.php	ConnectionCollationMetadataProvider	27	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/connection_collation_metadata_provider.rs
 src/Platforms/MySQL/Comparator.php	Comparator	64	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/comparator.rs
 src/Platforms/MySQL/DefaultTableOptions.php	DefaultTableOptions	16	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/default_table_options.rs
-src/Platforms/MySQL/MySQLMetadataProvider.php	MySQLMetadataProvider	535	pending	
+src/Platforms/MySQL/MySQLMetadataProvider.php	MySQLMetadataProvider	535	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/mysql_metadata_provider.rs
 src/Platforms/MySQL80Platform.php	MySQL80Platform	28	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql80_platform.rs
 src/Platforms/MySQL84Platform.php	MySQL84Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql84_platform.rs
 src/Platforms/MySQLPlatform.php	MySQLPlatform	39	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql_platform.rs
@@ -339,7 +339,7 @@ src/Schema/Metadata/TableColumnMetadataRow.php	TableColumnMetadataRow	24	ported	
 src/Schema/Metadata/TableMetadataRow.php	TableMetadataRow	23	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
 src/Schema/Metadata/UniqueConstraintColumnMetadataRow.php	UniqueConstraintColumnMetadataRow	44	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
 src/Schema/Metadata/ViewMetadataRow.php	ViewMetadataRow	23	ported	crates/php2rust-doctrine-dbal/src/schema/metadata.rs
-src/Schema/MySQLSchemaManager.php	MySQLSchemaManager	405	pending	
+src/Schema/MySQLSchemaManager.php	MySQLSchemaManager	405	ported	crates/php2rust-doctrine-dbal/src/schema/mysql_schema_manager.rs
 src/Schema/Name.php	Name	8	ported	crates/php2rust-doctrine-dbal/src/schema/name/names.rs
 src/Schema/Name/GenericName.php	GenericName	32	ported	crates/php2rust-doctrine-dbal/src/schema/name/names.rs
 src/Schema/Name/Identifier.php	Identifier	61	ported	crates/php2rust-doctrine-dbal/src/schema/name/identifier.rs
