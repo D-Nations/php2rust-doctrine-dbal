@@ -26,6 +26,7 @@ mod abstract_sqlite_driver;
 pub mod api;
 mod connection;
 mod fetch_utils;
+pub mod middleware;
 pub mod pdo_sqlite;
 mod result;
 mod statement;
