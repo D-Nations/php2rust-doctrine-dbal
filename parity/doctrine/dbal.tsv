@@ -119,22 +119,22 @@ tests/Exception/DriverRequiredTest.php	DriverRequiredTest::testDriverRequiredWit
 tests/ExceptionTest.php	ExceptionTest::testDriverRequiredWithUrl	pending	
 tests/Functional/AutoIncrementColumnTest.php	AutoIncrementColumnTest::testInsertAutoGeneratesValue	ported	crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs::testInsertAutoGeneratesValue
 tests/Functional/AutoIncrementColumnTest.php	AutoIncrementColumnTest::testInsertIdentityValue	ported	crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs::testInsertIdentityValue
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAllAssociative	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAllWithTypes	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchArray	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchArrayWithTypes	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAssocWithTypes	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAssociative	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchColumn	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchOneWithTypes	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testNativeArrayListSupport	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithBindValue	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithFetchAllAssociative	pending	
-tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithFetchOne	pending	
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchAllAssociative
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAllWithTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchAllWithTypes
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchArray	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchArray
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchArrayWithTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchArrayWithTypes
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAssocWithTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchAssocWithTypes
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchAssociative	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchAssociative
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchColumn	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchColumn
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testFetchOneWithTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testFetchOneWithTypes
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testNativeArrayListSupport	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testNativeArrayListSupport
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithBindValue	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testPrepareWithBindValue
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithFetchAllAssociative	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testPrepareWithFetchAllAssociative
+tests/Functional/BinaryDataAccessTest.php	BinaryDataAccessTest::testPrepareWithFetchOne	ported	crates/php2rust-doctrine-dbal/tests/functional_binary_data_access_test.rs::testPrepareWithFetchOne
 tests/Functional/BlobTest.php	BlobTest::testBindParamProcessesStream	pending	
 tests/Functional/BlobTest.php	BlobTest::testBlobBindingDoesNotOverwritePrevious	pending	
-tests/Functional/BlobTest.php	BlobTest::testInsert	pending	
-tests/Functional/BlobTest.php	BlobTest::testInsertNull	pending	
+tests/Functional/BlobTest.php	BlobTest::testInsert	ported	crates/php2rust-doctrine-dbal/tests/functional_blob_test.rs::testInsert
+tests/Functional/BlobTest.php	BlobTest::testInsertNull	ported	crates/php2rust-doctrine-dbal/tests/functional_blob_test.rs::testInsertNull
 tests/Functional/BlobTest.php	BlobTest::testInsertProcessesStream	pending	
 tests/Functional/BlobTest.php	BlobTest::testSelect	pending	
 tests/Functional/BlobTest.php	BlobTest::testUpdate	pending	
@@ -168,14 +168,14 @@ tests/Functional/Connection/FetchTest.php	FetchTest::testIterateKeyValueOneColum
 tests/Functional/Connection/FetchTest.php	FetchTest::testIterateNumeric	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_fetch_test.rs::testIterateNumeric
 tests/Functional/ConnectionTest.php	ConnectionTest::testCommitWithRollbackOnlyThrowsException	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testCommitWithRollbackOnlyThrowsException
 tests/Functional/ConnectionTest.php	ConnectionTest::testConnectWithoutExplicitDatabaseName	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testConnectWithoutExplicitDatabaseName
-tests/Functional/ConnectionTest.php	ConnectionTest::testCreateSavepointsNotSupportedThrowsException	pending	
+tests/Functional/ConnectionTest.php	ConnectionTest::testCreateSavepointsNotSupportedThrowsException	n/a: upstream does not run it on SQLite (markTestSkipped: This test requires the platform not to support savepoints.)	
 tests/Functional/ConnectionTest.php	ConnectionTest::testDeterminesDatabasePlatformWhenConnectingToNonExistentDatabase	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testDeterminesDatabasePlatformWhenConnectingToNonExistentDatabase
 tests/Functional/ConnectionTest.php	ConnectionTest::testExceptionOnExecuteQuery	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testExceptionOnExecuteQuery
 tests/Functional/ConnectionTest.php	ConnectionTest::testExceptionOnExecuteStatement	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testExceptionOnExecuteStatement
 tests/Functional/ConnectionTest.php	ConnectionTest::testExceptionOnPrepareAndExecute	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testExceptionOnPrepareAndExecute
-tests/Functional/ConnectionTest.php	ConnectionTest::testPersistentConnection	pending	
-tests/Functional/ConnectionTest.php	ConnectionTest::testReleaseSavepointsNotSupportedThrowsException	pending	
-tests/Functional/ConnectionTest.php	ConnectionTest::testRollbackSavepointsNotSupportedThrowsException	pending	
+tests/Functional/ConnectionTest.php	ConnectionTest::testPersistentConnection	n/a: upstream does not run it on SQLite (markTestSkipped: The platform does not support persistent connections)	
+tests/Functional/ConnectionTest.php	ConnectionTest::testReleaseSavepointsNotSupportedThrowsException	n/a: upstream does not run it on SQLite (markTestSkipped: This test requires the platform not to support savepoints.)	
+tests/Functional/ConnectionTest.php	ConnectionTest::testRollbackSavepointsNotSupportedThrowsException	n/a: upstream does not run it on SQLite (markTestSkipped: This test requires the platform not to support savepoints.)	
 tests/Functional/ConnectionTest.php	ConnectionTest::testServerVersion	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testServerVersion
 tests/Functional/ConnectionTest.php	ConnectionTest::testTransactionBehaviorWithRollback	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testTransactionBehaviorWithRollback
 tests/Functional/ConnectionTest.php	ConnectionTest::testTransactionBehaviour	ported	crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs::testTransactionBehaviour
@@ -296,7 +296,7 @@ tests/Functional/ExceptionTest.php	ExceptionTest::testSyntaxErrorException	porte
 tests/Functional/ExceptionTest.php	ExceptionTest::testTableExistsException	ported	crates/php2rust-doctrine-dbal/tests/functional_exception_test.rs::testTableExistsException
 tests/Functional/ExceptionTest.php	ExceptionTest::testTableNotFoundException	ported	crates/php2rust-doctrine-dbal/tests/functional_exception_test.rs::testTableNotFoundException
 tests/Functional/ExceptionTest.php	ExceptionTest::testUniqueConstraintViolationException	ported	crates/php2rust-doctrine-dbal/tests/functional_exception_test.rs::testUniqueConstraintViolationException
-tests/Functional/FetchBooleanTest.php	FetchBooleanTest::testBooleanConversionSqlLiteral	pending	
+tests/Functional/FetchBooleanTest.php	FetchBooleanTest::testBooleanConversionSqlLiteral	n/a: upstream does not run it on SQLite (markTestSkipped: Only PostgreSQL supports boolean values natively, as long as PDO does not stringify them.)	
 tests/Functional/ForeignKeyConstraintViolationsTest.php	ForeignKeyConstraintViolationsTest::testCommitViolatesConstraintWhileUsingTransactionNesting	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
 tests/Functional/ForeignKeyConstraintViolationsTest.php	ForeignKeyConstraintViolationsTest::testCommitViolatesDeferredConstraint	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
 tests/Functional/ForeignKeyConstraintViolationsTest.php	ForeignKeyConstraintViolationsTest::testCommitViolatesDeferredConstraintWhileUsingTransactionNesting	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
@@ -309,19 +309,19 @@ tests/Functional/ForeignKeyExceptionTest.php	ForeignKeyExceptionTest::testForeig
 tests/Functional/ForeignKeyExceptionTest.php	ForeignKeyExceptionTest::testForeignKeyConstraintViolationExceptionOnInsert	ported	crates/php2rust-doctrine-dbal/tests/functional_foreign_key_exception_test.rs::testForeignKeyConstraintViolationExceptionOnInsert
 tests/Functional/ForeignKeyExceptionTest.php	ForeignKeyExceptionTest::testForeignKeyConstraintViolationExceptionOnTruncate	ported	crates/php2rust-doctrine-dbal/tests/functional_foreign_key_exception_test.rs::testForeignKeyConstraintViolationExceptionOnTruncate
 tests/Functional/ForeignKeyExceptionTest.php	ForeignKeyExceptionTest::testForeignKeyConstraintViolationExceptionOnUpdate	ported	crates/php2rust-doctrine-dbal/tests/functional_foreign_key_exception_test.rs::testForeignKeyConstraintViolationExceptionOnUpdate
-tests/Functional/LikeWildcardsEscapingTest.php	LikeWildcardsEscapingTest::testFetchLikeExpressionResult	pending	
-tests/Functional/LockMode/NoneTest.php	NoneTest::testLockModeNoneDoesNotBreakTransactionIsolation	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testLimitWhenOrderByWithSubqueryWithOrderBy	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryFromSubSelect	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryGroupBy	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryJoinQuery	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryLineBreaks	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryNonDeterministic	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQuerySimpleQuery	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQuerySubSelect	pending	
-tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryZeroOffsetNoLimit	pending	
+tests/Functional/LikeWildcardsEscapingTest.php	LikeWildcardsEscapingTest::testFetchLikeExpressionResult	ported	crates/php2rust-doctrine-dbal/tests/functional_like_wildcards_escaping_test.rs::testFetchLikeExpressionResult
+tests/Functional/LockMode/NoneTest.php	NoneTest::testLockModeNoneDoesNotBreakTransactionIsolation	n/a: upstream does not run it on SQLite (markTestSkipped: This test cannot run on SQLite using an in-memory database)	
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testLimitWhenOrderByWithSubqueryWithOrderBy	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testLimitWhenOrderByWithSubqueryWithOrderBy
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryFromSubSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryFromSubSelect
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryGroupBy	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryGroupBy
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryJoinQuery	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryJoinQuery
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryLineBreaks	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryLineBreaks
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryNonDeterministic	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryNonDeterministic
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQuerySimpleQuery	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQuerySimpleQuery
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQuerySubSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQuerySubSelect
+tests/Functional/ModifyLimitQueryTest.php	ModifyLimitQueryTest::testModifyLimitQueryZeroOffsetNoLimit	ported	crates/php2rust-doctrine-dbal/tests/functional_modify_limit_query_test.rs::testModifyLimitQueryZeroOffsetNoLimit
 tests/Functional/NamedParametersTest.php	NamedParametersTest::testTicket	ported	crates/php2rust-doctrine-dbal/tests/functional_named_parameters_test.rs::testTicket
-tests/Functional/ParameterTypes/AsciiTest.php	AsciiTest::testAsciiBinding	pending	
+tests/Functional/ParameterTypes/AsciiTest.php	AsciiTest::testAsciiBinding	n/a: upstream does not run it on SQLite (markTestSkipped: Driver does not support ascii string binding)	
 tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithCurrentTimestampDefaultToPopulatedTable	pending	
 tests/Functional/Platform/AddColumnWithDefaultTest.php	AddColumnWithDefaultTest::testAddColumnWithDefault	pending	
 tests/Functional/Platform/AlterColumnLengthChangeTest.php	AlterColumnLengthChangeTest::testColumnLengthIsChanged	pending	
@@ -428,11 +428,11 @@ tests/Functional/Query/QueryBuilderTest.php	QueryBuilderTest::testUnionIsDistinc
 tests/Functional/Query/QueryBuilderTest.php	QueryBuilderTest::testUnionWithDescOrderByReturnsExpectedResult	pending	
 tests/Functional/Query/QueryBuilderTest.php	QueryBuilderTest::testUnionWithLimitAndOffsetClauseReturnsExpectedResult	pending	
 tests/Functional/Query/QueryBuilderTest.php	QueryBuilderTest::testUnionWithLimitClauseReturnsExpectedResult	pending	
-tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnCountAfterFree	pending	
-tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameAfterFree	pending	
-tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithInvalidIndex	pending	
-tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithResults	pending	
-tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithoutResults	pending	
+tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnCountAfterFree	n/a: upstream does not run it on pdo_sqlite (markTestSkipped: This driver does not report zero columns for a freed result.)	
+tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameAfterFree	ported	crates/php2rust-doctrine-dbal/tests/functional_result_metadata_test.rs::testColumnNameAfterFree
+tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithInvalidIndex	ported	crates/php2rust-doctrine-dbal/tests/functional_result_metadata_test.rs::testColumnNameWithInvalidIndex
+tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithResults	ported	crates/php2rust-doctrine-dbal/tests/functional_result_metadata_test.rs::testColumnNameWithResults
+tests/Functional/ResultMetadataTest.php	ResultMetadataTest::testColumnNameWithoutResults	ported	crates/php2rust-doctrine-dbal/tests/functional_result_metadata_test.rs::testColumnNameWithoutResults
 tests/Functional/ResultTest.php	ResultTest::testExceptionHandling	ported	crates/php2rust-doctrine-dbal/tests/functional_result_test.rs::testExceptionHandling
 tests/Functional/SQL/Builder/CreateAndDropSchemaObjectsSQLBuilderTest.php	CreateAndDropSchemaObjectsSQLBuilderTest::testCreateAndDropTablesWithCircularForeignKeys	pending	
 tests/Functional/SQL/ParserTest.php	ParserTest::testMySQLEscaping	pending	
@@ -847,50 +847,50 @@ tests/Functional/StatementTest.php	StatementTest::testReuseStatementAfterFreeing
 tests/Functional/StatementTest.php	StatementTest::testReuseStatementWithLongerResults	ported	crates/php2rust-doctrine-dbal/tests/functional_statement_test.rs::testReuseStatementWithLongerResults
 tests/Functional/StatementTest.php	StatementTest::testReuseStatementWithReboundValue	ported	crates/php2rust-doctrine-dbal/tests/functional_statement_test.rs::testReuseStatementWithReboundValue
 tests/Functional/StatementTest.php	StatementTest::testStatementIsReusableAfterFreeingResult	ported	crates/php2rust-doctrine-dbal/tests/functional_statement_test.rs::testStatementIsReusableAfterFreeingResult
-tests/Functional/TemporaryTableTest.php	TemporaryTableTest::testCreateTemporaryTableNotAutoCommitTransaction	pending	
-tests/Functional/TemporaryTableTest.php	TemporaryTableTest::testDropTemporaryTableNotAutoCommitTransaction	pending	
-tests/Functional/Ticket/DBAL202Test.php	DBAL202Test::testStatementCommit	pending	
-tests/Functional/Ticket/DBAL202Test.php	DBAL202Test::testStatementRollback	pending	
-tests/Functional/Ticket/DBAL752Test.php	DBAL752Test::testUnsignedIntegerDetection	pending	
-tests/Functional/TransactionTest.php	TransactionTest::testBeginTransactionFailure	pending	
-tests/Functional/TransactionTest.php	TransactionTest::testCommitFailure	pending	
+tests/Functional/TemporaryTableTest.php	TemporaryTableTest::testCreateTemporaryTableNotAutoCommitTransaction	ported	crates/php2rust-doctrine-dbal/tests/functional_temporary_table_test.rs::testCreateTemporaryTableNotAutoCommitTransaction
+tests/Functional/TemporaryTableTest.php	TemporaryTableTest::testDropTemporaryTableNotAutoCommitTransaction	ported	crates/php2rust-doctrine-dbal/tests/functional_temporary_table_test.rs::testDropTemporaryTableNotAutoCommitTransaction
+tests/Functional/Ticket/DBAL202Test.php	DBAL202Test::testStatementCommit	n/a: upstream does not run it on SQLite (markTestSkipped: Oracle only test)	
+tests/Functional/Ticket/DBAL202Test.php	DBAL202Test::testStatementRollback	n/a: upstream does not run it on SQLite (markTestSkipped: Oracle only test)	
+tests/Functional/Ticket/DBAL752Test.php	DBAL752Test::testUnsignedIntegerDetection	ported	crates/php2rust-doctrine-dbal/tests/functional_ticket_dbal752_test.rs::testUnsignedIntegerDetection
+tests/Functional/TransactionTest.php	TransactionTest::testBeginTransactionFailure	n/a: upstream does not run it on SQLite (markTestSkipped: Unsupported test platform.)	
+tests/Functional/TransactionTest.php	TransactionTest::testCommitFailure	n/a: upstream does not run it on SQLite (markTestSkipped: Unsupported test platform.)	
 tests/Functional/TransactionTest.php	TransactionTest::testNestedTransactionWalkthrough	ported	crates/php2rust-doctrine-dbal/tests/functional_transaction_test.rs::testNestedTransactionWalkthrough
-tests/Functional/TransactionTest.php	TransactionTest::testRollbackFailure	pending	
-tests/Functional/TransactionTest.php	TransactionTest::testTransactionalFailureDuringCallback	pending	
-tests/Functional/TransactionTest.php	TransactionTest::testTransactionalFailureDuringCommit	pending	
+tests/Functional/TransactionTest.php	TransactionTest::testRollbackFailure	n/a: upstream does not run it on SQLite (markTestSkipped: Unsupported test platform.)	
+tests/Functional/TransactionTest.php	TransactionTest::testTransactionalFailureDuringCallback	n/a: upstream does not run it on SQLite (markTestSkipped: Unsupported test platform.)	
+tests/Functional/TransactionTest.php	TransactionTest::testTransactionalFailureDuringCommit	n/a: upstream does not run it on SQLite (markTestSkipped: Unsupported test platform.)	
 tests/Functional/TypeConversionTest.php	TypeConversionTest::testConversionToUtcDateTime	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testDecimal	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToArray	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToBoolean	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToDateTime	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToFloat	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToInteger	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToString	pending	
-tests/Functional/TypeConversionTest.php	TypeConversionTest::testNumber	pending	
-tests/Functional/Types/AsciiStringTest.php	AsciiStringTest::testInsertAndSelect	pending	
-tests/Functional/Types/BigIntTypeTest.php	BigIntTypeTest::testSelectBigInt	pending	
-tests/Functional/Types/BigIntTypeTest.php	BigIntTypeTest::testUnsignedBigIntOnMySQL	pending	
-tests/Functional/Types/BinaryTest.php	BinaryTest::testInsertAndSelect	pending	
-tests/Functional/Types/DecimalTest.php	DecimalTest::testInsertAndRetrieveDecimal	pending	
-tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testDeployEmptyEnum	pending	
-tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testDeployEnum	pending	
-tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testIntrospectEnum	pending	
-tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testIntrospectEnumValues	pending	
-tests/Functional/Types/GuidTest.php	GuidTest::testInsertAndSelect	pending	
-tests/Functional/Types/JsonObjectTest.php	JsonObjectTest::testInsertAndSelect	pending	
-tests/Functional/Types/JsonTest.php	JsonTest::testInsertAndSelect	pending	
-tests/Functional/Types/JsonbObjectTest.php	JsonbObjectTest::testInsertAndSelect	pending	
-tests/Functional/Types/JsonbTest.php	JsonbTest::testJsonbColumnIntrospection	pending	
-tests/Functional/Types/NumberTest.php	NumberTest::testCompareNumberTable	pending	
-tests/Functional/Types/NumberTest.php	NumberTest::testInsertAndRetrieveNumber	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesConstraintWhileUsingTransactionNesting	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesDeferredConstraint	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesDeferredConstraintWhileUsingTransactionNesting	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testInsertViolatesConstraint	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesConstraint	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesConstraintWhileUsingTransactionNesting	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesDeferredConstraint	pending	
-tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesDeferredConstraintWhileUsingTransactionNesting	pending	
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testDecimal	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testDecimal
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToArray	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToArray
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToBoolean	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToBoolean
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToDateTime	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToDateTime
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToFloat	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToFloat
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToInteger	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToInteger
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testIdempotentConversionToString	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testIdempotentConversionToString
+tests/Functional/TypeConversionTest.php	TypeConversionTest::testNumber	ported	crates/php2rust-doctrine-dbal/tests/functional_type_conversion_test.rs::testNumber
+tests/Functional/Types/AsciiStringTest.php	AsciiStringTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_ascii_string_test.rs::testInsertAndSelect
+tests/Functional/Types/BigIntTypeTest.php	BigIntTypeTest::testSelectBigInt	ported	crates/php2rust-doctrine-dbal/tests/functional_types_big_int_type_test.rs::testSelectBigInt
+tests/Functional/Types/BigIntTypeTest.php	BigIntTypeTest::testUnsignedBigIntOnMySQL	n/a: upstream does not run it on SQLite (markTestSkipped: This test only works on MySQL/MariaDB.)	
+tests/Functional/Types/BinaryTest.php	BinaryTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_binary_test.rs::testInsertAndSelect
+tests/Functional/Types/DecimalTest.php	DecimalTest::testInsertAndRetrieveDecimal	ported	crates/php2rust-doctrine-dbal/tests/functional_types_decimal_test.rs::testInsertAndRetrieveDecimal
+tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testDeployEmptyEnum	ported	crates/php2rust-doctrine-dbal/tests/functional_types_enum_type_test.rs::testDeployEmptyEnum
+tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testDeployEnum	ported	crates/php2rust-doctrine-dbal/tests/functional_types_enum_type_test.rs::testDeployEnum
+tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testIntrospectEnum	n/a: upstream does not run it on SQLite (markTestSkipped: This test requires MySQL or MariaDB.)	
+tests/Functional/Types/EnumTypeTest.php	EnumTypeTest::testIntrospectEnumValues	n/a: upstream does not run it on SQLite (markTestSkipped: This test requires MySQL or MariaDB.)	
+tests/Functional/Types/GuidTest.php	GuidTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_guid_test.rs::testInsertAndSelect
+tests/Functional/Types/JsonObjectTest.php	JsonObjectTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_json_object_test.rs::testInsertAndSelect
+tests/Functional/Types/JsonTest.php	JsonTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_json_test.rs::testInsertAndSelect
+tests/Functional/Types/JsonbObjectTest.php	JsonbObjectTest::testInsertAndSelect	ported	crates/php2rust-doctrine-dbal/tests/functional_types_jsonb_object_test.rs::testInsertAndSelect
+tests/Functional/Types/JsonbTest.php	JsonbTest::testJsonbColumnIntrospection	ported	crates/php2rust-doctrine-dbal/tests/functional_types_jsonb_test.rs::testJsonbColumnIntrospection
+tests/Functional/Types/NumberTest.php	NumberTest::testCompareNumberTable	ported	crates/php2rust-doctrine-dbal/tests/functional_types_number_test.rs::testCompareNumberTable
+tests/Functional/Types/NumberTest.php	NumberTest::testInsertAndRetrieveNumber	ported	crates/php2rust-doctrine-dbal/tests/functional_types_number_test.rs::testInsertAndRetrieveNumber
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesConstraintWhileUsingTransactionNesting	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesDeferredConstraint	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testCommitViolatesDeferredConstraintWhileUsingTransactionNesting	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testInsertViolatesConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_unique_constraint_violations_test.rs::testInsertViolatesConstraint
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesConstraint	ported	crates/php2rust-doctrine-dbal/tests/functional_unique_constraint_violations_test.rs::testTransactionalViolatesConstraint
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesConstraintWhileUsingTransactionNesting	ported	crates/php2rust-doctrine-dbal/tests/functional_unique_constraint_violations_test.rs::testTransactionalViolatesConstraintWhileUsingTransactionNesting
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesDeferredConstraint	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
+tests/Functional/UniqueConstraintViolationsTest.php	UniqueConstraintViolationsTest::testTransactionalViolatesDeferredConstraintWhileUsingTransactionNesting	n/a: upstream does not run it on SQLite (markTestSkipped: Only databases supporting deferrable constraints are eligible for this test.)	
 tests/Functional/WriteTest.php	WriteTest::testDelete	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testDelete
 tests/Functional/WriteTest.php	WriteTest::testDeleteAll	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testDeleteAll
 tests/Functional/WriteTest.php	WriteTest::testDeleteWhereIsNull	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testDeleteWhereIsNull
@@ -902,7 +902,7 @@ tests/Functional/WriteTest.php	WriteTest::testInsert	ported	crates/php2rust-doct
 tests/Functional/WriteTest.php	WriteTest::testInsertWithKeyValueTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testInsertWithKeyValueTypes
 tests/Functional/WriteTest.php	WriteTest::testLastInsertId	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testLastInsertId
 tests/Functional/WriteTest.php	WriteTest::testLastInsertIdNewConnection	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testLastInsertIdNewConnection
-tests/Functional/WriteTest.php	WriteTest::testLastInsertIdNotSupported	pending	
+tests/Functional/WriteTest.php	WriteTest::testLastInsertIdNotSupported	n/a: upstream does not run it on SQLite (markTestSkipped: This test targets platforms that don't support identity columns.)	
 tests/Functional/WriteTest.php	WriteTest::testPrepareRowCountReturnsAffectedRows	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testPrepareRowCountReturnsAffectedRows
 tests/Functional/WriteTest.php	WriteTest::testPrepareWithDoctrineMappingTypeNames	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testPrepareWithDoctrineMappingTypeNames
 tests/Functional/WriteTest.php	WriteTest::testPrepareWithDoctrineMappingTypes	ported	crates/php2rust-doctrine-dbal/tests/functional_write_test.rs::testPrepareWithDoctrineMappingTypes

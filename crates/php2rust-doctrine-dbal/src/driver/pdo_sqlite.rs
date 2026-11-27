@@ -357,6 +357,7 @@ async fn run(
         rows: values,
         row_count,
         fetched: false,
+        freed: false,
     }))
 }
 
@@ -657,6 +658,9 @@ struct PdoResult {
     /// A row was fetched (or the result freed): `SQLite`'s last result code
     /// is no longer the first step's `SQLITE_ROW`.
     fetched: bool,
+    /// `free()` closed the cursor: `getColumnMeta()` gives `false` for
+    /// every column (PHP 8.3.18 and 8.4.5 on, php/php-src#17837).
+    freed: bool,
 }
 
 impl DriverResult for PdoResult {
@@ -686,6 +690,7 @@ impl DriverResult for PdoResult {
 
     fn free(&mut self) {
         self.fetched = true;
+        self.freed = true;
         self.rows.clear();
     }
 
@@ -699,6 +704,9 @@ impl DriverResult for PdoResult {
                 index,
                 Some(value_error),
             )));
+        }
+        if self.freed {
+            return Some(Err(Exception::invalid_column_index(index, None)));
         }
         Some(
             usize::try_from(index)
