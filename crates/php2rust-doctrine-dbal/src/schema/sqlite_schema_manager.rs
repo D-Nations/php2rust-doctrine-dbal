@@ -259,8 +259,8 @@ impl<'c> AbstractSchemaManager<'c> for SQLiteSchemaManager<'c> {
         self.platform
     }
 
-    fn create_metadata_provider(&self) -> SQLiteMetadataProvider<'c> {
-        self.platform.create_metadata_provider(self.connection)
+    async fn create_metadata_provider(&self) -> R<SQLiteMetadataProvider<'c>> {
+        Ok(self.platform.create_metadata_provider(self.connection))
     }
 
     async fn create_foreign_key(&self, foreign_key: &ForeignKeyConstraint, table: &str) -> R<()> {
