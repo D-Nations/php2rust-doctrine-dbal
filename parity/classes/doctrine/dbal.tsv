@@ -17,14 +17,14 @@ src/Connections/PrimaryReadReplicaConnection.php	PrimaryReadReplicaConnection	16
 src/Driver.php	Driver	17	ported	crates/php2rust-doctrine-dbal/src/driver/mod.rs
 src/Driver/API/ExceptionConverter.php	ExceptionConverter	9	ported	crates/php2rust-doctrine-dbal/src/driver/api/mod.rs
 src/Driver/API/IBMDB2/ExceptionConverter.php	ExceptionConverter	37	pending	
-src/Driver/API/MySQL/ExceptionConverter.php	ExceptionConverter	91	pending	
+src/Driver/API/MySQL/ExceptionConverter.php	ExceptionConverter	91	ported	crates/php2rust-doctrine-dbal/src/driver/api/mysql.rs
 src/Driver/API/OCI/ExceptionConverter.php	ExceptionConverter	66	pending	
 src/Driver/API/PostgreSQL/ExceptionConverter.php	ExceptionConverter	65	pending	
 src/Driver/API/SQLSrv/ExceptionConverter.php	ExceptionConverter	39	pending	
 src/Driver/API/SQLite/ExceptionConverter.php	ExceptionConverter	66	ported	crates/php2rust-doctrine-dbal/src/driver/api/sqlite.rs
 src/Driver/AbstractDB2Driver.php	AbstractDB2Driver	18	pending	
 src/Driver/AbstractException.php	AbstractException	19	ported	crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs
-src/Driver/AbstractMySQLDriver.php	AbstractMySQLDriver	84	pending	
+src/Driver/AbstractMySQLDriver.php	AbstractMySQLDriver	84	ported	crates/php2rust-doctrine-dbal/src/driver/abstract_mysql_driver.rs
 src/Driver/AbstractOracleDriver.php	AbstractOracleDriver	23	pending	
 src/Driver/AbstractOracleDriver/EasyConnectString.php	EasyConnectString	96	pending	
 src/Driver/AbstractPostgreSQLDriver.php	AbstractPostgreSQLDriver	42	pending	
@@ -85,7 +85,7 @@ src/Driver/OCI8/Statement.php	Statement	77	pending
 src/Driver/PDO/Connection.php	Connection	102	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs
 src/Driver/PDO/Exception.php	Exception	18	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs
 src/Driver/PDO/Exception/InvalidConfiguration.php	InvalidConfiguration	16	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs
-src/Driver/PDO/MySQL/Driver.php	Driver	62	pending	
+src/Driver/PDO/MySQL/Driver.php	Driver	62	ported	crates/php2rust-doctrine-dbal/src/driver/pdo_mysql.rs
 src/Driver/PDO/OCI/Driver.php	Driver	50	pending	
 src/Driver/PDO/PDOConnect.php	PDOConnect	21	pending	
 src/Driver/PDO/PgSQL/Driver.php	Driver	92	pending	
@@ -170,7 +170,7 @@ src/Platforms/AbstractPlatform.php	AbstractPlatform	1312	ported	crates/php2rust-
 src/Platforms/DB2Platform.php	DB2Platform	420	ported	crates/php2rust-doctrine-dbal/src/platforms/db2_platform.rs
 src/Platforms/DateIntervalUnit.php	DateIntervalUnit	13	ported	crates/php2rust-doctrine-dbal/src/platforms/date_interval_unit.rs
 src/Platforms/Db2/Db2MetadataProvider.php	Db2MetadataProvider	416	pending	
-src/Platforms/Exception/InvalidPlatformVersion.php	InvalidPlatformVersion	15	pending	
+src/Platforms/Exception/InvalidPlatformVersion.php	InvalidPlatformVersion	15	ported	crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs
 src/Platforms/Exception/NoColumnsSpecifiedForTable.php	NoColumnsSpecifiedForTable	11	ported	crates/php2rust-doctrine-dbal/src/platforms/no_columns_specified_for_table.rs
 src/Platforms/Exception/NotSupported.php	NotSupported	11	ported	crates/php2rust-doctrine-dbal/src/platforms/exception.rs
 src/Platforms/Exception/PlatformException.php	PlatformException	6	ported	crates/php2rust-doctrine-dbal/src/platforms/exception.rs

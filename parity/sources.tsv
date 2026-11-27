@@ -7,8 +7,10 @@ crates/php2rust-doctrine-dbal/src/cache/cache_exception.rs	doctrine/dbal	src/Cac
 crates/php2rust-doctrine-dbal/src/cache/query_cache_profile.rs	doctrine/dbal	src/Cache/QueryCacheProfile.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/configuration.rs	doctrine/dbal	src/Configuration.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/connection.rs	doctrine/dbal	src/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/abstract_mysql_driver.rs	doctrine/dbal	src/Driver/AbstractMySQLDriver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/abstract_sqlite_driver.rs	doctrine/dbal	src/Driver/AbstractSQLiteDriver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/api/mod.rs	doctrine/dbal	src/Driver/API/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/api/mysql.rs	doctrine/dbal	src/Driver/API/MySQL/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/api/sqlite.rs	doctrine/dbal	src/Driver/API/SQLite/ExceptionConverter.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/connection.rs	doctrine/dbal	src/Driver/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/fetch_utils.rs	doctrine/dbal	src/Driver/FetchUtils.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -21,6 +23,7 @@ crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs	doctrine/dbal	src/Dri
 crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs	doctrine/dbal	src/Driver/Middleware/AbstractResultMiddleware.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/middleware/mod.rs	doctrine/dbal	src/Driver/Middleware/AbstractStatementMiddleware.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/mod.rs	doctrine/dbal	src/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/driver/pdo_mysql.rs	doctrine/dbal	src/Driver/PDO/MySQL/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/SQLite/Driver.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/Connection.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/driver/pdo_sqlite.rs	doctrine/dbal	src/Driver/PDO/Statement.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -69,6 +72,7 @@ crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs	doctrine/dbal	sr
 crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs	doctrine/dbal	src/Driver/AbstractException.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs	doctrine/dbal	src/Driver/Exception/IdentityColumnsNotSupported.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs	doctrine/dbal	src/Driver/Exception/NoIdentityValue.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/src/exception/driver_exception.rs	doctrine/dbal	src/Platforms/Exception/InvalidPlatformVersion.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/exception/mod.rs	doctrine/dbal	src/Exception.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/exception/mod.rs	doctrine/dbal	src/Exception/InvalidArgumentException.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/src/exception/mod.rs	doctrine/dbal	src/Exception/InvalidColumnDeclaration.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -353,6 +357,8 @@ crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_connection_middle
 crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_driver_middleware_test.rs	doctrine/dbal	tests/Driver/Middleware/AbstractDriverMiddlewareTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_result_middleware_test.rs	doctrine/dbal	tests/Driver/Middleware/AbstractResultMiddlewareTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/driver_middleware_abstract_statement_middleware_test.rs	doctrine/dbal	tests/Driver/Middleware/AbstractStatementMiddlewareTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_pdo_mysql_driver_test.rs	doctrine/dbal	tests/Driver/PDO/MySQL/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs	doctrine/dbal	tests/Driver/VersionAwarePlatformDriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/expand_array_parameters_test.rs	doctrine/dbal	tests/Connection/ExpandArrayParametersTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/expression_builder_test.rs	doctrine/dbal	tests/Query/Expression/ExpressionBuilderTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_auto_increment_column_test.rs	doctrine/dbal	tests/Functional/AutoIncrementColumnTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -363,6 +369,8 @@ crates/php2rust-doctrine-dbal/tests/functional_connection_fetch_empty_test.rs	do
 crates/php2rust-doctrine-dbal/tests/functional_connection_fetch_test.rs	doctrine/dbal	tests/Functional/Connection/FetchTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_connection_test.rs	doctrine/dbal	tests/Functional/ConnectionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_data_access_test.rs	doctrine/dbal	tests/Functional/DataAccessTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/PDO/MySQL/DriverTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs	doctrine/dbal	tests/Functional/Driver/AbstractDriverTestCase.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_exception_test.rs	doctrine/dbal	tests/Functional/ExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_foreign_key_constraint_violations_test.rs	doctrine/dbal	tests/Functional/ForeignKeyConstraintViolationsTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_foreign_key_exception_test.rs	doctrine/dbal	tests/Functional/ForeignKeyExceptionTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
@@ -396,6 +404,9 @@ crates/php2rust-doctrine-dbal/tests/functional_schema_custom_introspection_test.
 crates/php2rust-doctrine-dbal/tests/functional_schema_custom_introspection_test.rs	doctrine/dbal	tests/Functional/Schema/Types/MoneyType.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_default_value_test.rs	doctrine/dbal	tests/Functional/Schema/DefaultValueTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_foreign_key_constraint_test.rs	doctrine/dbal	tests/Functional/Schema/ForeignKeyConstraintTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQLSchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQL/PointType.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
+crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/MySQL/CustomType.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/SchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_sqlite_comparator_test.rs	doctrine/dbal	tests/Functional/Schema/SQLite/ComparatorTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879
 crates/php2rust-doctrine-dbal/tests/functional_schema_sqlite_schema_manager_test.rs	doctrine/dbal	tests/Functional/Schema/SQLiteSchemaManagerTest.php	c435cd7ea33e17d2a89288caf994cf3d4549b879

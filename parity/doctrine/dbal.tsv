@@ -82,8 +82,8 @@ tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testOriginalExceptionIsInChain
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsCode	pending	
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsMessage	pending	
 tests/Driver/PDO/ExceptionTest.php	ExceptionTest::testReturnsSQLState	pending	
-tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
-tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testUserIsFalse	pending	
+tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testPasswordIsFalse	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_mysql_driver_test.rs::testPasswordIsFalse
+tests/Driver/PDO/MySQL/DriverTest.php	DriverTest::testUserIsFalse	ported	crates/php2rust-doctrine-dbal/tests/driver_pdo_mysql_driver_test.rs::testUserIsFalse
 tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testPasswordIsFalse	pending	
 tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
 tests/Driver/PDO/OCI/DriverTest.php	DriverTest::testUserIsFalse	pending	
@@ -102,9 +102,9 @@ tests/Driver/PDO/SQLite/DriverTest.php	DriverTest::testUserIsFalse	pending
 tests/Driver/PgSQL/DriverTest.php	DriverTest::testConnectionIPv6	pending	
 tests/Driver/SQLSrv/DriverTest.php	DriverTest::testPortWithoutHost	pending	
 tests/Driver/SQLSrv/DriverTest.php	DriverTest::testThrowsExceptionOnCreatingDatabasePlatformsForInvalidVersion	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMalformedMariaDBVersionThrows	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMySQLi	pending	
-tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOMySQL	pending	
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMalformedMariaDBVersionThrows	ported	crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs::testMalformedMariaDBVersionThrows
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testMySQLi	pending	the mysqli driver is not ported
+tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOMySQL	ported	crates/php2rust-doctrine-dbal/tests/driver_version_aware_platform_driver_test.rs::testPDOMySQL
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPDOPgSQL	pending	
 tests/Driver/VersionAwarePlatformDriverTest.php	VersionAwarePlatformDriverTest::testPgSQL	pending	
 tests/DriverManagerTest.php	DriverManagerTest::testCheckParams	ported	crates/php2rust-doctrine-dbal/tests/driver_manager_test.rs::testCheckParams
@@ -241,9 +241,9 @@ tests/Functional/Driver/OCI8/DriverTest.php	DriverTest::testReturnsDatabaseNameW
 tests/Functional/Driver/OCI8/ResultTest.php	ResultTest::testTruncatedFetch	pending	
 tests/Functional/Driver/OCI8/StatementTest.php	StatementTest::testBindPositionalParameter	pending	
 tests/Functional/Driver/OCI8/StatementTest.php	StatementTest::testQueryConversion	pending	
-tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
-tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
-tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
+tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs::testConnectsWithoutDatabaseNameParameter
+tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs::testProvidesAccessToTheNativeConnection
+tests/Functional/Driver/PDO/MySQL/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_driver_pdo_mysql_driver_test.rs::testReturnsDatabaseNameWithoutDatabaseNameParameter
 tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testConnectsWithoutDatabaseNameParameter	pending	
 tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testProvidesAccessToTheNativeConnection	pending	
 tests/Functional/Driver/PDO/OCI/DriverTest.php	DriverTest::testReturnsDatabaseNameWithoutDatabaseNameParameter	pending	
@@ -513,73 +513,73 @@ tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testMariaDb1043
 tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testSimpleArrayTypeNonChangeNotDetected	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
 tests/Functional/Schema/MySQL/ComparatorTest.php	ComparatorTest::testTableAndColumnOptions	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is an AbstractMySQLPlatform)	
 tests/Functional/Schema/MySQL/JsonCollationTest.php	JsonCollationTest::testJsonColumnComparison	n/a: upstream does not run it on SQLite (markTestSkipped() unless the platform is a MariaDBPlatform)	
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterColumnCharset	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterTableScenario	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testChangeIndexWithForeignKeys	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCharset	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCharsetChange	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCollation	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultCurrentTimestamp	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultLifecycle	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultValuesCurrentTimeAndDate	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultsAreValid	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnIntrospection	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCommentInTable	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testComparisonWithAutoDetectedSequenceDefinition	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testConfigurableLengthColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateAndListSequences	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateAndListViews	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateSequence	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDefaultSchemaName	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDiffListGuidTableColumn	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDiffListTableColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDoesNotListIndexesImplicitlyCreatedByForeignKeys	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDoesNotPropagateDefaultValuesForUnsupportedColumnTypes	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropAndCreateIndex	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropAndCreateUniqueConstraint	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropColumnWithDefault	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropPrimaryKeyWithAutoincrementColumn	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testEnsureTableOptionsAreReflectedInMetadata	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testEnsureTableWithoutOptionsAreReflectedInMetadata	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testFulltextIndex	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testGenerateAnIndexWithPartialColumnLength	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testGetNonExistingTable	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIndexWithLength	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectDatabaseNames	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTableDetails	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTables	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testJsonColumnType	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListDecimalTypeColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListLobTypeColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListSchemaNames	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListSequences	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumnsThrowsDatabaseRequired	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumnsWithFixedStringColumn	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableDetailsWithFullQualifiedTableName	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableFloatTypeColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableIndexes	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableWithBinary	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableWithBlob	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTables	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTablesDoesNotIncludeViews	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTablesWithFilter	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListUnsignedFloatTypeColumns	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testMigrateOldBoolean	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testMigrateSchema	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testPrimaryKeyAutoIncrement	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testQuotedIdentifiers	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testRenameIndexUsedInForeignKeyConstraint	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testRenameTable	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSchemaDiffWithCustomColumnTypeWhileDatabaseTypeDiffers	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSchemaIntrospection	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSpatialIndex	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSwitchPrimaryKeyOrder	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testTableInNamespace	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testTableWithSchema	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
-tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	needs a live MySQL server and a MySQL driver (not ported); run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterColumnCharset	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testAlterColumnCharset
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testAlterTableScenario	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testChangeColumnsTypeWithDefaultValue	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testChangeIndexWithForeignKeys	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCharset	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnCharset
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCharsetChange	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnCharsetChange
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnCollation	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnCollation
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultCurrentTimestamp	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnDefaultCurrentTimestamp
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultLifecycle	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultValuesCurrentTimeAndDate	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnDefaultValuesCurrentTimeAndDate
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnDefaultsAreValid	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnDefaultsAreValid
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testColumnIntrospection	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testColumnIntrospection
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCommentInTable	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testComparisonWithAutoDetectedSequenceDefinition	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testConfigurableLengthColumns	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testConfigurableLengthColumns
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateAndListSequences	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateAndListViews	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testCreateSequence	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDefaultSchemaName	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDiffListGuidTableColumn	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testDiffListGuidTableColumn
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDiffListTableColumns	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDoesNotListIndexesImplicitlyCreatedByForeignKeys	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDoesNotPropagateDefaultValuesForUnsupportedColumnTypes	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testDoesNotPropagateDefaultValuesForUnsupportedColumnTypes
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropAndCreateIndex	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropAndCreateUniqueConstraint	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropColumnWithDefault	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testDropPrimaryKeyWithAutoincrementColumn	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testDropPrimaryKeyWithAutoincrementColumn
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testEnsureTableOptionsAreReflectedInMetadata	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testEnsureTableOptionsAreReflectedInMetadata
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testEnsureTableWithoutOptionsAreReflectedInMetadata	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testEnsureTableWithoutOptionsAreReflectedInMetadata
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testFulltextIndex	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testFulltextIndex
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testGenerateAnIndexWithPartialColumnLength	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testGetNonExistingTable	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIndexWithLength	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testIndexWithLength
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectDatabaseNames	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTableDetails	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testIntrospectReservedKeywordTableViaListTables	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testJsonColumnType	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testJsonColumnType
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListDecimalTypeColumns	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testListDecimalTypeColumns
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListLobTypeColumns	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testListLobTypeColumns
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListSchemaNames	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListSequences	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumns	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumnsThrowsDatabaseRequired	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testListTableColumnsThrowsDatabaseRequired
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableColumnsWithFixedStringColumn	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableDetailsWithFullQualifiedTableName	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableFloatTypeColumns	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableIndexes	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableWithBinary	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTableWithBlob	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTables	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTablesDoesNotIncludeViews	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListTablesWithFilter	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testListUnsignedFloatTypeColumns	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testListUnsignedFloatTypeColumns
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testMigrateOldBoolean	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testMigrateOldBoolean
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testMigrateSchema	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testPrimaryKeyAutoIncrement	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testQuotedIdentifiers	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testRenameIndexUsedInForeignKeyConstraint	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testRenameTable	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSchemaDiffWithCustomColumnTypeWhileDatabaseTypeDiffers	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testSchemaDiffWithCustomColumnTypeWhileDatabaseTypeDiffers
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSchemaIntrospection	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSpatialIndex	pending	needs a live MySQL server; run on Daniel's computer	crates/php2rust-doctrine-dbal/tests/functional_schema_mysql_schema_manager_test.rs::testSpatialIndex
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testSwitchPrimaryKeyOrder	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testTableInNamespace	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testTableWithSchema	pending	needs a live MySQL server; run on Daniel's computer
+tests/Functional/Schema/MySQLSchemaManagerTest.php	MySQLSchemaManagerTest::testUpdateSchemaWithForeignKeyRenaming	pending	needs a live MySQL server; run on Daniel's computer
 tests/Functional/Schema/Oracle/ComparatorTest.php	ComparatorTest::testChangeBinaryColumnFixed	pending	
 tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::testAlterIntrospectedTablePreservesIndexesAndForeignKeys	pending	
 tests/Functional/Schema/OracleSchemaManagerTest.php	OracleSchemaManagerTest::testAlterTableColumnNotNull	pending	
