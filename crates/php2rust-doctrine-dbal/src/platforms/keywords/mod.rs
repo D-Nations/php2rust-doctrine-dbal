@@ -47,6 +47,19 @@ impl KeywordList {
     }
 }
 
+// Slice MySQL, PostgreSQL and Oracle platforms.
+mod mysql80_keywords;
+mod mysql84_keywords;
+mod mysql_keywords;
+mod oracle_keywords;
+mod postgresql_keywords;
+
+pub use mysql_keywords::MySQLKeywords;
+pub use mysql80_keywords::MySQL80Keywords;
+pub use mysql84_keywords::MySQL84Keywords;
+pub use oracle_keywords::OracleKeywords;
+pub use postgresql_keywords::PostgreSQLKeywords;
+
 /// `SQLite` Keywordlist (`new SQLiteKeywords()`).
 pub struct SQLiteKeywords;
 
