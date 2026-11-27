@@ -151,6 +151,8 @@ namespace {
         'Platforms/SQLitePlatformTest',
         'Platforms/MySQLPlatformTest', 'Platforms/MySQL84PlatformTest', 'Platforms/PostgreSQLPlatformTest',
         'Platforms/OraclePlatformTest',
+        'Platforms/MariaDBPlatformTest', 'Platforms/MariaDB1052PlatformTest', 'Platforms/MariaDB110700PlatformTest',
+        'Platforms/MariaDB120300PlatformTest', 'Platforms/MySQL/MariaDBJsonComparatorTest',
     ];
     foreach ($classes as $path) {
         $reflection = new ReflectionClass('Doctrine\\DBAL\\Tests\\' . str_replace('/', '\\', $path));

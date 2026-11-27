@@ -38,10 +38,13 @@ pub struct TableDiffParts {
 }
 
 /// Table Diff.
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct TableDiff {
     old_table: Table,
     parts: TableDiffParts,
+    /// The keys of `$droppedForeignKeys` (a list's `0`, `1`, ... unless
+    /// the comparator keyed them by the old table's keys).
+    dropped_foreign_key_keys: Option<Vec<String>>,
 }
 
 /// `IndexRename`: the rename of an index.
@@ -65,6 +68,24 @@ impl IndexRename {
 
     pub fn get_new_index(&self) -> &Index {
         &self.new_index
+    }
+}
+
+/// The dropped foreign keys' keys are shown as PHP's array has them (a
+/// list's `0`, `1`, ... unless the comparator keyed them), so that two
+/// diffs compare as PHP's `==` of the objects does.
+impl std::fmt::Debug for TableDiff {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let dropped_foreign_key_keys: Vec<String> = self
+            .dropped_foreign_keys_by_key()
+            .into_iter()
+            .map(|(key, _)| key)
+            .collect();
+        f.debug_struct("TableDiff")
+            .field("old_table", &self.old_table)
+            .field("parts", &self.parts)
+            .field("dropped_foreign_key_keys", &dropped_foreign_key_keys)
+            .finish()
     }
 }
 
@@ -99,7 +120,36 @@ impl TableDiff {
                 )
             });
         }
-        Self { old_table, parts }
+        Self {
+            old_table,
+            parts,
+            dropped_foreign_key_keys: None,
+        }
+    }
+
+    /// The comparator's keys of `$droppedForeignKeys`, one per dropped
+    /// foreign key, in order.
+    pub(crate) fn with_dropped_foreign_key_keys(mut self, keys: Vec<String>) -> Self {
+        debug_assert_eq!(keys.len(), self.parts.dropped_foreign_keys.len());
+        self.dropped_foreign_key_keys = Some(keys);
+        self
+    }
+
+    /// `$droppedForeignKeys` with its keys (`array_diff_key()` reads them).
+    pub(crate) fn dropped_foreign_keys_by_key(&self) -> Vec<(String, &ForeignKeyConstraint)> {
+        self.parts
+            .dropped_foreign_keys
+            .iter()
+            .enumerate()
+            .map(|(i, fk)| {
+                let key = self
+                    .dropped_foreign_key_keys
+                    .as_ref()
+                    .and_then(|keys| keys.get(i).cloned())
+                    .unwrap_or_else(|| i.to_string());
+                (key, fk)
+            })
+            .collect()
     }
 
     pub fn get_old_table(&self) -> &Table {

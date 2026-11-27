@@ -176,9 +176,9 @@ src/Platforms/Exception/NotSupported.php	NotSupported	11	ported	crates/php2rust-
 src/Platforms/Exception/PlatformException.php	PlatformException	6	ported	crates/php2rust-doctrine-dbal/src/platforms/exception.rs
 src/Platforms/Keywords/DB2Keywords.php	DB2Keywords	404	pending	
 src/Platforms/Keywords/KeywordList.php	KeywordList	31	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mod.rs
-src/Platforms/Keywords/MariaDB117Keywords.php	MariaDB117Keywords	12	pending	
-src/Platforms/Keywords/MariaDB123Keywords.php	MariaDB123Keywords	12	pending	
-src/Platforms/Keywords/MariaDBKeywords.php	MariaDBKeywords	257	pending	
+src/Platforms/Keywords/MariaDB117Keywords.php	MariaDB117Keywords	12	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mariadb117_keywords.rs
+src/Platforms/Keywords/MariaDB123Keywords.php	MariaDB123Keywords	12	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mariadb123_keywords.rs
+src/Platforms/Keywords/MariaDBKeywords.php	MariaDBKeywords	257	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mariadb_keywords.rs
 src/Platforms/Keywords/MySQL80Keywords.php	MySQL80Keywords	44	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql80_keywords.rs
 src/Platforms/Keywords/MySQL84Keywords.php	MySQL84Keywords	28	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql84_keywords.rs
 src/Platforms/Keywords/MySQLKeywords.php	MySQLKeywords	245	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mysql_keywords.rs
@@ -186,12 +186,12 @@ src/Platforms/Keywords/OracleKeywords.php	OracleKeywords	123	ported	crates/php2r
 src/Platforms/Keywords/PostgreSQLKeywords.php	PostgreSQLKeywords	109	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/postgresql_keywords.rs
 src/Platforms/Keywords/SQLServerKeywords.php	SQLServerKeywords	195	pending	
 src/Platforms/Keywords/SQLiteKeywords.php	SQLiteKeywords	131	ported	crates/php2rust-doctrine-dbal/src/platforms/keywords/mod.rs
-src/Platforms/MariaDB1010Platform.php	MariaDB1010Platform	32	pending	
-src/Platforms/MariaDB1052Platform.php	MariaDB1052Platform	19	pending	
-src/Platforms/MariaDB1060Platform.php	MariaDB1060Platform	10	pending	
-src/Platforms/MariaDB110700Platform.php	MariaDB110700Platform	18	pending	
-src/Platforms/MariaDB120300Platform.php	MariaDB120300Platform	18	pending	
-src/Platforms/MariaDBPlatform.php	MariaDBPlatform	110	pending	
+src/Platforms/MariaDB1010Platform.php	MariaDB1010Platform	32	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb1010_platform.rs
+src/Platforms/MariaDB1052Platform.php	MariaDB1052Platform	19	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb1052_platform.rs
+src/Platforms/MariaDB1060Platform.php	MariaDB1060Platform	10	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb1060_platform.rs
+src/Platforms/MariaDB110700Platform.php	MariaDB110700Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb110700_platform.rs
+src/Platforms/MariaDB120300Platform.php	MariaDB120300Platform	18	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb120300_platform.rs
+src/Platforms/MariaDBPlatform.php	MariaDBPlatform	110	ported	crates/php2rust-doctrine-dbal/src/platforms/mariadb_platform.rs
 src/Platforms/MySQL/CharsetMetadataProvider.php	CharsetMetadataProvider	6	ported	crates/php2rust-doctrine-dbal/src/platforms/mysql/charset_metadata_provider.rs
 src/Platforms/MySQL/CharsetMetadataProvider/CachingCharsetMetadataProvider.php	CachingCharsetMetadataProvider	18	pending	
 src/Platforms/MySQL/CharsetMetadataProvider/ConnectionCharsetMetadataProvider.php	ConnectionCharsetMetadataProvider	27	pending	

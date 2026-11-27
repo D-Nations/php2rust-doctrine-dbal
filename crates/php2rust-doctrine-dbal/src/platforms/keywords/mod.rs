@@ -48,12 +48,18 @@ impl KeywordList {
 }
 
 // Slice MySQL, PostgreSQL and Oracle platforms.
+mod mariadb117_keywords;
+mod mariadb123_keywords;
+mod mariadb_keywords;
 mod mysql80_keywords;
 mod mysql84_keywords;
 mod mysql_keywords;
 mod oracle_keywords;
 mod postgresql_keywords;
 
+pub use mariadb_keywords::MariaDBKeywords;
+pub use mariadb117_keywords::MariaDB117Keywords;
+pub use mariadb123_keywords::MariaDB123Keywords;
 pub use mysql_keywords::MySQLKeywords;
 pub use mysql80_keywords::MySQL80Keywords;
 pub use mysql84_keywords::MySQL84Keywords;

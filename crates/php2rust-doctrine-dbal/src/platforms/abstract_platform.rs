@@ -1060,34 +1060,23 @@ pub trait AbstractPlatform: AsDynPlatform {
         parent::get_pre_alter_table_index_foreign_key_sql(self, diff)
     }
 
+    /// `AbstractMySQLPlatform::getPreAlterTableRenameIndexForeignKeySQL()`
+    /// (protected): the statements `getPreAlterTableIndexForeignKeySQL()`
+    /// of the `MySQL`-like platforms adds before renaming indexes; none
+    /// unless `MariaDBPlatform` overrides it.
+    fn get_pre_alter_table_rename_index_foreign_key_sql(
+        &self,
+        _diff: &TableDiff,
+    ) -> Result<Vec<String>, Exception> {
+        Ok(Vec::new())
+    }
+
     /// `getPostAlterTableIndexForeignKeySQL()` (protected).
     fn get_post_alter_table_index_foreign_key_sql(
         &self,
         diff: &TableDiff,
     ) -> Result<Vec<String>, Exception> {
-        let mut sql = Vec::new();
-        let table_name_sql = diff.get_old_table().get_quoted_name(self);
-        for foreign_key in diff.get_added_foreign_keys() {
-            sql.push(self.get_create_foreign_key_sql(foreign_key, &table_name_sql)?);
-        }
-        for foreign_key in diff.modified_foreign_keys() {
-            sql.push(self.get_create_foreign_key_sql(foreign_key, &table_name_sql)?);
-        }
-        for index in diff.get_added_indexes() {
-            sql.push(self.get_create_index_sql(index, &table_name_sql)?);
-        }
-        for index in diff.modified_indexes() {
-            sql.push(self.get_create_index_sql(index, &table_name_sql)?);
-        }
-        for (old_index_name, index) in diff.renamed_indexes() {
-            let old_index_name = Identifier::new(old_index_name, false);
-            sql.extend(self.get_rename_index_sql(
-                &old_index_name.get_quoted_name(self),
-                index,
-                &table_name_sql,
-            )?);
-        }
-        Ok(sql)
+        parent::get_post_alter_table_index_foreign_key_sql(self, diff)
     }
 
     /// Returns the SQL for renaming an index on a table (protected).
@@ -1145,64 +1134,7 @@ pub trait AbstractPlatform: AsDynPlatform {
         name: &str,
         column: &PhpArray,
     ) -> Result<String, Exception> {
-        let declaration = match column.get(&Key::from("columnDefinition")) {
-            Some(definition) if !definition.is_null() => concat_value(definition)?,
-            _ => {
-                let default = self.get_default_value_declaration_sql(column)?;
-                let charset = match column.get(&Key::from("charset")) {
-                    Some(charset) if charset.is_truthy() => format!(
-                        " {}",
-                        self.get_column_charset_declaration_sql(&string_argument(
-                            charset,
-                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getColumnCharsetDeclarationSQL",
-                            1,
-                            "charset",
-                        )?)
-                    ),
-                    _ => String::new(),
-                };
-                let collation = match column.get(&Key::from("collation")) {
-                    Some(collation) if collation.is_truthy() => format!(
-                        " {}",
-                        self.get_column_collation_declaration_sql(&string_argument(
-                            collation,
-                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getColumnCollationDeclarationSQL",
-                            1,
-                            "collation",
-                        )?)
-                    ),
-                    _ => String::new(),
-                };
-                let notnull = if column_flag(column, "notnull") {
-                    " NOT NULL"
-                } else {
-                    ""
-                };
-                let type_decl = utf8(
-                    &self
-                        .get_column_type(column)?
-                        .get_sql_declaration(column, self.as_dyn())?,
-                )?;
-                let mut declaration = format!("{type_decl}{charset}{default}{notnull}{collation}");
-                if self.supports_inline_column_comments()
-                    && let Some(comment) = column.get(&Key::from("comment"))
-                {
-                    let is_empty = matches!(comment, Value::String(s) if s.is_empty());
-                    if !comment.is_null() && !is_empty {
-                        let comment = string_argument(
-                            comment,
-                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getInlineColumnCommentSQL",
-                            1,
-                            "comment",
-                        )?;
-                        declaration.push(' ');
-                        declaration.push_str(&self.get_inline_column_comment_sql(&comment)?);
-                    }
-                }
-                declaration
-            }
-        };
-        Ok(format!("{name} {declaration}"))
+        parent::get_column_declaration_sql(self, name, column)
     }
 
     /// Obtains DBMS specific SQL code portion needed to set a default
@@ -1995,6 +1927,102 @@ pub(crate) mod parent {
             }
         }
         Ok(query)
+    }
+
+    /// `parent::get_post_alter_table_index_foreign_key_sql()`: the body of [`AbstractPlatform::get_post_alter_table_index_foreign_key_sql`].
+    pub(crate) fn get_post_alter_table_index_foreign_key_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        diff: &TableDiff,
+    ) -> Result<Vec<String>, Exception> {
+        let mut sql = Vec::new();
+        let table_name_sql = diff.get_old_table().get_quoted_name(this);
+        for foreign_key in diff.get_added_foreign_keys() {
+            sql.push(this.get_create_foreign_key_sql(foreign_key, &table_name_sql)?);
+        }
+        for foreign_key in diff.modified_foreign_keys() {
+            sql.push(this.get_create_foreign_key_sql(foreign_key, &table_name_sql)?);
+        }
+        for index in diff.get_added_indexes() {
+            sql.push(this.get_create_index_sql(index, &table_name_sql)?);
+        }
+        for index in diff.modified_indexes() {
+            sql.push(this.get_create_index_sql(index, &table_name_sql)?);
+        }
+        for (old_index_name, index) in diff.renamed_indexes() {
+            let old_index_name = Identifier::new(old_index_name, false);
+            sql.extend(this.get_rename_index_sql(
+                &old_index_name.get_quoted_name(this),
+                index,
+                &table_name_sql,
+            )?);
+        }
+        Ok(sql)
+    }
+
+    /// `parent::get_column_declaration_sql()`: the body of [`AbstractPlatform::get_column_declaration_sql`].
+    pub(crate) fn get_column_declaration_sql<P: AbstractPlatform + ?Sized>(
+        this: &P,
+        name: &str,
+        column: &PhpArray,
+    ) -> Result<String, Exception> {
+        let declaration = match column.get(&Key::from("columnDefinition")) {
+            Some(definition) if !definition.is_null() => concat_value(definition)?,
+            _ => {
+                let default = this.get_default_value_declaration_sql(column)?;
+                let charset = match column.get(&Key::from("charset")) {
+                    Some(charset) if charset.is_truthy() => format!(
+                        " {}",
+                        this.get_column_charset_declaration_sql(&string_argument(
+                            charset,
+                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getColumnCharsetDeclarationSQL",
+                            1,
+                            "charset",
+                        )?)
+                    ),
+                    _ => String::new(),
+                };
+                let collation = match column.get(&Key::from("collation")) {
+                    Some(collation) if collation.is_truthy() => format!(
+                        " {}",
+                        this.get_column_collation_declaration_sql(&string_argument(
+                            collation,
+                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getColumnCollationDeclarationSQL",
+                            1,
+                            "collation",
+                        )?)
+                    ),
+                    _ => String::new(),
+                };
+                let notnull = if column_flag(column, "notnull") {
+                    " NOT NULL"
+                } else {
+                    ""
+                };
+                let type_decl = utf8(
+                    &this
+                        .get_column_type(column)?
+                        .get_sql_declaration(column, this.as_dyn())?,
+                )?;
+                let mut declaration = format!("{type_decl}{charset}{default}{notnull}{collation}");
+                if this.supports_inline_column_comments()
+                    && let Some(comment) = column.get(&Key::from("comment"))
+                {
+                    let is_empty = matches!(comment, Value::String(s) if s.is_empty());
+                    if !comment.is_null() && !is_empty {
+                        let comment = string_argument(
+                            comment,
+                            "Doctrine\\DBAL\\Platforms\\AbstractPlatform::getInlineColumnCommentSQL",
+                            1,
+                            "comment",
+                        )?;
+                        declaration.push(' ');
+                        declaration.push_str(&this.get_inline_column_comment_sql(&comment)?);
+                    }
+                }
+                declaration
+            }
+        };
+        Ok(format!("{name} {declaration}"))
     }
 
     /// `parent::get_pre_alter_table_index_foreign_key_sql()`: the body of [`AbstractPlatform::get_pre_alter_table_index_foreign_key_sql`].

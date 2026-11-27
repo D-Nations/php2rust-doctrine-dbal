@@ -403,7 +403,8 @@ impl<'a> Comparator<'a> {
                 modified_foreign_keys: Vec::new(),
                 dropped_foreign_keys: dropped_foreign_keys.values().cloned().collect(),
             },
-        ))
+        )
+        .with_dropped_foreign_key_keys(dropped_foreign_keys.keys().map(str::to_owned).collect()))
     }
 
     /// Try to find columns that only changed their name, rename operations
