@@ -66,7 +66,7 @@ async fn drop_temporary_table(connection: &Connection, name: &str) {
 
 async fn assert_nontemporary_is_empty(connection: &Connection) {
     // In an event of an error this result has one row, because of an implicit commit
-    assert!(
+    assert_eq!(
         connection
             .fetch_all_associative(
                 "SELECT * FROM nontemporary",
@@ -75,7 +75,8 @@ async fn assert_nontemporary_is_empty(connection: &Connection) {
             )
             .await
             .unwrap()
-            .is_empty()
+            .len(),
+        0
     );
 }
 

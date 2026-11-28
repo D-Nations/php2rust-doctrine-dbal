@@ -91,8 +91,7 @@ fn string_of(value: &Value) -> Vec<u8> {
         Value::Array(_) => b"Array".to_vec(),
         other => other
             .to_php_string_or_stringable()
-            .map(|s| s.as_bytes().to_vec())
-            .unwrap_or_default(),
+            .map_or_default(|s| s.as_bytes().to_vec()),
     }
 }
 

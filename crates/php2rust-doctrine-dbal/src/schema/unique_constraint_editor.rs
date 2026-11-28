@@ -124,11 +124,7 @@ impl UniqueConstraintEditor {
             ));
         }
         Ok(UniqueConstraint::new(
-            &self
-                .name
-                .as_ref()
-                .map(ToString::to_string)
-                .unwrap_or_default(),
+            &self.name.as_ref().map_or_default(ToString::to_string),
             self.column_names.iter().map(ToString::to_string),
             if self.is_clustered {
                 vec!["clustered"]

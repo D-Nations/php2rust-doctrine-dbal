@@ -66,7 +66,10 @@ fn testEditorCreatesEmptySchema() {
     let schema = Schema::editor().create().unwrap();
 
     assert!(schema.get_tables().is_empty());
-    assert!(schema.get_sequences().is_empty());
+    assert_eq!(
+        schema.get_sequences(),
+        [] as [&php2rust_doctrine_dbal::schema::Sequence; 0]
+    );
 }
 
 #[test]
@@ -332,7 +335,10 @@ fn testSequenceDefaultNamespaceLookupParity() {
     let editor =
         editor.drop_sequence(&OptionallyQualifiedName::unquoted("s", Some("public")).unwrap());
 
-    assert!(editor.create().unwrap().get_sequences().is_empty());
+    assert_eq!(
+        editor.create().unwrap().get_sequences(),
+        [] as [&php2rust_doctrine_dbal::schema::Sequence; 0]
+    );
 }
 
 #[test]

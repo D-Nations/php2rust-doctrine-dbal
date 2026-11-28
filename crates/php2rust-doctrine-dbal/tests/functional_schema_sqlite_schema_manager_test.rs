@@ -713,7 +713,7 @@ CREATE TABLE track(
     assert_eq!(1, foreign_keys.len());
 
     let foreign_key1 = foreign_keys[0];
-    assert!(foreign_key1.get_name().is_empty());
+    assert_eq!(foreign_key1.get_name(), "");
 
     assert_eq!(
         vec!["trackartist".to_owned()],

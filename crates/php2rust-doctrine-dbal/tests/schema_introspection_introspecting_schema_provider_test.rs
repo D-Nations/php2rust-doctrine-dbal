@@ -28,22 +28,42 @@ type Rows<T> = Result<Vec<T>, Exception>;
 struct Stub;
 
 impl MetadataProvider for Stub {
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_database_names(&self) -> Rows<DatabaseMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_schema_names(&self) -> Rows<SchemaMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_table_names(&self) -> Rows<TableMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_table_columns_for_all_tables(&self) -> Rows<TableColumnMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_table_columns_for_table(
         &self,
         _schema_name: Option<&str>,
@@ -52,10 +72,18 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_index_columns_for_all_tables(&self) -> Rows<IndexColumnMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_index_columns_for_table(
         &self,
         _schema_name: Option<&str>,
@@ -64,12 +92,20 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_primary_key_constraint_columns_for_all_tables(
         &self,
     ) -> Rows<PrimaryKeyConstraintColumnRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_primary_key_constraint_columns_for_table(
         &self,
         _schema_name: Option<&str>,
@@ -78,12 +114,20 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_foreign_key_constraint_columns_for_all_tables(
         &self,
     ) -> Rows<ForeignKeyConstraintColumnMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_foreign_key_constraint_columns_for_table(
         &self,
         _schema_name: Option<&str>,
@@ -92,10 +136,18 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_table_options_for_all_tables(&self) -> Rows<TableMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_table_options_for_table(
         &self,
         _schema_name: Option<&str>,
@@ -104,10 +156,18 @@ impl MetadataProvider for Stub {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_views(&self) -> Rows<ViewMetadataRow> {
         Ok(Vec::new())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_sequences(&self) -> Rows<SequenceMetadataRow> {
         Ok(Vec::new())
     }
@@ -127,12 +187,12 @@ async fn testGetUniqueConstraintsForTableWithoutMetadataSupport() {
     deprecations::enable_tracking_deprecations();
     let before = deprecations::count(LINK_7461);
 
-    assert!(
+    assert_eq!(
         create_provider()
             .get_unique_constraints_for_table(None, "orders")
             .await
-            .unwrap()
-            .is_empty()
+            .unwrap(),
+        [] as [php2rust_doctrine_dbal::schema::UniqueConstraint; 0]
     );
 
     assert!(deprecations::count(LINK_7461) > before);

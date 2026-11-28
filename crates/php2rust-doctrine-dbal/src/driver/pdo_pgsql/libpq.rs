@@ -846,6 +846,7 @@ async fn connect_socket(path: &str, timeout: Duration) -> Result<Box<dyn Stream>
 }
 
 #[cfg(not(unix))]
+#[allow(clippy::unused_async, reason = "matches the async Unix implementation")]
 async fn connect_socket(_path: &str, _timeout: Duration) -> Result<Box<dyn Stream>, String> {
     Err("Unix-domain sockets are not supported on this platform\n".to_owned())
 }

@@ -228,7 +228,7 @@ fn multi_line_comment(sql: &[u8], offset: usize) -> Option<usize> {
     }
     let body = offset + 2;
     sql[body..]
-        .windows(2)
+        .array_windows()
         .position(|pair| pair == b"*/")
         .map(|end| body + end + 2 - offset)
 }

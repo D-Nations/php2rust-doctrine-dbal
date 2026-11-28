@@ -259,6 +259,10 @@ impl<'c> AbstractSchemaManager<'c> for SQLiteSchemaManager<'c> {
         self.platform
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn create_metadata_provider(&self) -> R<SQLiteMetadataProvider<'c>> {
         Ok(self.platform.create_metadata_provider(self.connection))
     }
