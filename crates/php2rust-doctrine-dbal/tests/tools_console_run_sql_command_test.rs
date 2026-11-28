@@ -130,7 +130,7 @@ fn testSelectStatementsPrintsResult() {
 
     assert_eq!(fixture.display(), SELECT_1);
     assert_eq!(fixture.calls("query "), ["query SELECT 1"]);
-    assert!(fixture.calls("exec ").is_empty());
+    assert_eq!(fixture.calls("exec "), [] as [std::string::String; 0]);
 }
 
 #[test]
@@ -146,7 +146,7 @@ fn testSelectWithEmptyResultSet() {
             .contains("[OK] The query yielded an empty result set.")
     );
     assert_eq!(fixture.calls("query "), ["query SELECT foo FROM bar"]);
-    assert!(fixture.calls("exec ").is_empty());
+    assert_eq!(fixture.calls("exec "), [] as [std::string::String; 0]);
 }
 
 #[test]
@@ -157,7 +157,7 @@ fn testUpdateStatementsPrintsAffectedLines() {
 
     assert!(fixture.display().contains("[OK] 42 rows affected."));
     assert_eq!(fixture.calls("exec "), ["exec UPDATE foo SET bar = 42"]);
-    assert!(fixture.calls("query ").is_empty());
+    assert_eq!(fixture.calls("query "), [] as [std::string::String; 0]);
 }
 
 #[test]
@@ -174,5 +174,5 @@ fn testStatementsWithFetchResultPrintsResult() {
 
     assert_eq!(fixture.display(), SELECT_1);
     assert_eq!(fixture.calls("query ").len(), 1);
-    assert!(fixture.calls("exec ").is_empty());
+    assert_eq!(fixture.calls("exec "), [] as [std::string::String; 0]);
 }

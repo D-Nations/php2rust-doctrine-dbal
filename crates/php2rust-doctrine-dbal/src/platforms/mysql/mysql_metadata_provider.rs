@@ -83,15 +83,12 @@ pub(crate) fn strtr(subject: &str, pairs: &[(&str, &str)]) -> String {
 pub(crate) fn parse_enum_expression(expression: &str) -> Result<Vec<String>, Exception> {
     let matches = preg_match_all("/'([^']*(?:''[^']*)*)'/", expression)?;
 
-    Ok(matches
-        .get(1)
-        .map(|values| {
-            values
-                .iter()
-                .map(|value| strtr(value, &[("''", "'")]))
-                .collect()
-        })
-        .unwrap_or_default())
+    Ok(matches.get(1).map_or_default(|values| {
+        values
+            .iter()
+            .map(|value| strtr(value, &[("''", "'")]))
+            .collect()
+    }))
 }
 
 /// `parseCreateOptions($string)`.
@@ -634,6 +631,10 @@ ORDER BY SCHEMA_NAME";
             .collect()
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_schema_names(&self) -> Rows<SchemaMetadataRow> {
         Err(NotSupported::new(&method("getAllSchemaNames")).into())
     }
@@ -796,6 +797,10 @@ ORDER BY TABLE_NAME";
             .collect()
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_sequences(&self) -> Rows<SequenceMetadataRow> {
         Err(NotSupported::new(&method("getAllSequences")).into())
     }

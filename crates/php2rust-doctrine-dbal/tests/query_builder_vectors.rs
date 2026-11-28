@@ -306,16 +306,13 @@ fn call<C: ConnectionStandIn>(qb: &mut QueryBuilder<'_, C>, call: &[Json]) -> Ou
                 .iter()
                 .map(|pair| (key(&pair[0]), value(&pair[1])))
                 .collect();
-            let types: Vec<(Key, WrapperParameterType)> = args
-                .get(1)
-                .map(|t| {
-                    t.as_array()
-                        .unwrap()
-                        .iter()
-                        .map(|pair| (key(&pair[0]), parameter_type(&pair[1])))
-                        .collect()
-                })
-                .unwrap_or_default();
+            let types: Vec<(Key, WrapperParameterType)> = args.get(1).map_or_default(|t| {
+                t.as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|pair| (key(&pair[0]), parameter_type(&pair[1])))
+                    .collect()
+            });
             qb.set_parameters(params, types);
         }
         "resetWhere" => {

@@ -421,15 +421,12 @@ impl<'c> SQLiteMetadataProvider<'c> {
 
         let matches = preg_match_all(r"#(?:CONSTRAINT\s+(\S+)\s+)?UNIQUE\b#i", &sql)?;
 
-        Ok(matches
-            .get(1)
-            .map(|names| {
-                names
-                    .iter()
-                    .map(|name| parse_optionally_quoted_name(name))
-                    .collect()
-            })
-            .unwrap_or_default())
+        Ok(matches.get(1).map_or_default(|names| {
+            names
+                .iter()
+                .map(|name| parse_optionally_quoted_name(name))
+                .collect()
+        }))
     }
 
     /// @link <https://sqlite.org/pragma.html#pragma_foreign_key_list>
@@ -716,10 +713,18 @@ fn method(name: &str) -> String {
 }
 
 impl MetadataProvider for SQLiteMetadataProvider<'_> {
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_database_names(&self) -> Rows<DatabaseMetadataRow> {
         Err(NotSupported::new(&method("getAllDatabaseNames")).into())
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_schema_names(&self) -> Rows<SchemaMetadataRow> {
         Err(NotSupported::new(&method("getAllSchemaNames")).into())
     }
@@ -867,6 +872,10 @@ impl MetadataProvider for SQLiteMetadataProvider<'_> {
             .collect()
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_all_sequences(&self) -> Rows<SequenceMetadataRow> {
         Err(NotSupported::new(&method("getAllSequences")).into())
     }

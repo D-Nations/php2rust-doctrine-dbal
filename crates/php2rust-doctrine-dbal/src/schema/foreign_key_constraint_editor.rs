@@ -276,11 +276,7 @@ impl ForeignKeyConstraintEditor {
                 .map(ToString::to_string),
             &referenced_table_name.to_string(),
             self.referenced_column_names.iter().map(ToString::to_string),
-            &self
-                .name
-                .as_ref()
-                .map(ToString::to_string)
-                .unwrap_or_default(),
+            &self.name.as_ref().map_or_default(ToString::to_string),
             options,
         )
     }

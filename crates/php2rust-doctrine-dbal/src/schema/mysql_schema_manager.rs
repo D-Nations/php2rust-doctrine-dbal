@@ -385,6 +385,10 @@ impl<'c> AbstractSchemaManager<'c> for MySQLSchemaManager<'c> {
         Ok(column)
     }
 
+    #[allow(
+        clippy::unused_async_trait_impl,
+        reason = "preserves the async interface across implementations"
+    )]
     async fn get_portable_table_foreign_keys_list(
         &self,
         rows: &[Row],

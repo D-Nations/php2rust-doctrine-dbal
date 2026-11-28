@@ -88,7 +88,7 @@ fn testMissingNamedParameter() {
     );
     assert_eq!(rows.len(), 4);
     for (name, args) in rows {
-        let types_ = args.get(2).map(types).unwrap_or_default();
+        let types_ = args.get(2).map_or_default(types);
         let result = expand_array_parameters(&bytes(&args[0]), &array(&args[1]), &types_);
         assert!(
             matches!(

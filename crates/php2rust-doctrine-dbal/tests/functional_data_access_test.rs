@@ -262,7 +262,7 @@ async fn testFetchOneWithTypes() {
         .await
         .unwrap()
         .unwrap();
-    assert!(matches!(column, Value::String(_)));
+    std::assert_matches!(column, Value::String(_));
     assert!(starts_with(&column, datetime_string));
 }
 

@@ -768,7 +768,7 @@ mod tests {
         assert!(
             matches!(column_value(BYTEAOID, Some(b"\\x4142")), Value::String(s) if s.as_bytes() == b"AB")
         );
-        assert!(matches!(column_value(INT4OID, None), Value::Null));
+        std::assert_matches!(column_value(INT4OID, None), Value::Null);
     }
 
     #[test]
