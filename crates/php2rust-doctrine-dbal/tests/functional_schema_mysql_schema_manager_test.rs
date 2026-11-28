@@ -83,9 +83,12 @@ impl Type for CustomType {
 
 /// `setUpBeforeClass()`.
 fn set_up_before_class() {
-    if !types::has_type("point") {
-        types::add_type("point", TypeArgument::Instance(Arc::new(PointType))).unwrap();
-    }
+    static REGISTER: std::sync::Once = std::sync::Once::new();
+    REGISTER.call_once(|| {
+        if !types::has_type("point") {
+            types::add_type("point", TypeArgument::Instance(Arc::new(PointType))).unwrap();
+        }
+    });
 }
 
 /// The test's connection, after `setUpBeforeClass()`.
